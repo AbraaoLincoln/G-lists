@@ -1,0 +1,61 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    background-color: #29282B;
+}
+
+body, .formCreateAcount{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ebe8f4;
+}
+
+.formCreateAcount{
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    height: 30%;
+    transform: scale(1.5);
+    padding: 1%;
+    justify-content: space-between;
+    flex-direction: column;
+    border: 1px solid #151516;
+    border-radius: 7px;
+    box-shadow: 2px 5px 5px #151516;
+}
+
+.div-labelInput{
+    display: flex;
+    flex-direction: column;
+}
+
+label{
+    margin-bottom: 2%;
+}
+
+input{
+    border: none;
+    border-radius: 2px;
+    background-color: #ebe8f4;
+    box-shadow: 1px 2px 3px #151516;
+    /* height: 200%; */
+}
+
+button{
+    width: 100%;
+    border: none;
+    height:10%;
+    border-radius: 2px;
+    box-shadow: 1px 2px 3px #151516;
+}
+
+button:hover{
+    background-color: #e1dee9;
+    cursor: pointer;
+}

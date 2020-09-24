@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Acount</title>
+    <link rel="stylesheet" href="./css/createAcountForm.css">
+</head>
+<body>
+    <form action="http://localhost:4000/createAcount" method="post" class="formCreateAcount">
+        <h3>Nova Conta</h3>
+        <div class="div-labelInput">
+            <label for="nome">Nome de Usuario:</label>
+            <input type="text" name="nome">
+        </div>
+        <div class="div-labelInput">
+            <label for="senha">Senha:</label>
+            <input type="password" name="senha">
+        </div>
+        <div class="div-labelInput">
+            <label for="ConfirmarSenha">Confirmar Senha:</label>
+            <input type="password" name="confirmarSenha">
+        </div>
+        <button type="submit">Criar Conta</button>
+    </form>
+</body>
+</html>
