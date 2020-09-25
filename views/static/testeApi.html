@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste</title>
+</head>
+<body>
+    <button onclick="goApi()">Fazer Request</button>
+    <h1></h1>
+    <script>
+        async function goApi(){
+            console.log("fazendo feth...")
+            let response = await fetch('http://localhost:4000/login', { 
+                method: 'POST', 
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name: "asdasd" })
+            })
+            let data = await response.json()
+            console.log(data);
+            document.getElementsByTagName('h1')[0].innerHTML = data.token;
+        }
+    </script>
+</body>
+</html>
