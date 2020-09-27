@@ -1,0 +1,109 @@
+*{
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+}
+
+body{
+    background-color: #272d2d;
+}
+
+.loginDiv{
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+}
+
+.left-side, .right-side{
+    height: 100%;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px solid red; */
+}
+
+/* Parte da esquerda */
+.left-side{
+    color: #f6f8ff;
+    font-size: 200%;
+}
+
+h1{
+    width: 60%;
+    /* text-decoration: underline; */
+    text-align: center;
+    border-bottom: 1px solid #f6f8ff;
+    transform: scale(0);
+    transition: transform 1s;
+}
+
+ul{
+    width: 60%;
+}
+
+.divLeftText{
+    width: 90%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.spanArrow{
+    /* float: left;
+    transform: rotate(-90deg); */
+    font-weight: bold;
+    visibility: hidden;
+    
+}
+
+.spanText{
+    margin-left: 2%;
+    /* white-space:nowrap; */
+}
+
+/* Parte da direita */
+.right-side{
+    
+}
+
+.loginForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background-color: #f6f8ff;
+    transform: scale(1.5);
+    height: 40%;
+    width: 40%;
+    border-radius: 5px;
+    padding: 3%;
+    align-items: center;
+    box-shadow: 10px 10px 5px #1c2121;
+}
+
+input{
+    border: none;
+    border-radius: 2px;
+    background-color: #f6f8ff;
+    box-shadow: 1px 1px 3px #272d2d;
+    height: 13%;
+    width: 90%;
+    padding-left: 2%;
+}
+
+button{
+    height: 13%;
+    width: 90%;
+    border: none;
+    background-color: #266dd3;
+    color: #f6f8ff;
+    font-weight: bold;
+    box-shadow: 1px 1px 3px #272d2d;
+}
+
+button:hover{
+    cursor: pointer;
+    background-color: #2363be;
+}

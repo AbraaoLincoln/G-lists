@@ -37,8 +37,8 @@ app.post('/login', (req, res) => {
                 //Genereting user access token
                 const userName = { name: req.body.name };
                 const userToken = jwt.sign(userName, process.env.ACESS_TOKEN) //Create a hash with the secret key and user name.
-                /* res.cookie("jwt-token", userToken, {httpOnly: true}); */
-                res.json({token: userToken});
+                res.cookie("jwt-token", userToken, {httpOnly: true});
+                res.json({status: 'ok', mgs: 'token adquirido com sucesso.'});
             }else{
                 res.json({status: 'error', mgs: 'usuário ou senha esta errado.'});
             }
@@ -57,7 +57,7 @@ app.post('/createAcount', (req, res) => {
     console.log('n:', userName);
     console.log('p:', userPassword); */
     if(userNamePasswordIsValid){
-        let regiterUser = async () => {
+        let registerUser = async () => {
             let userIsRegistred = await User.find({name: userName});
             if(userIsRegistred.length == 0){
                 //Hashign password
@@ -74,7 +74,7 @@ app.post('/createAcount', (req, res) => {
                 res.json({ "status": "erro", "mgs": "o nome escolhido não esta disponivel"});
             }
         }
-        regiterUser();
+        registerUser();
     }
 })
 
