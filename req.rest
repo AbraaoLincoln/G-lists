@@ -2,7 +2,7 @@ POST http://localhost:4000/login
 Content-Type: application/json
 
 {
-    "name": "Fulano2",
+    "name": "Fulano",
     "password": "1234"
 }
 
@@ -12,6 +12,6 @@ POST http://localhost:4000/createAcount
 Content-Type: application/json
 
 {
-    "name": "Fulano224",
+    "name": "Fulano",
     "password": "1234"
 }

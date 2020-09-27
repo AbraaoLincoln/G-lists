@@ -6,9 +6,11 @@
     <title>Login</title>
     <link rel="stylesheet" href="./css/loginStyle.css">
     <script src="./js/textAnimation.js"></script>
+    <script src="./js/clientServer.js"></script>
+    <script src="./js/clientValidator.js"></script>
 </head>
 <body>
-    <div class="loginDiv">
+    <div class="loginDiv" id="div1">
         <div class="left-side">
             <div class="divLeftText">
                 <h1>G-Lists</h1>
@@ -19,13 +21,39 @@
                 </ul>
             </div>
         </div>
-        <div class="right-side">
+        <div class="right-side" id="divRightLogin">
             <form action="" class="loginForm">
                 <h2>G-Lists</h2>
-                <input type="text" name="userName" placeholder="nome de usuário"></input>
-                <input type="password" name="password" placeholder="senha"></input>
-                <button type="submit">Entrar</button>
+                <input type="text" name="userName" id="userName" onkeyup="isName()" placeholder="nome de usuário"></input>
+                <input type="password" name="password" id="userPassword" placeholder="senha"></input>
+                <button type="submit" class="btn-Login" onclick="login(event)">Entrar</button>
+                <hr/>
+                <button type="button" class="btn-createAcount" onclick="showJoin(event)">Criar Conta</button>
             </form>
+        </div>
+    </div>
+    <div class="joinDiv" id="div2">
+        <div class="right-side">
+            <form action="" class="loginForm" id="form2">
+                <h2>G-Lists</h2>
+                <input type="text" name="userName" id="newUserName" onkeyup="isName()" placeholder="nome de usuário"></input>
+                <input type="email" name="userEmail" id="newUserEmail" onkeyup="isEmail()" placeholder="email"></input>
+                <input type="password" name="userPassword" id="newUserPassword" placeholder="senha"></input>
+                <input type="password" name="userCheckPassword" id="confNewUserPassword" onkeyup="checkPasswords()"placeholder="confirmar senha"></input>
+                <button type="button" class="btn-Login" onclick="join(event)">Criar Conta</button>
+            </form>
+        </div>
+        <div class="left-side">
+            <div class="divLeftText">
+                <h1>Criando um Conta</h1>
+                <ul class="pointsOfG-list" id="listOfG-lists">
+                    <li> <span class="spanArrow" id="arrow4"> > </span> <span class="spanText" id="task4"> </span> </li>
+                    <li> <span class="spanArrow" id="arrow5"> > </span> <span class="spanText" id="task5"> </span> </li>
+                    <li> <span class="spanArrow" id="arrow6"> > </span> <span class="spanText" id="task6"> </span> </li>
+                    <li> <span class="spanArrow" id="arrow7"> > </span> <span class="spanText" id="task7"> </span> </li>
+                    <li> <span class="spanArrow" id="arrow8"> > </span> <span class="spanText" id="task8"> </span> </li>
+                </ul>
+            </div>
         </div>
     </div>
 </body>

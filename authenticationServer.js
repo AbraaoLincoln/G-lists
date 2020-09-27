@@ -17,7 +17,7 @@ const User = require('./schemas/userSchema');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //Used to parse the forms value to the body
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
     /* res.setHeader('Access-Control-Allow-Methods', 'POST, GET'); */
     res.setHeader('Access-Control-Allow-Headers' , '*');
     /* res.setHeader('Access-Control-Max-Age', '86400'); */
@@ -28,10 +28,10 @@ app.use((req, res, next) => {
 app.post('/login', (req, res) => {
     //Verifying the name and password of user.
     let authenticateUser = async () => {
-        let useIsRegistred = await User.find({name: req.body.name});
-        if(useIsRegistred){
+        let userIsRegistred = await User.find({name: req.body.name});
+        if(userIsRegistred.length > 0){
             let userPassword = req.body.password;
-            let userDatabasePassword = useIsRegistred[0].password;
+            let userDatabasePassword = userIsRegistred[0].password;
             let passwordIsEqual = await bcrypt.compare(userPassword, userDatabasePassword);
             if(passwordIsEqual){
                 //Genereting user access token
@@ -46,7 +46,12 @@ app.post('/login', (req, res) => {
             res.json({status: 'error', mgs: 'usuário não cadastrado'});
         }
     }
-    authenticateUser();
+
+    try{
+        if(req.body.name && req.body.password) authenticateUser()
+    }catch(err){
+        console.log(req.body.name + "---" + req.body.password);
+    }
 })
 
 app.post('/createAcount', (req, res) => {

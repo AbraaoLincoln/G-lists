@@ -25,12 +25,23 @@ body{
 }
 
 /* Parte da esquerda */
-.left-side{
+
+.loginDiv .left-side{
     color: #f6f8ff;
     font-size: 200%;
 }
 
-h1{
+@keyframes moveFormToLeft{
+    to{transform: translateX(-50vw);}
+  }
+
+.loginDiv .right-side{
+    animation-name: none;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.divLeftText h1{
     width: 60%;
     /* text-decoration: underline; */
     text-align: center;
@@ -41,6 +52,11 @@ h1{
 
 ul{
     width: 60%;
+}
+
+hr{
+    border: 1px solid #272d2d;
+    width: 100%;
 }
 
 .divLeftText{
@@ -95,15 +111,63 @@ input{
 
 button{
     height: 13%;
-    width: 90%;
+    width: 92%;
     border: none;
     background-color: #266dd3;
     color: #f6f8ff;
     font-weight: bold;
     box-shadow: 1px 1px 3px #272d2d;
+    outline: none;
 }
 
-button:hover{
+.btn-Login:hover{
     cursor: pointer;
     background-color: #2363be;
 }
+
+.btn-createAcount{
+    background-color: #30b077;
+}
+
+.btn-createAcount:hover{
+    cursor: pointer;
+    background-color: #2ca06c;
+}
+
+/* Tela de cadastro */
+
+.joinDiv{
+    height: 100vh;
+    width: 100vw;
+    display: none;
+}
+
+.joinDiv .left-side{
+    color: #f6f8ff;
+    font-size: 130%;
+}
+
+@keyframes scaleTitleUp{
+    to{transform: scale(1)}
+}
+
+.joinDiv .divLeftText h1{
+    transform: scale(0.9);
+    animation-name: scaleTitleUp;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+
+
+/* 
+@keyframes scaleFormUp{
+    to{transform: scale(1.5)}
+}
+
+.joinDiv .right-side .loginForm{
+    transform: scale(1.4);
+    animation-name: scaleFormUp;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+} */
