@@ -1,2 +1,2 @@
-# classManagerApi
-Api that server data about a studant classes.
+# G-List
+Projeto da disciplina de web 1.
