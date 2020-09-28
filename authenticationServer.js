@@ -34,7 +34,7 @@ app.post('/login', (req, res) => {
             let userDatabasePassword = userIsRegistred[0].password;
             let passwordIsEqual = await bcrypt.compare(userPassword, userDatabasePassword);
             if(passwordIsEqual){
-                //Genereting user access token
+                //Generating user access token
                 const userName = { name: req.body.name };
                 const userToken = jwt.sign(userName, process.env.ACESS_TOKEN) //Create a hash with the secret key and user name.
                 res.cookie("jwt-token", userToken, {httpOnly: true});
@@ -57,10 +57,10 @@ app.post('/login', (req, res) => {
 app.post('/createAcount', (req, res) => {
     let userName = req.body.name;
     let userPassword = req.body.password;
+    let userEmail = req.body.email;
     let userNamePasswordIsValid = true;
-    /* console.log(req.body);
-    console.log('n:', userName);
-    console.log('p:', userPassword); */
+    //Validation e sanatization
+    //Todo
     if(userNamePasswordIsValid){
         let registerUser = async () => {
             let userIsRegistred = await User.find({name: userName});
@@ -70,7 +70,7 @@ app.post('/createAcount', (req, res) => {
                     if (err) consolo.log('Error na geração do salt', err);
                     bcrypt.hash(userPassword, salt, (err, hash) => {
                         if (err) console.log('Error no hashing do salt');
-                        const newUser = new User({name: userName, password: hash})
+                        const newUser = new User({name: userName, password: hash, email: userEmail})
                         newUser.save((err, newUser) => { if(err) console.log("err") });
                         res.json({ "status": "ok", "mgs": "usuario criado com sucesso"});
                     })
