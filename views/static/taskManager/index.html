@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="./css/taskManagerStyle.css">
+    <link rel="stylesheet" href="./css/all.css">
+    <script src="./js/taskManagerFunctions.js"></script>
+</head>
+<body>
+    <header>
+        <div class="menuBar">
+            <span class="spanBar"> | </span>
+            <span class="spanBar"> | </span>
+            <span class="spanBar"> | </span>
+        </div>
+        <!-- <span id="userName">
+            Nome do Usuário
+        </span> -->
+        <div class="divBackOptions">
+            <!-- <span class="spanAction"> + </span>
+            <span class="spanAction"> - </span> -->
+            <i class="fas fa-plus"></i>
+            <i class="fas fa-share-alt"></i>
+            <span class="spanAction"> Nome do Usuário </span>
+        </div>
+    </header>
+    <div class="divMainContent">
+        <div class="divBackTask">
+            <div class="taskList">
+                <h2>Tarefas</h2>
+                <div class="taskListIn">
+
+                </div>
+            </div>
+            <div class="taskList">
+                <h2>Em Andamento</h2>
+                <div class="taskListIn">
+
+                </div>
+            </div>
+            <div class="taskList">
+                <h2>Completadas</h2>
+                <div class="taskListIn">
+
+                </div>
+            </div>
+        </div>
+        <div class="divNewTask">
+            <form action="">
+                <h2>Adicionar Nova Tarefa</h2>
+                <input type="text" name="newTaskName" placeholder="nome da tarefa">
+                <input type="text" name="newTaskDate" placeholder="prazo">
+                <input type="text" name="newTaskResponsible" placeholder="responsavel">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
