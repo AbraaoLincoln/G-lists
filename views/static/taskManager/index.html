@@ -21,7 +21,7 @@
         <div class="divBackOptions">
             <!-- <span class="spanAction"> + </span>
             <span class="spanAction"> - </span> -->
-            <i class="fas fa-plus"></i>
+            <i class="fas fa-plus" onclick="showAddTask()"></i>
             <i class="fas fa-share-alt"></i>
             <span class="spanAction"> Nome do Usuário </span>
         </div>
@@ -31,7 +31,25 @@
             <div class="taskList">
                 <h2>Tarefas</h2>
                 <div class="taskListIn">
-
+                    <div class="task">
+                        <div class="taskHead">
+                            <i class="fas fa-ellipsis-v"></i>
+                            <h3>Nome da Tarefa</h3>
+                            <span class="spanDelete"> X </span>
+                        </div>
+                        <div class="taskBody">
+                            <table>
+                                <tr>
+                                    <th>Responsavel</th>
+                                    <th>Prazo</th>
+                                </tr>
+                                <tr>
+                                    <td>Fulano</td>
+                                    <td>01/01/2020</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="taskList">
@@ -50,9 +68,13 @@
         <div class="divNewTask">
             <form action="">
                 <h2>Adicionar Nova Tarefa</h2>
-                <input type="text" name="newTaskName" placeholder="nome da tarefa">
-                <input type="text" name="newTaskDate" placeholder="prazo">
-                <input type="text" name="newTaskResponsible" placeholder="responsavel">
+                <input type="text" name="newTaskName" placeholder="Nome da Tarefa">
+                <input type="text" name="newTaskDate" placeholder="Prazo">
+                <input type="text" name="newTaskResponsible" placeholder="Responsavel">
+                <div class="divBtnNewTask">
+                    <button class="btn-cancel" onclick="hideAddTask()">Cancelar</button>
+                    <button class="btn-create">Criar</button>
+                </div>
             </form>
         </div>
     </div>

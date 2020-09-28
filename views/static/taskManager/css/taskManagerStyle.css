@@ -56,7 +56,13 @@ header .menuBar:hover{
     color: #ebefff;
 }
 
-.spanAction:hover, i:hover{
+.divBackOptions i:hover{
+    cursor: pointer;
+    color: #ebefff;
+    transform: scale(1.1);
+}
+
+.spanAction:hover{
     cursor: pointer;
     color: #ebefff;
 }
@@ -107,9 +113,11 @@ header .menuBar:hover{
 
 .divNewTask{
     height: 100%;
-    display: flex;
+    width: 100%;
+    display: none;
     justify-content: center;
     align-items: center;
+    position: absolute;
 }
 
 .divNewTask form{
@@ -119,6 +127,8 @@ header .menuBar:hover{
     height: 50%;
     width: 30%;
     background-color: #f6f8ff;
+    border-radius: 10px;
+    box-shadow: 7px 7px 10px #090b0b;
 }
 
 .divNewTask h2{
@@ -128,6 +138,102 @@ header .menuBar:hover{
 .divNewTask form input{
     width: 90%;
     margin-left: 5%;
+    height: 10%;
+    padding-left: 1%;
+    border: none;
+    background-color: #f6f8ff;
+    box-shadow: 1px 1px 3px #272d2d;
+    border-radius: 3px;
+}
+
+.divBtnNewTask{
+    width: 90%;
+    height: 10%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.divBtnNewTask button{
+    width: 30%;
+    height: 100%;
+    border: none;
+    box-shadow: 1px 1px 3px #272d2d;
+}
+
+.btn-cancel{
+    background-color: #a62639;
+    /* background-color: #ea2b1f; */
+    color: #f6f8ff;
+}
+
+.btn-cancel:hover{
+    cursor: pointer;
+    background-color: #962233;
+}
+
+.btn-create{
+    background-color: #218380;
+    color: #f6f8ff;
+}
+
+.btn-create:hover{
+    cursor: pointer;
+    background-color: #1d726f;
+}
+
+/* Task */
+
+.task{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f8ff;
+    color: #272d2d;
+    margin-left: 5%;
+    box-shadow: 3px 3px 5px #090b0b;
+    border-radius: 5px;
+}
+
+.taskHead{
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid #272d2d;
+}
+
+.task .taskHead h3{
+    width: 80%;
+    text-align: center;
+}
+
+.task .taskHead i{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spanDelete{
+    width: 10%;
+    background-color: #a62639;
+    color: #f6f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskBody{
+    padding: 2%;
+}
+
+.taskBody table{
+    width: 90%;
+    background-color: #f6f8ff;
+    border: none;
+    box-shadow: 2px 2px 5px #090b0b;
+    margin-left: 5%;
+    border-radius: 5px;
+    text-align: center;
 }
 
 /* Div Actions */
