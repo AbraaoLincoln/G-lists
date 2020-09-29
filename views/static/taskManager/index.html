@@ -36,10 +36,10 @@
                         <div class="taskHead">
                             <i class="fas fa-ellipsis-v"></i>
                             <h3>Nome da Tarefa</h3>
-                            <span class="spanDelete"> X </span>
+                            <span class="spanDelete" onclick="hideTask(event)"> X </span>
                         </div>
                         <div class="taskBody">
-                            <table>
+                            <table ondrop="return false">
                                 <tr>
                                     <th>Responsavel</th>
                                     <th>Prazo</th>
@@ -69,12 +69,12 @@
         <div class="divNewTask">
             <form action="">
                 <h2>Adicionar Nova Tarefa</h2>
-                <input type="text" name="newTaskName" placeholder="Nome da Tarefa">
-                <input type="text" name="newTaskDate" placeholder="Prazo">
-                <input type="text" name="newTaskResponsible" placeholder="Responsavel">
+                <input type="text" id="newTaskName" placeholder="Nome da Tarefa">
+                <input type="text" id="newTaskDate" placeholder="Prazo">
+                <input type="text" id="newTaskResponsible" placeholder="Responsavel">
                 <div class="divBtnNewTask">
-                    <button class="btn-cancel" onclick="hideAddTask()">Cancelar</button>
-                    <button class="btn-create">Criar</button>
+                    <button type="button" class="btn-cancel" onclick="hideAddTask()">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="addNewTask(event)">Criar</button>
                 </div>
             </form>
         </div>

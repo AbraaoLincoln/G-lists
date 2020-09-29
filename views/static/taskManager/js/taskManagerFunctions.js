@@ -23,7 +23,7 @@ function drop(event){
 
     switch(divName){
         case "normal":
-            document.getElementById(taskId).style.color = "#272d2d";
+            /* document.getElementById(taskId).style.color = "#272d2d"; */
             document.getElementById(taskId).style.backgroundColor = "#f6f8ff";
             break;
         case "andamento":
