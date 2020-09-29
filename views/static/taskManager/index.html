@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/taskManagerStyle.css">
     <link rel="stylesheet" href="./css/all.css">
     <script src="./js/taskManagerFunctions.js"></script>
+    <script src="./js/clientServer.js"></script>
 </head>
 <body>
     <header>
@@ -30,8 +31,8 @@
         <div class="divBackTask">
             <div class="taskList">
                 <h2>Tarefas</h2>
-                <div class="taskListIn">
-                    <div class="task">
+                <div class="taskListIn" id="normal" ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <div class="task" id="taskName" draggable="true" ondragstart="drag(event)">
                         <div class="taskHead">
                             <i class="fas fa-ellipsis-v"></i>
                             <h3>Nome da Tarefa</h3>
@@ -45,7 +46,7 @@
                                 </tr>
                                 <tr>
                                     <td>Fulano</td>
-                                    <td>01/01/2020</td>
+                                    <td>01/01/2021</td>
                                 </tr>
                             </table>
                         </div>
@@ -54,13 +55,13 @@
             </div>
             <div class="taskList">
                 <h2>Em Andamento</h2>
-                <div class="taskListIn">
+                <div class="taskListIn" id="andamento" ondragover="allowDrop(event)" ondrop="drop(event)">
 
                 </div>
             </div>
             <div class="taskList">
                 <h2>Completadas</h2>
-                <div class="taskListIn">
+                <div class="taskListIn" id="completada" ondragover="allowDrop(event)" ondrop="drop(event)">
 
                 </div>
             </div>
