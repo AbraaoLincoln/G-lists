@@ -1,7 +1,7 @@
 var tasks = [];
 let newTask = {
     name: "Tarefa 1",
-    prazo: Date.now(),
+    due: Date.now(),
     responsible: "Fulano",
     state: "normal"
 }
@@ -88,7 +88,7 @@ function addNewTask(event){
     event.preventDefault();
     let newTask = {
         name: document.getElementById("newTaskName").value,
-        prazo: document.getElementById("newTaskDate").value,
+        due: document.getElementById("newTaskDate").value,
         responsible: document.getElementById("newTaskResponsible").value,
         state: "normal"
     }
