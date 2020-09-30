@@ -5,7 +5,40 @@ let newTask = {
     responsible: "Fulano",
     state: "normal"
 }
+
+let newTask2 = {
+    name: "Tarefa 2",
+    due: Date.now(),
+    responsible: "Cicrano",
+    state: "andamento"
+}
+
+let newTask3 = {
+    name: "Tarefa 3",
+    due: Date.now(),
+    responsible: "Fulano",
+    state: "completada"
+}
+
+let newTask4 = {
+    name: "Tarefa 4",
+    due: Date.now(),
+    responsible: "Cicrano",
+    state: "normal"
+}
+
+let newTask5 = {
+    name: "Tarefa 5",
+    due: Date.now(),
+    responsible: "Cicrano",
+    state: "normal"
+}
+
 tasks.push(newTask);
+tasks.push(newTask2);
+tasks.push(newTask3);
+tasks.push(newTask4);
+tasks.push(newTask5);
 
 function createTask(task){
     let createDivTask = () => {
@@ -131,7 +164,6 @@ function createTask(task){
     let body = createDivTaskBody();
     newTask.appendChild(head);
     newTask.appendChild(body);
-
     return newTask;
 }
 
@@ -199,6 +231,9 @@ function start(){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
+    document.getElementById("normal").addEventListener('dragover', checkDrapPosition);
+    document.getElementById("andamento").addEventListener('dragover', checkDrapPosition);
+    document.getElementById("completada").addEventListener('dragover', checkDrapPosition);
 }
 
 window.onload = start;

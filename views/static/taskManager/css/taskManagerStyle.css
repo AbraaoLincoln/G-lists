@@ -331,3 +331,7 @@ header .menuBar:hover{
 .btnDropdown2:hover{
     background-color: #ebefff;
 }
+
+.draging{
+    opacity: .5;
+}
