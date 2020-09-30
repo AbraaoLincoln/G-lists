@@ -59,3 +59,23 @@ function paintTask(state, taskId){
             break;
     }
 }
+
+function moveUp(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+    if(selectTask.previousElementSibling){
+        let list = document.getElementById(selectTask.parentElement.id);
+        let taskGoDown = document.getElementById(selectTask.previousElementSibling.id);
+        list.insertBefore(selectTask, taskGoDown);
+    }
+}
+
+function moveDown(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+    if(selectTask.nextElementSibling){
+        let list = document.getElementById(selectTask.parentElement.id);
+        let taskGoUp = document.getElementById(selectTask.nextElementSibling.id);
+        list.insertBefore(taskGoUp, selectTask);
+    }
+}

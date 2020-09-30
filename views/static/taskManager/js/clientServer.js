@@ -65,10 +65,12 @@ function createTask(task){
         btnMoveUp.type = "button";
         btnMoveUp.className = "btnDropdown1 litleadJutment";
         btnMoveUp.innerText = "Mover para cima";
+        btnMoveUp.addEventListener('click', moveUp);
         let btnMoveDown = document.createElement("BUTTON");
         btnMoveDown.type = "button";
         btnMoveDown.className = "btnDropdown1 litleadJutment";
         btnMoveDown.innerText = "Mover para baixo";
+        btnMoveDown.addEventListener('click', moveDown);
         divMenu1.appendChild(btnMoveUp);
         divMenu1.appendChild(btnMoveDown);
         //Create submenu
