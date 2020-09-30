@@ -335,3 +335,25 @@ header .menuBar:hover{
 .draging{
     opacity: .5;
 }
+
+/* Some good stuf */
+
+@media only screen and (max-width: 400px) {
+
+    header{
+        width: 100vw;
+    }
+
+    .divBackTask{
+        flex-direction: column;
+        width: 100vh;
+        justify-content: center;
+    }
+    
+    .taskList{
+        width: 90%;
+        justify-content: center;
+    }
+
+    
+}
