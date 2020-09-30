@@ -34,9 +34,17 @@ function checkDrapPosition(event){
     for(element of event.path){
         if(element.id && element.parentNode.id){
             let list = document.getElementById(element.parentNode.id);
-            let taskOnTheList = document.getElementById(element.id);
+            let taskUnderDragTask = document.getElementById(element.id);
             let dragTask = document.getElementById(globalTaskId);
-            list.insertBefore(dragTask, taskOnTheList);
+            
+            if(dragTask.previousElementSibling && dragTask.previousElementSibling.id == taskUnderDragTask.id){
+                list.insertBefore(dragTask, taskUnderDragTask);
+            }else if(dragTask.nextElementSibling && dragTask.nextElementSibling.id == taskUnderDragTask.id){
+                list.insertBefore(taskUnderDragTask, dragTask);
+            }else{
+                list.insertBefore(dragTask, taskUnderDragTask);
+            }
+
             paintTask(element.parentNode.id, globalTaskId);
             return true;
         }
@@ -44,6 +52,7 @@ function checkDrapPosition(event){
 }
 
 function paintTask(state, taskId){
+    // document.getElementById(taskId).classList.remove("draging");
     switch(state){
         case "normal":
             /* document.getElementById(taskId).style.color = "#272d2d"; */

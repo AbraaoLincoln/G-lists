@@ -127,7 +127,7 @@ function createTask(task){
         title.innerHTML = task.name;
         deleteButton.className = "spanDelete";
         deleteButton.innerHTML = "X";
-        deleteButton.addEventListener("click", hideTask);
+        deleteButton.addEventListener("click", removeTask);
         // divTaskHead.appendChild(icon);
         divTaskHead.appendChild(menu);
         divTaskHead.appendChild(title);
@@ -226,6 +226,21 @@ function moveTaskTo(event){
             document.getElementById(taskId).style.backgroundColor = "#266dd3";
             break;
     }
+}
+
+function removeTask(event){
+    let taskToRemove = document.getElementById(event.target.parentNode.parentNode.id);
+    console.log("taskToRemove-", taskToRemove, "--", event.target.parentNode.id)
+    let taskList = document.getElementById(taskToRemove.parentNode.id);
+    taskList.removeChild(taskToRemove);
+    removeTaskObjectFroArray(taskToRemove.id);
+}
+
+function removeTaskObjectFroArray(taskName){
+    tasks = tasks.filter((task) => {
+        if(task.name !== taskName) return true;
+        return false;
+    })
 }
 
 function start(){
