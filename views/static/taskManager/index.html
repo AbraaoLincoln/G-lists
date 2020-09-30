@@ -27,7 +27,7 @@
             <div class="taskList">
                 <h2>Tarefas</h2>
                 <div class="taskListIn" id="normal" ondragover="allowDrop(event)" ondrop="drop(event)">
-                    <div class="task" id="taskName" draggable="true" ondragstart="drag(event)">
+                    <div class="task" id="taskName" draggable="true" ondragstart="drag(event)" ondblclick="showUpdateForm(event)">
                         <div class="taskHead">
                             <div class="dropdown">
                                 <i class="fas fa-ellipsis-v"></i>
@@ -42,6 +42,7 @@
                                             <input type="button" class="btnDropdown2" onclick="moveTaskTo(event)" value="completada" placeholder="completada">
                                         </div>
                                     </div>
+                                    <button type="button" class="btnDropdown1 litleadJutment" onclick="showUpdateForm(event)"> Editar </button>
                                 </div>
                             </div>
                             <h3>Nome da Tarefa</h3>
@@ -75,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="divNewTask">
+        <div class="divNewTask" id="divNewTask">
             <form action="">
                 <h2>Adicionar Nova Tarefa</h2>
                 <input type="text" id="newTaskName" placeholder="Nome da Tarefa">
@@ -87,8 +88,25 @@
                     <option value="completada">Completada</option>
                 </select>
                 <div class="divBtnNewTask">
-                    <button type="button" class="btn-cancel" onclick="hideAddTask()">Cancelar</button>
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
                     <button type="button" class="btn-create" onclick="addNewTask(event)">Criar</button>
+                </div>
+            </form>
+        </div>
+        <div class="divNewTask" id="divChangeTask">
+            <form action="">
+                <h2>Editar Tarefa</h2>
+                <input type="text" id="changedTaskName" placeholder="Nome da Tarefa">
+                <input type="text" id="changedTaskDate" placeholder="Prazo">
+                <input type="text" id="changedTaskResponsible" placeholder="Responsavel">
+                <select name="stateNewTask" id="changedStateTask">
+                    <option value="normal">Normal</option>
+                    <option value="andamento">Em andamento</option>
+                    <option value="completada">Completada</option>
+                </select>
+                <div class="divBtnNewTask">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="updateTask(event)">Confirmar</button>
                 </div>
             </form>
         </div>

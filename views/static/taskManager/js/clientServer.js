@@ -204,10 +204,6 @@ function addNewTask(event){
     document.getElementById("newTaskResponsible").value = "";
 }
 
-function hideTask(event){
-    document.getElementById(event.target.parentNode.parentNode.id).style.display = "none";
-}
-
 function moveTaskTo(event){
     let newState = event.target.value;
     let taskId = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
@@ -241,6 +237,30 @@ function removeTaskObjectFroArray(taskName){
         if(task.name !== taskName) return true;
         return false;
     })
+}
+
+function showAddTask(){
+    document.getElementById('divNewTask').style.display = 'flex';
+}
+
+function hideAddTask(){
+    document.querySelector('.divNewTask').style.display = 'none';
+}
+
+function showUpdateForm(event){
+    console.log("working")
+    document.getElementById('divChangeTask').style.display = 'flex';
+    let taskName = event.target.id;
+    console.log(event.target)
+    
+}
+
+function hideForm(event){
+    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
+}
+
+function updateTask(event){
+    event.preventDefault();
 }
 
 function start(){
