@@ -110,6 +110,13 @@ function createTask(task){
         divDropdown2.appendChild(divMenu2);
         //Mounting the dropdown
         divMenu1.appendChild(divDropdown2);
+        //Creating button edit
+        let btnEdit = document.createElement("BUTTON");
+        btnEdit.type = 'button';
+        btnEdit.className = 'btnDropdown1 litleadJutment';
+        btnEdit.innerText = 'Editar';
+        btnEdit.addEventListener('click', showUpdateForm);
+        divMenu1.appendChild(btnEdit);
         //Final step
         divDropdown.appendChild(divMenu1);
 
@@ -248,19 +255,53 @@ function hideAddTask(){
 }
 
 function showUpdateForm(event){
-    console.log("working")
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+    console.log(selectTask.id)
     document.getElementById('divChangeTask').style.display = 'flex';
-    let taskName = event.target.id;
-    console.log(event.target)
-    
-}
-
-function hideForm(event){
-    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
+    for(task of tasks){
+        if(task.name == selectTask.id){
+            document.getElementById('changedTaskName').value = task.name;
+            document.getElementById('changedTaskDate').value = task.due;
+            document.getElementById('changedTaskResponsible').value = task.responsible;
+            document.getElementById('changedStateTask').value = task.state;
+            document.getElementById('OGTaskName').value = task.name;
+            break;
+        }
+    } 
 }
 
 function updateTask(event){
     event.preventDefault();
+    let taskNameBefore = document.getElementById('OGTaskName').value;
+    for(task of tasks){
+        if(task.name == taskNameBefore){
+            task.name = document.getElementById('changedTaskName').value;
+            task.due = document.getElementById('changedTaskDate').value;
+            task.responsible = document.getElementById('changedTaskResponsible').value;
+            task.state = document.getElementById('changedStateTask').value;
+            updateTaskNode(taskNameBefore, task);
+            document.getElementById(taskNameBefore).id = task.name;
+            break;
+        }
+    }
+    document.getElementById('divChangeTask').style.display = "none";
+}
+
+function updateTaskNode(taskId, task){
+    let taskNode = document.getElementById(taskId);
+    let divTaskHead = taskNode.children[0];
+    let divTaskBody = taskNode.children[1];
+    let taskHeadH3 = divTaskHead.children[1];
+    let taskBodyTable = divTaskBody.children[0];
+    let taskBodyTableRow2 = taskBodyTable.children[1];
+    //Updating
+    taskHeadH3.innerText = task.name;
+    taskBodyTableRow2.children[0].innerText = task.responsible;
+    taskBodyTableRow2.children[1].innerText = task.due;
+}
+
+function hideForm(event){
+    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
 }
 
 function start(){
