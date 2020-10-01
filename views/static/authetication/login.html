@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./css/loginStyle.css">
-    <script src="./js/textAnimation.js"></script>
-    <script src="./js/clientServer.js"></script>
-    <script src="./js/clientValidator.js"></script>
+    <link rel="stylesheet" href="../public/authetication/css/loginStyle.css">
+    <script src="../public/authetication/js/textAnimation.js"></script>
+    <script src="../public/authetication/js/clientServerAuthetication.js"></script>
+    <script src="../public/authetication/js/clientValidator.js"></script>
 </head>
 <body>
     <div class="loginDiv" id="div1">
@@ -26,7 +26,7 @@
                 <h2>G-Lists</h2>
                 <input type="text" name="userName" id="userName" onkeyup="isName()" placeholder="nome de usuário"></input>
                 <input type="password" name="password" id="userPassword" placeholder="senha"></input>
-                <button type="submit" class="btn-Login" onclick="login(event)">Entrar</button>
+                <button type="button" class="btn-Login" onclick="login(event)">Entrar</button>
                 <hr/>
                 <button type="button" class="btn-createAcount" onclick="showJoin(event)">Criar Conta</button>
             </form>

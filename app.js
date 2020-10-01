@@ -22,9 +22,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Temporario.
-app.use(express.static(path.join(__dirname, 'views/static/authetication/')));
-app.use(express.static(path.join(__dirname, 'views/static/taskManager/')));
-app.use(express.static(path.join(__dirname, 'views/static/userDashboard/')));
+app.use(express.static(path.join(__dirname, 'views/static/')));
+
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
