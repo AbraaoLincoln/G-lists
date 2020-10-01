@@ -1,0 +1,88 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #272d2d;
+}
+
+header{
+    width: 100vw;
+    height: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #f6f8ff;
+    background-color: #131616;
+    box-shadow: 3px 3px 7px #090b0b;
+}
+
+header div{
+    margin-left: 2%;
+}
+
+header span{
+    margin-right: 5%;
+}
+
+.menuBar{
+    display: flex;
+    flex-direction: column;
+    line-height: 50%;
+    font-weight: bold;
+}
+
+header .menuBar:hover{
+    cursor: pointer;
+}
+
+.spanBar{
+    transform: rotate(-90deg);
+}
+
+.divBackOptions{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 20%;
+}
+
+.divBackOptions i{
+    color: #ebefff;
+}
+
+.divBackOptions i:hover{
+    cursor: pointer;
+    color: #ebefff;
+    transform: scale(1.1);
+}
+
+.spanAction:hover{
+    cursor: pointer;
+    color: #ebefff;
+}
+
+.divMainContent{
+    width: 100vw;
+    height: 93vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-Ancor{
+    text-decoration: none;
+    background-color: #f6f8ff;
+    color: #131616;
+    border: none;
+    transform: scale(2);
+    padding: 1%;
+    border-radius: 10px;
+    box-shadow: 5px 5px 10px #090b0b;
+}
+
+.btn-Ancor:hover{
+    background-color: #ebefff;
+}

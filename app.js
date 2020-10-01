@@ -6,9 +6,9 @@ var logger = require('morgan');
 
 //Requering routes
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var users = require('./routes/users');
 var loginRouter = require('./routes/login/login');
-
+var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 
 var app = express();
 
@@ -23,10 +23,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Temporario.
 app.use(express.static(path.join(__dirname, 'views/static/authetication/')));
+app.use(express.static(path.join(__dirname, 'views/static/taskManager/')));
+app.use(express.static(path.join(__dirname, 'views/static/userDashboard/')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/dashboard', users);
+app.use('/taskManager', taskManagerRouter);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

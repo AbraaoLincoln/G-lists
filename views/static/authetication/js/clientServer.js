@@ -16,13 +16,16 @@ function login(event){
         })
 
         let data = await response.json();
-        console.log(data);
+        console.log("status-", data.status)
+        if(data.status == 'ok') window.location.href = 'http://localhost:3000/dashboard';
     }
     //Validation
     if(regexAllowed.test(usrName)) authUser();
+    console.log("hum")
 }
 
-function createAccount(){
+function join(event){
+    event.preventDefault();
     let usrName = document.getElementById("newUserName").value;
     let usrPassword = document.getElementById("newUserPassword").value;
     let confPass = document.getElementById("confNewUserPassword").value;
@@ -39,12 +42,12 @@ function createAccount(){
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({name: usrName, password: usrPassword, email = usrEmail})
+            body: JSON.stringify({name: usrName, password: usrPassword, email: usrEmail})
         })
 
         let data = await response.json();
-        console.log(data);
+        console.log(data)
     }
 
-    if(regexAllowed.test(usrName) && (usrPassword == confPass) && (regexEmail(usrEmail) || regexEmailBr(usrEmail))) createAcc();
+    if(regexAllowed.test(usrName) && (usrPassword == confPass) && (regexEmail.test(usrEmail) || regexEmailBr.test(usrEmail))) createAcc();
 }
