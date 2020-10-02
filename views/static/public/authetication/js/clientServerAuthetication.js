@@ -6,7 +6,7 @@ function login(event){
 
     //Authenticate on AuthServer
     let authUser = async () => {
-        let response = await fetch('http://localhost:4000/login', {
+        let response = await fetch('http://localhost:3000/authenticateUser', {
             method: "POST",
             headers: {
                 "Accept": "application/json",

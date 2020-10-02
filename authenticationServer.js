@@ -17,10 +17,12 @@ const User = require('./schemas/userSchema');
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); //Used to parse the forms value to the body
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    /* res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000'); */
+    res.setHeader('Access-Control-Allow-Origin', 'http://127.0.0.1:5500');
     /* res.setHeader('Access-Control-Allow-Methods', 'POST, GET'); */
     res.setHeader('Access-Control-Allow-Headers' , '*');
     /* res.setHeader('Access-Control-Max-Age', '86400'); */
+    res.setHeader('Access-Control-Allow-Credentials', '*');
     next();
 })
 
@@ -37,8 +39,8 @@ app.post('/login', (req, res) => {
                 //Generating user access token
                 const userName = { name: req.body.name };
                 const userToken = jwt.sign(userName, process.env.ACESS_TOKEN) //Create a hash with the secret key and user name.
-                res.cookie("jwt-token", userToken, {httpOnly: true});
-                res.json({status: 'ok', mgs: 'token adquirido com sucesso.'});
+                res.cookie("jwtToken", userToken, {httpOnly: false});
+                res.json({status: 'ok', mgs: 'token adquirido com sucesso.', token: userToken});
             }else{
                 res.json({status: 'error', mgs: 'usuário ou senha esta errado.'});
             }

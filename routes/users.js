@@ -3,6 +3,7 @@ var router = express.Router();
 const path = require('path');
 
 router.get('/', (req, res) => {
+  console.log("cookies-", req.cookies);
   res.sendFile('index.html', {root: path.join(__dirname, '../views/static/userDashboard/')})
 });
 

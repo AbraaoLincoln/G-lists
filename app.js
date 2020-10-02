@@ -4,10 +4,23 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//Code add
+
+//Object needed to do the authetication.
+require("dotenv").config();
+const mongoose = require('mongoose');
+
+//Connecting to the database
+mongoose.connect(process.env.DATABASE, {useNewUrlParser: true});
+
+//========
+
 //Requering routes
 var indexRouter = require('./routes/index');
 var users = require('./routes/users');
 var loginRouter = require('./routes/login/login');
+var authRouter = require('./routes/authetication/authUser');
+var createAcountRouter = require('./routes/createAcount/createAcount');
 var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 
 var app = express();
@@ -27,8 +40,11 @@ app.use(express.static(path.join(__dirname, 'views/static/')));
 
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/authenticateUser', authRouter);
 app.use('/dashboard', users);
 app.use('/taskManager', taskManagerRouter);
+app.use('/createAcount', createAcountRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

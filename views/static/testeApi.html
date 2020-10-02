@@ -18,7 +18,8 @@
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ name: "asdasd" })
+                credentials: 'include',
+                body: JSON.stringify({ name: "fulano", password: "123" })
             })
             let data = await response.json()
             console.log(data);

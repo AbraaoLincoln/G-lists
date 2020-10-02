@@ -1,17 +1,18 @@
-POST http://localhost:4000/login
+POST http://localhost:3000/authenticateUser
 Content-Type: application/json
 
 {
-    "name": "Fulano",
+    "name": "Fulano2223",
     "password": "1234"
 }
 
 ###
 
-POST http://localhost:4000/createAcount
+POST http://localhost:3000/createAcount
 Content-Type: application/json
 
 {
-    "name": "Fulano",
+    "name": "Fulano2223",
+    "email": "adsa@ho.com",
     "password": "1234"
 }
