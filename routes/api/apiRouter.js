@@ -40,7 +40,19 @@ router.delete('/list', verifyToken, (req, res) => {
 
 //task rest
 router.get('/task', verifyToken, (req, res) => {
-
+    if(req.body.userName && req.body.listName){
+        UserList.find({owner: req.body.userName}, (err, result) => {
+            if(err) res.json({status: 'error', msg: "error ao encontrar as tarefas"});
+            let lists = result[0].lists;
+            
+            for(list of lists){
+                if(list.name == req.body.listName){
+                    res.json({normal: list.normalTasks, inProgress: list.inProgressTasks, finished: list.finishedTasks});
+                }
+            }
+            /* res.json({status: 'error', msg: "lista não encontrada"}) */
+        });
+    }
 });
 
 router.post('/task', verifyToken, (req, res) => {
@@ -70,9 +82,6 @@ router.post('/task', verifyToken, (req, res) => {
                 console.log("Estado Invalido!");
                 res.json({status: 'error', msg: "Estado Invalido!"});
         }
-        UserList.find({'lists.name': req.body.listName}, (err, result) => {
-            console.log("findResult -- ", result[0].lists[0]);
-        });
 
     }
     saveNewTask();

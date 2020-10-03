@@ -25,6 +25,15 @@ Content-Type: application/json
 {
     "userName": "fulano"
 }
+###
+GET http://localhost:3000/api/task
+Content-type: application/json
+
+{
+    "userName": "fulano",
+    "listName": "lista1"
+}
+
 
 ###
 
