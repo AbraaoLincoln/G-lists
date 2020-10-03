@@ -1,0 +1,27 @@
+POST http://localhost:3000/api/list
+Content-Type: application/json
+
+{
+    "userName": "fulano",
+    "list": {"name": "lista2"}
+}
+
+###
+
+POST http://localhost:3000/createAcount
+Content-Type: application/json
+
+{
+    "name": "fulano",
+    "password": "123",
+    "email": "fulano@doido.com"
+}
+
+###
+
+GET  http://localhost:3000/api/list
+Content-Type: application/json
+
+{
+    "userName": "fulano"
+}

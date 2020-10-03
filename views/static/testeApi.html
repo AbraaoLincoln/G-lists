@@ -10,16 +10,30 @@
     <p draggable="true">teste</p>
     <h1></h1>
     <script>
-        async function goApi(){
-            console.log("fazendo feth...")
-            let response = await fetch('http://localhost:4000/login', { 
+        async function goApiLogin(){
+            console.log("fazendo login...")
+            let response = await fetch('http://localhost:3000/authenticateUser', { 
                 method: 'POST', 
                 headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
                 },
-                credentials: 'include',
-                body: JSON.stringify({ name: "fulano", password: "123" })
+                body: JSON.stringify({ name: "Fulano2223", password: "1234" })
+            })
+            let data = await response.json()
+            console.log(data);
+            document.getElementsByTagName('h1')[0].innerHTML = data.token;
+        }
+        goApiLogin();
+        async function goApi(){
+            console.log("fazendo feth...")
+            let response = await fetch('http://localhost:3000/api/list', { 
+                method: 'POST', 
+                headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userName: "fulano", "list": {"name": "lista1"}})
             })
             let data = await response.json()
             console.log(data);

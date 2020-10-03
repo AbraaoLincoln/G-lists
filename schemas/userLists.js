@@ -5,6 +5,9 @@ const userListSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    listsNames: {
+        type: Array
+    },
     lists: {
         type: Array
     }
