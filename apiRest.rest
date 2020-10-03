@@ -25,3 +25,14 @@ Content-Type: application/json
 {
     "userName": "fulano"
 }
+
+###
+
+POST http://localhost:3000/api/task
+Content-Type: application/json
+
+{
+    "userName": "fulano",
+    "listName": "lista1",
+    "task": {"name": "tarefa2", "responsible": "fulano", "finalDate": "05/01/21", "state": "andamento"}
+}
