@@ -31,7 +31,17 @@ router.post('/list', verifyToken, (req, res) => {
 });
 
 router.put('/list', verifyToken, (req, res) => {
-    
+    console.log(req.body.userName);
+    console.log(req.body.listName);
+    console.log(req.body.newListName);
+
+    UserList.updateOne({owner: req.body.userName, listsNames: req.body.listName}, {$set: {"listsNames.$": req.body.newListName}}, (err, result) => {
+        if(err) res.json({status: 'error', msg: 'erro ao tentar atualizar o nome da lista'});
+        UserList.updateOne({owner: req.body.userName, "lists.name": req.body.listName}, {$set: {"lists.$.name": req.body.newListName}}, (err, result) => {
+            if(err) res.json({status: 'error', msg: 'error ao tentar atualizano o nome da lista no objeto'})
+            res.json({status: 'ok'});
+        })
+    })
 });
 
 router.delete('/list', verifyToken, (req, res) => {

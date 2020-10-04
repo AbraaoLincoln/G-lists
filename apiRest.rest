@@ -45,3 +45,13 @@ Content-Type: application/json
     "listName": "lista1",
     "task": {"name": "tarefa2", "responsible": "fulano", "finalDate": "05/01/21", "state": "andamento"}
 }
+
+###
+PUT  http://localhost:3000/api/list
+Content-Type: application/json
+
+{
+    "userName": "fulano",
+    "listName": "listaTeste1",
+    "newListName": "lista1"
+}
