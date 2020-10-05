@@ -31,10 +31,6 @@ router.post('/list', verifyToken, (req, res) => {
 });
 
 router.put('/list', verifyToken, (req, res) => {
-    console.log(req.body.userName);
-    console.log(req.body.listName);
-    console.log(req.body.newListName);
-
     UserList.updateOne({owner: req.body.userName, listsNames: req.body.listName}, {$set: {"listsNames.$": req.body.newListName}}, (err, result) => {
         if(err) res.json({status: 'error', msg: 'erro ao tentar atualizar o nome da lista'});
         UserList.updateOne({owner: req.body.userName, "lists.name": req.body.listName}, {$set: {"lists.$.name": req.body.newListName}}, (err, result) => {
@@ -45,7 +41,17 @@ router.put('/list', verifyToken, (req, res) => {
 });
 
 router.delete('/list', verifyToken, (req, res) => {
-    
+    UserList.updateOne({owner: req.body.userName}, {$pull: {listsNames: req.body.listName}}, (err, result) => {
+        if(err) res.json({status: 'error', msg: 'error ao remover o nome da lista'});
+        UserList.updateOne({owner: req.body.userName}, {$pull: {lists: {name: req.body.listName}}}, (err, result) => {
+            /* UserList.find({owner: req.body.userName}, (err, result) => {
+                if(err) console.log(err);
+                console.log(result[0].listsNames);
+                console.log(result[0].lists);
+            }) */
+            res.json({status: 'ok'});
+        })
+    })
 });
 
 //task rest

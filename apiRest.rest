@@ -55,3 +55,12 @@ Content-Type: application/json
     "listName": "listaTeste1",
     "newListName": "lista1"
 }
+
+###
+DELETE   http://localhost:3000/api/list
+Content-Type: application/json
+
+{
+    "userName": "fulano",
+    "listName": "lista1"
+}
