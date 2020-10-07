@@ -36,7 +36,7 @@ function join(event){
     let regexEmailBr = /^\w+[\w+[.-]*\w+]*?@[A-Za-z]+\.com.br$/
 
     let createAcc = async () => {
-        let response = await fetch('http://localhost:4000/createAcount', {
+        let response = await fetch('http://localhost:3000/createAcount', {
             method: "POST",
             headers: {
                 "Accept": "application/json",

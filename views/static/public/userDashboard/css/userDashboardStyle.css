@@ -86,3 +86,110 @@ header .menuBar:hover{
 .btn-Ancor:hover{
     background-color: #ebefff;
 }
+
+/* Div new list */
+
+.divNewList{
+    height: 100%;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.divNewList form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30%;
+    width: 30%;
+    background-color: #f6f8ff;
+    border-radius: 10px;
+    box-shadow: 7px 7px 10px #090b0b;
+}
+
+.divNewList h2{
+    text-align: center;
+}
+
+.divNewList form input, select{
+    width: 90%;
+    margin-left: 5%;
+    height: 20%;
+    padding-left: 1%;
+    border: none;
+    background-color: #f6f8ff;
+    box-shadow: 1px 1px 3px #272d2d;
+    border-radius: 3px;
+}
+
+.divBtnNewList{
+    width: 90%;
+    height: 20%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.divBtnNewList button{
+    width: 30%;
+    height: 100%;
+    border: none;
+    box-shadow: 1px 1px 3px #272d2d;
+}
+
+.btn-cancel{
+    background-color: #f6f8ff;
+    /* background-color: #ea2b1f; */
+    color: #272d2d;
+}
+
+.btn-cancel:hover{
+    cursor: pointer;
+    background-color: #962233;
+    color: #f6f8ff;
+}
+
+.btn-create{
+    background-color: #f6f8ff;
+    color: #272d2d;
+}
+
+.btn-create:hover{
+    cursor: pointer;
+    background-color: #1d726f;
+    color: #f6f8ff;
+}
+
+/* ============================ */
+
+.divCreateNewListBack{
+    position: absolute;
+    background-color: #f6f8ff;
+    transform: scale(3);
+    border-radius: 50%;
+    width: 2%;
+    height: 4%;
+    left: 90%;
+    top: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 3px 3px 10px #090b0b;
+}
+
+.divCreateNewListBack:hover{
+    cursor: pointer;
+    background-color: #ebefff;
+}
+
+.divLists{
+    
+}
+
+.ulListsNames{
+    list-style: none;
+    color: #f6f8ff;
+    font-size: 50px;
+}

@@ -21,7 +21,24 @@
         </div>
     </header>
     <div class="divMainContent">
-        <a href="/taskManager" class="btn-Ancor"> Click me </a>
+        <div class="divNewList" id="divCreateNewTask">
+            <form action="">
+                <h2>Criar Nova Lista de Tarefas</h2>
+                <input type="text" id="nameNewList" placeholder="Nome da Lista">
+                <div class="divBtnNewList">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="createNewList(event)">Criar</button>
+                </div>
+            </form>
+        </div>
+        <div class="divLists">
+            <ul class="ulListsNames" id="listsNames">
+                <li>Lista1</li>
+                <li>Lista2</li>
+                <li>Lista3</li>
+            </ul>
+        </div>
+        <span class="divCreateNewListBack" onclick="showForm()"> + </span>
     </div>
 </body>
 </html>

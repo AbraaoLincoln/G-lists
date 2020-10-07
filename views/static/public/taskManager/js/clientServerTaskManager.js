@@ -305,6 +305,7 @@ function hideForm(event){
 }
 
 function start(){
+    document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
     for(t of tasks){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
