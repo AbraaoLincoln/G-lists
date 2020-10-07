@@ -99,14 +99,9 @@ router.post('/task', verifyToken, (req, res) => {
 });
 
 router.put('/task', verifyToken, (req, res) => {
-    console.log(req.body.userName);
-    console.log(req.body.listName);
-    console.log(req.body.task);
-    console.log(req.body.control);
     let newTask = objectCreator.createTask(req.body.userName, req.body.task);
 
     if(req.body.task.state == req.body.control.oldState){
-        console.log('if1')
         switch(req.body.task.state){
             case 'normal':
                 UserList.updateOne({owner: req.body.userName}, 
@@ -140,11 +135,9 @@ router.put('/task', verifyToken, (req, res) => {
             console.log(result[0].lists[1]);
         })
     }else{
-        console.log('if2')
         let oldState = req.body.control.oldState;
         let newState = req.body.task.state;
-        console.log(oldState)
-        console.log(newState)
+
         if(oldState == 'normal'){
             UserList.updateOne({owner: req.body.userName}, {$pull: {"lists.$[ln].normalTasks": {name: req.body.control.oldName}} }, {arrayFilters: [{"ln.name": req.body.listName}]},
                  (err, result) => {
@@ -209,9 +202,6 @@ router.put('/task', verifyToken, (req, res) => {
 });
 
 router.delete('/task', verifyToken, (req, res) => {
-    console.log(req.body.userName)
-    console.log(req.body.listName)
-    console.log(req.body.taskName)
     UserList.find({owner: req.body.userName}, (err, result) => {
         console.log(result);
     })
