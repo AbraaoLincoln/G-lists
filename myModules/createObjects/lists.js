@@ -16,5 +16,6 @@ exports.createTask = (owner, taskObject) => {
     /* taskObject.startDate ? task.startDate = taskObject.startDate : task.startDate = null; */
     taskObject.finalDate ? task.finalDate = taskObject.finalDate : task.finalDate = null;
     task.state = taskObject.state;
+    task.pos = taskObject.pos;
     return task;
 }

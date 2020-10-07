@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "userName": "fulano",
-    "list": {"name": "lista2"}
+    "list": {"name": "lista1"}
 }
 
 ###
@@ -12,7 +12,7 @@ POST http://localhost:3000/createAcount
 Content-Type: application/json
 
 {
-    "name": "fulano",
+    "name": "fulano1",
     "password": "123",
     "email": "fulano@doido.com"
 }
@@ -25,6 +25,17 @@ Content-Type: application/json
 {
     "userName": "fulano"
 }
+
+###
+
+POST http://localhost:3000/api/list
+Content-Type: application/json
+
+{
+    "userName": "fulano1",
+    "list": { "name": "lista1"}
+}
+
 ###
 GET http://localhost:3000/api/task
 Content-type: application/json
@@ -41,9 +52,9 @@ POST http://localhost:3000/api/task
 Content-Type: application/json
 
 {
-    "userName": "fulano",
+    "userName": "fulano1",
     "listName": "lista1",
-    "task": {"name": "tarefa2", "responsible": "fulano", "finalDate": "05/01/21", "state": "andamento"}
+    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "normal", "pos": 1}
 }
 
 ###
@@ -54,6 +65,28 @@ Content-Type: application/json
     "userName": "fulano",
     "listName": "listaTeste1",
     "newListName": "lista1"
+}
+
+###
+PUT http://localhost:3000/api/task
+Content-Type: application/json
+
+{
+    "userName": "fulano1",
+    "listName": "lista1",
+    "control": {"oldName": "tarefa3", "oldState": "normal"},
+    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "andamento", "pos": 2}
+}
+
+###
+
+DELETE   http://localhost:3000/api/task
+Content-Type: application/json
+
+{
+    "userName": "fulano1",
+    "listName": "lista1",
+    "taskName": "tarefa3"
 }
 
 ###
