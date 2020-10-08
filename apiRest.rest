@@ -1,9 +1,19 @@
+POST http://localhost:3000/authenticateUser
+Content-Type: application/json
+
+{
+    "name": "userTeste",
+    "password": "123"
+}
+
+###
+
 POST http://localhost:3000/api/list
 Content-Type: application/json
 
 {
-    "userName": "fulano",
-    "list": {"name": "lista1"}
+    "userName": "userTeste",
+    "list": {"name": "lista4"}
 }
 
 ###
@@ -41,8 +51,7 @@ GET http://localhost:3000/api/task
 Content-type: application/json
 
 {
-    "userName": "fulano",
-    "listName": "lista1"
+    "listName": "lista5"
 }
 
 
@@ -52,8 +61,7 @@ POST http://localhost:3000/api/task
 Content-Type: application/json
 
 {
-    "userName": "fulano1",
-    "listName": "lista1",
+    "listName": "lista5",
     "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "normal", "pos": 1}
 }
 
@@ -72,10 +80,9 @@ PUT http://localhost:3000/api/task
 Content-Type: application/json
 
 {
-    "userName": "fulano1",
-    "listName": "lista1",
+    "listName": "lista5",
     "control": {"oldName": "tarefa3", "oldState": "normal"},
-    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "andamento", "pos": 2}
+    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "completada", "pos": 2}
 }
 
 ###

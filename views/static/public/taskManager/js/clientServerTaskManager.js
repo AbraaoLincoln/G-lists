@@ -306,13 +306,41 @@ function hideForm(event){
 
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
-    for(t of tasks){
+    /* for(t of tasks){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
-    }
+    } */
+    loadTasks();
     document.getElementById("normal").addEventListener('dragover', checkDrapPosition);
     document.getElementById("andamento").addEventListener('dragover', checkDrapPosition);
     document.getElementById("completada").addEventListener('dragover', checkDrapPosition);
+}
+
+async function loadTasks(){
+    let response = await fetch('http://localhost:3000/api/task', {
+        method: "GET",
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({listName: localStorage.getItem('currentListName')})
+    })
+    let data = await response.json()
+
+    for(t of data.normal){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+
+    for(t of data.inProgress){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+
+    for(t of data.finished){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
 }
 
 window.onload = start;
