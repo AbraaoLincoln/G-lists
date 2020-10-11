@@ -197,6 +197,17 @@ function updateTaskNode(taskId, task){
     taskBodyTableRow2.children[0].innerText = task.responsible;
     taskBodyTableRow2.children[1].innerText = task.due;
 }
+
+//state = estado da lista no qual a nova tarefa vai ser incluida.
+function getPos(state){
+    if(state == 'normal'){
+        return normalTasks.length - 1;
+    }else if(state == 'andamento'){
+        return inProgressTasks.length - 1;
+    }else{
+        finishedTasks.length - 1;
+    }
+}
 //=========================-Funções que alteram o estado da aplicação-===================================
 
 //Cria um elemento com as informações da nova tarefa e o adiciona a lista.
@@ -206,7 +217,8 @@ function createNewTask(event){
         name: document.getElementById("newTaskName").value,
         due: document.getElementById("newTaskDate").value,
         responsible: document.getElementById("newTaskResponsible").value,
-        state: document.getElementById("stateNewTask").value
+        state: document.getElementById("stateNewTask").value,
+        pos: getPos(document.getElementById("stateNewTask").value)
     }
     tasks.push(newTask);
     let newTaskElement = createTask(newTask);
