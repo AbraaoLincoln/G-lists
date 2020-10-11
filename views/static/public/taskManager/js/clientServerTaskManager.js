@@ -1,44 +1,6 @@
-var tasks = [];
-let newTask = {
-    name: "Tarefa 1",
-    due: Date.now(),
-    responsible: "Fulano",
-    state: "normal"
-}
-
-let newTask2 = {
-    name: "Tarefa 2",
-    due: Date.now(),
-    responsible: "Cicrano",
-    state: "andamento"
-}
-
-let newTask3 = {
-    name: "Tarefa 3",
-    due: Date.now(),
-    responsible: "Fulano",
-    state: "completada"
-}
-
-let newTask4 = {
-    name: "Tarefa 4",
-    due: Date.now(),
-    responsible: "Cicrano",
-    state: "normal"
-}
-
-let newTask5 = {
-    name: "Tarefa 5",
-    due: Date.now(),
-    responsible: "Cicrano",
-    state: "normal"
-}
-
-tasks.push(newTask);
-tasks.push(newTask2);
-tasks.push(newTask3);
-tasks.push(newTask4);
-tasks.push(newTask5);
+var normalTasks = []
+var inProgressTasks = []
+var finishedTasks = []
 
 function createTask(task){
     let createDivTask = () => {
@@ -91,19 +53,19 @@ function createTask(task){
         btnMoveToNormal.className = "btnDropdown2";
         btnMoveToNormal.value = "normal";
         btnMoveToNormal.placeholder = "Normal";
-        btnMoveToNormal.addEventListener('click', moveTaskTo);
+        btnMoveToNormal.addEventListener('click', moveTaskToNewState);
         let btnMoveToInProgress = document.createElement("INPUT");
         btnMoveToInProgress.type = "button";
         btnMoveToInProgress.className = "btnDropdown2";
         btnMoveToInProgress.value = "andamento";
         btnMoveToInProgress.placeholder = "Andamento";
-        btnMoveToInProgress.addEventListener('click', moveTaskTo);
+        btnMoveToInProgress.addEventListener('click', moveTaskToNewState);
         let btnMoveToFinished = document.createElement("INPUT");
         btnMoveToFinished.type = "button";
         btnMoveToFinished.className = "btnDropdown2";
         btnMoveToFinished.value = "completada";
         btnMoveToFinished.placeholder = "Completada";
-        btnMoveToFinished.addEventListener('click', moveTaskTo);
+        btnMoveToFinished.addEventListener('click', moveTaskToNewState);
         divMenu2.appendChild(btnMoveToNormal);
         divMenu2.appendChild(btnMoveToInProgress);
         divMenu2.appendChild(btnMoveToFinished);
@@ -176,6 +138,9 @@ function createTask(task){
     return newTask;
 }
 
+//state = estado da tarefa.
+//newTask = novo elemento(node) com as informações da nova terefa.
+//taskId = id do elemento. 
 function addTaskToList(state, newTask, taskId){
     switch(state){
         case "normal":
@@ -193,7 +158,49 @@ function addTaskToList(state, newTask, taskId){
     }
 }
 
-function addNewTask(event){
+function showAddTask(){
+    document.getElementById('divNewTask').style.display = 'flex';
+}
+
+function hideAddTask(){
+    document.querySelector('.divNewTask').style.display = 'none';
+}
+
+function showUpdateForm(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+    document.getElementById('divChangeTask').style.display = 'flex';
+    for(task of tasks){
+        if(task.name == selectTask.id){
+            document.getElementById('changedTaskName').value = task.name;
+            document.getElementById('changedTaskDate').value = task.due;
+            document.getElementById('changedTaskResponsible').value = task.responsible;
+            document.getElementById('changedStateTask').value = task.state;
+            document.getElementById('OGTaskName').value = task.name;
+            break;
+        }
+    } 
+}
+
+function hideForm(event){
+    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
+}
+
+function updateTaskNode(taskId, task){
+    let taskNode = document.getElementById(taskId);
+    let divTaskHead = taskNode.children[0];
+    let divTaskBody = taskNode.children[1];
+    let taskHeadH3 = divTaskHead.children[1];
+    let taskBodyTable = divTaskBody.children[0];
+    let taskBodyTableRow2 = taskBodyTable.children[1];
+    //Updating
+    taskHeadH3.innerText = task.name;
+    taskBodyTableRow2.children[0].innerText = task.responsible;
+    taskBodyTableRow2.children[1].innerText = task.due;
+}
+//=========================-Funções que alteram o estado da aplicação-===================================
+
+//Cria um elemento com as informações da nova tarefa e o adiciona a lista.
+function createNewTask(event){
     event.preventDefault();
     let newTask = {
         name: document.getElementById("newTaskName").value,
@@ -211,7 +218,10 @@ function addNewTask(event){
     document.getElementById("newTaskResponsible").value = "";
 }
 
-function moveTaskTo(event){
+//Move a tarefa selecionda para o fim da lista destino escolhida.
+//Muda a cor do elemento para a cor que representa o estado da lista.  
+//So muda o estado da tarefa.
+function moveTaskToNewState(event){
     let newState = event.target.value;
     let taskId = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
 
@@ -233,43 +243,38 @@ function moveTaskTo(event){
 
 function removeTask(event){
     let taskToRemove = document.getElementById(event.target.parentNode.parentNode.id);
-    console.log("taskToRemove-", taskToRemove, "--", event.target.parentNode.id)
     let taskList = document.getElementById(taskToRemove.parentNode.id);
     taskList.removeChild(taskToRemove);
-    removeTaskObjectFroArray(taskToRemove.id);
+    removeTaskObjectFromArray(taskToRemove.id, taskList.id);
 }
 
-function removeTaskObjectFroArray(taskName){
-    tasks = tasks.filter((task) => {
-        if(task.name !== taskName) return true;
-        return false;
-    })
-}
-
-function showAddTask(){
-    document.getElementById('divNewTask').style.display = 'flex';
-}
-
-function hideAddTask(){
-    document.querySelector('.divNewTask').style.display = 'none';
-}
-
-function showUpdateForm(event){
-    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
-    console.log(selectTask.id)
-    document.getElementById('divChangeTask').style.display = 'flex';
-    for(task of tasks){
-        if(task.name == selectTask.id){
-            document.getElementById('changedTaskName').value = task.name;
-            document.getElementById('changedTaskDate').value = task.due;
-            document.getElementById('changedTaskResponsible').value = task.responsible;
-            document.getElementById('changedStateTask').value = task.state;
-            document.getElementById('OGTaskName').value = task.name;
+function removeTaskObjectFromArray(taskName, taskState){
+    switch(taskState){
+        case 'normal':
+            normalTasks = normalTasks.filter((task) => {
+                if(task.name !== taskName) return true;
+                return false;
+            })
             break;
-        }
-    } 
+        case 'andamento':
+            inProgressTasks = inProgressTasks.filter((task) => {
+                if(task.name !== taskName) return true;
+                return false;
+            })
+            break;
+        case 'completada':
+            finishedTasks = finishedTasks.filter((task) => {
+                if(task.name !== taskName) return true;
+                return false;
+            })
+            break;
+        default:
+            console.log("estado não valido!");
+
+    }
 }
 
+//Muda as informações da tarefa como também o estado.
 function updateTask(event){
     event.preventDefault();
     let taskNameBefore = document.getElementById('OGTaskName').value;
@@ -287,43 +292,19 @@ function updateTask(event){
     document.getElementById('divChangeTask').style.display = "none";
 }
 
-function updateTaskNode(taskId, task){
-    let taskNode = document.getElementById(taskId);
-    let divTaskHead = taskNode.children[0];
-    let divTaskBody = taskNode.children[1];
-    let taskHeadH3 = divTaskHead.children[1];
-    let taskBodyTable = divTaskBody.children[0];
-    let taskBodyTableRow2 = taskBodyTable.children[1];
-    //Updating
-    taskHeadH3.innerText = task.name;
-    taskBodyTableRow2.children[0].innerText = task.responsible;
-    taskBodyTableRow2.children[1].innerText = task.due;
-}
 
-function hideForm(event){
-    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
-}
-
+//Fecth as tarefas do servidor e coloca elas no dom.
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
-    /* for(t of tasks){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    } */
     loadTasks();
-    document.getElementById("normal").addEventListener('dragover', checkDrapPosition);
-    document.getElementById("andamento").addEventListener('dragover', checkDrapPosition);
-    document.getElementById("completada").addEventListener('dragover', checkDrapPosition);
+    document.getElementById("normal").addEventListener('dragover', checkDropPosition);
+    document.getElementById("andamento").addEventListener('dragover', checkDropPosition);
+    document.getElementById("completada").addEventListener('dragover', checkDropPosition);
 }
 
 async function loadTasks(){
-    let response = await fetch('http://localhost:3000/api/task', {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({listName: localStorage.getItem('currentListName')})
+    let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`, {
+        method: "GET"
     })
     let data = await response.json()
 
@@ -341,6 +322,10 @@ async function loadTasks(){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
+
+    normalTasks = data.normal;
+    inProgressTasks = data.inProgress;
+    finishedTasks = data.finished;
 }
 
 window.onload = start;

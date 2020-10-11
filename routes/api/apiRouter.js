@@ -50,14 +50,14 @@ router.delete('/list', verifyToken, (req, res) => {
 });
 
 //task rest
-router.get('/task', verifyToken, (req, res) => {
-    if(req.user.name && req.body.listName){
+router.get('/task/:listName', verifyToken, (req, res) => {
+    if(req.user.name && req.params.listName){
         UserList.find({owner: req.user.name}, (err, result) => {
             if(err) res.json({status: 'error', msg: "error ao encontrar as tarefas"});
             let lists = result[0].lists;
             
             for(list of lists){
-                if(list.name == req.body.listName){
+                if(list.name == req.params.listName){
                     res.json({normal: list.normalTasks, inProgress: list.inProgressTasks, finished: list.finishedTasks});
                 }
             }

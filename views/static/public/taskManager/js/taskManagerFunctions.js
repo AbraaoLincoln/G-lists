@@ -6,23 +6,26 @@ function allowDrop(event){
 
 function drag(event){
     /* event.preventDefault(); */
-    event.dataTransfer.setData('text', event.target.id);
+    event.dataTransfer.setData('taskId', event.target.id);
     document.getElementById(event.target.id).classList.add("draging");
     globalTaskId = event.target.id;
 }
 
 function drop(event){
     event.preventDefault();
-    let taskId = event.dataTransfer.getData("text");
+    let taskId = event.dataTransfer.getData("taskId");
     let divName = event.target.id;
-    document.getElementById(taskId).classList.remove("draging");
     if(divName == 'normal' || divName == 'andamento' || divName == 'completada'){
         event.target.appendChild(document.getElementById(taskId));
         paintTask(divName, taskId);
     }
+    document.getElementById(taskId).classList.remove("draging");
 }
 
-function checkDrapPosition(event){
+//Verifica qual tarefa esta em baixo da tarefa que esta sendo draged.
+//Caso 1: a tarefa esta sendo movida de uma lista para outra.
+//Caso 2: a tarefa esta sendo movida dentro da propria lista, para cima ou para baixo.
+function checkDropPosition(event){
     for(element of event.path){
         if(element.id && element.parentNode.id){
             let list = document.getElementById(element.parentNode.id);
@@ -36,9 +39,9 @@ function checkDrapPosition(event){
             }else{
                 list.insertBefore(dragTask, taskUnderDragTask);
             }
-
+            
             paintTask(element.parentNode.id, globalTaskId);
-            return true;
+            break;
         }
     }
 }

@@ -2,18 +2,8 @@ POST http://localhost:3000/authenticateUser
 Content-Type: application/json
 
 {
-    "name": "userTeste",
-    "password": "123"
-}
-
-###
-
-POST http://localhost:3000/api/list
-Content-Type: application/json
-
-{
-    "userName": "userTeste",
-    "list": {"name": "lista4"}
+    "name": "fulano007",
+    "password": "1234"
 }
 
 ###
@@ -22,18 +12,9 @@ POST http://localhost:3000/createAcount
 Content-Type: application/json
 
 {
-    "name": "fulano1",
-    "password": "123",
+    "name": "fulano007",
+    "password": "1234",
     "email": "fulano@doido.com"
-}
-
-###
-
-GET  http://localhost:3000/api/list
-Content-Type: application/json
-
-{
-    "userName": "fulano"
 }
 
 ###
@@ -42,17 +23,25 @@ POST http://localhost:3000/api/list
 Content-Type: application/json
 
 {
-    "userName": "fulano1",
+    "list": {"name": "lista1"}
+}
+
+###
+
+GET  http://localhost:3000/api/list
+
+
+###
+
+POST http://localhost:3000/api/list
+Content-Type: application/json
+
+{
     "list": { "name": "lista1"}
 }
 
 ###
-GET http://localhost:3000/api/task
-Content-type: application/json
-
-{
-    "listName": "lista5"
-}
+GET http://localhost:3000/api/task/lista1
 
 
 ###
@@ -61,8 +50,8 @@ POST http://localhost:3000/api/task
 Content-Type: application/json
 
 {
-    "listName": "lista5",
-    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "normal", "pos": 1}
+    "listName": "lista1",
+    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "completada", "pos": 1}
 }
 
 ###
