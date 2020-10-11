@@ -202,17 +202,38 @@ router.put('/task', verifyToken, (req, res) => {
 });
 
 router.delete('/task', verifyToken, (req, res) => {
-    UserList.find({owner: req.user.name}, (err, result) => {
-        console.log(result);
-    })
-    UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].normalTasks": {name: req.body.taskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
-    (err, result) => {
-        if(err) res.json({status: 'error', msg: 'error ao deletar tarefa da lista'});
-        UserList.find({owner: req.user.name}, (err, result) => {
-            console.log(result[0].lists[0]);
-        })
-        res.json({status: 'ok'});
-    })
+    console.log(req.body.listName);
+    console.log(req.body.taskName);
+    // UserList.find({owner: req.user.name}, (err, result) => {
+    //     console.log(result);
+    // })
+    //
+    // UserList.find({owner: req.user.name}, (err, result) => {
+    //     console.log(result[0].lists[0]);
+    // })
+    switch(req.body.state){
+        case 'normal':
+            UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].normalTasks": {name: req.body.taskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
+            (err, result) => {
+                if(err) res.json({status: 'error', msg: 'error ao deletar tarefa da lista'});
+                res.json({status: 'ok'});
+            })
+            break;
+        case 'andamento':
+            UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].inProgressTasks": {name: req.body.taskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
+            (err, result) => {
+                if(err) res.json({status: 'error', msg: 'error ao deletar tarefa da lista'});
+                res.json({status: 'ok'});
+            })
+            break;
+        case 'completada':
+            UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].finishedTasks": {name: req.body.taskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
+            (err, result) => {
+                if(err) res.json({status: 'error', msg: 'error ao deletar tarefa da lista'});
+                res.json({status: 'ok'});
+            })
+            break;
+    }
 });
 //============================
 module.exports = router;

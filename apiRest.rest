@@ -80,7 +80,6 @@ DELETE   http://localhost:3000/api/task
 Content-Type: application/json
 
 {
-    "userName": "fulano1",
     "listName": "lista1",
     "taskName": "tarefa3"
 }
@@ -91,5 +90,6 @@ Content-Type: application/json
 
 {
     "userName": "fulano",
-    "listName": "lista1"
+    "listName": "lista1",
+    "state": "normal"
 }

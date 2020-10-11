@@ -200,12 +200,15 @@ function updateTaskNode(taskId, task){
 
 //state = estado da lista no qual a nova tarefa vai ser incluida.
 function getPos(state){
+    console.log(normalTasks.length);
+    console.log(inProgressTasks.length);
+    console.log(finishedTasks.length);
     if(state == 'normal'){
-        return normalTasks.length - 1;
+        return normalTasks.length;
     }else if(state == 'andamento'){
-        return inProgressTasks.length - 1;
+        return inProgressTasks.length;
     }else{
-        finishedTasks.length - 1;
+        return finishedTasks.length;
     }
 }
 //=========================-Funções que alteram o estado da aplicação-===================================
@@ -220,9 +223,43 @@ function createNewTask(event){
         state: document.getElementById("stateNewTask").value,
         pos: getPos(document.getElementById("stateNewTask").value)
     }
-    tasks.push(newTask);
     let newTaskElement = createTask(newTask);
     addTaskToList(newTask.state, newTaskElement, newTask.name);
+
+    //Maybe temp.
+    console.log('state: ', newTask.state)
+    switch(newTask.state){
+        case 'normal':
+            normalTasks.push(newTask);
+            console.log('normal')
+            break;
+        case 'andamento':
+            inProgressTasks.push(newTask);
+            console.log('andamento')
+            break;
+        case 'completada':
+            finishedTasks.push(newTask);
+            console.log('completada')
+            break;
+    }
+
+    let addNewTaskOnDB = async () => {
+        let response = await fetch('http://localhost:3000/api/task', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                listName: localStorage.getItem('currentListName'),
+                task: newTask 
+            })
+        });
+
+        let resObject = await response.json();
+        console.log(resObject);
+    }
+    addNewTaskOnDB();
 
     //Cleanig
     document.getElementById("newTaskName").value = "";
@@ -260,23 +297,41 @@ function removeTask(event){
     removeTaskObjectFromArray(taskToRemove.id, taskList.id);
 }
 
-function removeTaskObjectFromArray(taskName, taskState){
+function removeTaskObjectFromArray(taskNameToRemove, taskState){
+    let removeTaskOnDB = async () => {
+        let response = await fetch('http://localhost:3000/api/task', {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                listName: localStorage.getItem('currentListName'),
+                taskName: taskNameToRemove,
+                state: taskState
+            })
+        })
+
+        let data = await response.json();
+        console.log(data);
+    }
+    removeTaskOnDB();
     switch(taskState){
         case 'normal':
             normalTasks = normalTasks.filter((task) => {
-                if(task.name !== taskName) return true;
+                if(task.name !== taskNameToRemove) return true;
                 return false;
             })
             break;
         case 'andamento':
             inProgressTasks = inProgressTasks.filter((task) => {
-                if(task.name !== taskName) return true;
+                if(task.name !== taskNameToRemove) return true;
                 return false;
             })
             break;
         case 'completada':
             finishedTasks = finishedTasks.filter((task) => {
-                if(task.name !== taskName) return true;
+                if(task.name !== taskNameToRemove) return true;
                 return false;
             })
             break;
@@ -305,7 +360,7 @@ function updateTask(event){
 }
 
 
-//Fecth as tarefas do servidor e coloca elas no dom.
+//Fecth as tarefas do servidor e as coloca nas suas respctivas listas.
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
     loadTasks();
@@ -318,26 +373,26 @@ async function loadTasks(){
     let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`, {
         method: "GET"
     })
-    let data = await response.json()
+    let lists = await response.json()
 
-    for(t of data.normal){
+    for(t of lists.normal){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
 
-    for(t of data.inProgress){
+    for(t of lists.inProgress){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
 
-    for(t of data.finished){
+    for(t of lists.finished){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
 
-    normalTasks = data.normal;
-    inProgressTasks = data.inProgress;
-    finishedTasks = data.finished;
+    normalTasks = lists.normal;
+    inProgressTasks = lists.inProgress;
+    finishedTasks = lists.finished;
 }
 
 window.onload = start;
