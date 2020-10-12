@@ -98,7 +98,8 @@ router.post('/task', verifyToken, (req, res) => {
     saveNewTask();
 });
 
-router.put('/task', verifyToken, (req, res) => {
+router.put('/task', verifyToken, async (req, res) => {
+    let error = false;
     console.log(req.body.tasks)
     for(task of req.body.tasks){
         let newTask = objectCreator.createTask(req.user.name, task);
@@ -110,31 +111,34 @@ router.put('/task', verifyToken, (req, res) => {
         if(task.state == oldState){
             switch(task.state){
                 case 'normal':
-                    UserList.updateOne({owner: req.user.name}, 
-                        {$set: {"lists.$[ln].normalTasks.$[tn]": newTask}}, 
-                        {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]}, 
-                        (err, result) => {
-                            if(err) res.json({status: 'error', msg: 'error ao atualizar a tarefa'});
-                            res.json({state: 'ok'});
-                    })
+                    try{
+                        const res = await UserList.updateOne({owner: req.user.name}, 
+                            {$set: {"lists.$[ln].normalTasks.$[tn]": newTask}}, 
+                            {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
+                    }catch(err){
+                        console.log(err);
+                        error = true;
+                    }
                     break;
                 case 'andamento':
-                    UserList.updateOne({owner: req.user.name}, 
-                        {$set: {"lists.$[ln].inProgressTasks.$[tn]": newTask}}, 
-                        {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]}, 
-                        (err, result) => {
-                            if(err) res.json({status: 'error', msg: 'error ao atualizar a tarefa'});
-                            res.json({state: 'ok'});
-                    })
+                    try{
+                        const res = await UserList.updateOne({owner: req.user.name}, 
+                            {$set: {"lists.$[ln].inProgressTasks.$[tn]": newTask}}, 
+                            {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
+                    }catch(err){
+                        console.log(err);
+                        error = true;
+                    }
                     break;
                 case 'completada':
-                    UserList.updateOne({owner: req.user.name}, 
-                        {$set: {"lists.$[ln].finishedTasks.$[tn]": newTask}}, 
-                        {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]}, 
-                        (err, result) => {
-                            if(err) res.json({status: 'error', msg: 'error ao atualizar a tarefa'});
-                            res.json({state: 'ok'});
-                    })
+                    try{
+                        const res = await UserList.updateOne({owner: req.user.name}, 
+                            {$set: {"lists.$[ln].finishedTasks.$[tn]": newTask}}, 
+                            {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
+                    }catch(err){
+                        console.log(err);
+                        error = true;
+                    }
                     break;
             }
             /* UserList.find({owner: req.user.name}, (err, result) => {
@@ -142,69 +146,62 @@ router.put('/task', verifyToken, (req, res) => {
             }) */
         }else{
             let newState = task.state;
-    
             if(oldState == 'normal'){
-                UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].normalTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]},
-                     (err, result) => {
-                        if(err) console.log(err)
-                         UserList.find({owner: req.user.name}, (err, result) => {
-                            console.log(result[0].lists[0]);
-                        })
-                        if(newState == 'andamento'){
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.inProgressTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }else{
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.finishedTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }
-                     });
+                try {
+                    await UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].normalTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]});
+                    if(newState == 'andamento'){
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.inProgressTasks": newTask}});
+                    }else{
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.finishedTasks": newTask}});
+                    }
+                    //  UserList.find({owner: req.user.name}, (err, result) => {
+                    //     console.log(result[0].lists[0]);
+                    // })
+                }catch(err) {
+                    console.log(err);
+                    error = true;
+                    break;
+                }
                 
             }else if(oldState == 'andamento'){
-                UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].inProgressTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
-                    (err, result) => {
-                        if(err) res.json({status: 'error', msg: 'error ao deletar tarefa da lista antiga.'});
-                        if(newState == 'normal'){
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.normalTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }else{
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.finishedTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }
-                    });
+                try {
+                    await UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].inProgressTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]});
+                    if(newState == 'normal'){
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.normalTasks": newTask}});
+                    }else{
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.finishedTasks": newTask}});
+                    }
+                }catch(err){
+                    console.log(err);
+                    error = true;
+                    break;
+                }
             }else{
-                UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].finishedTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]}, 
-                    (err, result) => {
-                        if(err) res.json({status: 'error', msg: 'error deletar tarefa da lista antiga.'});
-                        if(newState == 'normal'){
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.normalTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }else{
-                            UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
-                            {$push: {"lists.$.inProgressTasks": newTask}}, (err, result) => {
-                                if(err) res.json({status: 'error', msg: 'error ao mudar a tarefa de lista'});
-                                res.json({status: 'ok'});
-                            })
-                        }
-                    });
+                try {
+                    await UserList.updateOne({owner: req.user.name}, {$pull: {"lists.$[ln].finishedTasks": {name: oldTaskName}} }, {arrayFilters: [{"ln.name": req.body.listName}]});
+                    if(newState == 'normal'){
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.normalTasks": newTask}});
+                    }else{
+                        await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                        {$push: {"lists.$.inProgressTasks": newTask}});
+                    }
+                }catch(err){
+                    console.log(err);
+                    error = true;
+                    break;
+                }
+                
             }
         }
     }
-    
+
+    if(!error) res.json({state: 'ok'});
+    res.json({status: 'error', mgs: 'error ao salvar nova tarefa'});
 });
 
 router.delete('/task', verifyToken, (req, res) => {

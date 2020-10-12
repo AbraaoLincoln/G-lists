@@ -344,25 +344,35 @@ async function loadTasks(){
         method: "GET"
     })
     let lists = await response.json()
-
-    for(t of lists.normal){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    }
-
-    for(t of lists.inProgress){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    }
-
-    for(t of lists.finished){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    }
-
     normalTasks = lists.normal;
     inProgressTasks = lists.inProgress;
     finishedTasks = lists.finished;
+
+    normalTasks.sort(compareTaskPos);
+    for(t of normalTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+    inProgressTasks.sort(compareTaskPos);
+    for(t of inProgressTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+    finishedTasks.sort(compareTaskPos);
+    for(t of finishedTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+}
+
+function compareTaskPos(task1, task2){
+    if(task1.pos < task2.pos){
+        return -1;
+    }else if(task1.pos > task2.pos){
+        return 1;
+    }else{
+        return 0;
+    }
 }
 
 window.onload = start;

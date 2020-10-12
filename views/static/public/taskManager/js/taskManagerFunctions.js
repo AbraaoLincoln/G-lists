@@ -9,9 +9,6 @@ function moveUp(event){
         let list = document.getElementById(selectTask.parentElement.id);
         let taskGoDown = document.getElementById(selectTask.previousElementSibling.id);
         list.insertBefore(selectTask, taskGoDown);
-        console.log(selectTask.id)
-        console.log(taskGoDown.id)
-        console.log(list.id)
         updateTaskPositionOnTheSameList(selectTask.id, taskGoDown.id, list.id);
     }
 }
@@ -23,6 +20,7 @@ function moveDown(event){
         let list = document.getElementById(selectTask.parentElement.id);
         let taskGoUp = document.getElementById(selectTask.nextElementSibling.id);
         list.insertBefore(taskGoUp, selectTask);
+        updateTaskPositionOnTheSameList(taskGoUp.id, selectTask.id, list.id);
     }
 }
 
@@ -47,6 +45,10 @@ function moveTaskToNewState(event){
             document.getElementById(taskId).style.backgroundColor = "#266dd3";
             break;
     }
+}
+
+function updateTaskStateOnDB(task, oldState, newState){
+    
 }
 
 function updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState){

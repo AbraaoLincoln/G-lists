@@ -4,17 +4,17 @@ verifyToken = (req, res, next) => {
     const token = req.cookies.jwtToken
     console.log(token)
 
-    if(!token) return res.status(400).send("Acesso negado!")
+    if(!token) return res.send("Acesso negado!")
 
     try {
         jwt.verify(token, process.env.ACESS_TOKEN, (err, user) =>{
-            if(err) res.status(403).send("Token Invalido!");
+            if(err) res.send("Token Invalido!");
             req.user = user
             console.log(user)
             next()
         })
     } catch (error) {
-        res.status(400).send("Token Invalido!")
+        res.send("Token Invalido!")
     }
 }
 
