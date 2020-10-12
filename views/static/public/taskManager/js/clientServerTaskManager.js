@@ -200,9 +200,6 @@ function updateTaskNode(taskId, task){
 
 //state = estado da lista no qual a nova tarefa vai ser incluida.
 function getPos(state){
-    console.log(normalTasks.length);
-    console.log(inProgressTasks.length);
-    console.log(finishedTasks.length);
     if(state == 'normal'){
         return normalTasks.length;
     }else if(state == 'andamento'){
@@ -227,19 +224,15 @@ function createNewTask(event){
     addTaskToList(newTask.state, newTaskElement, newTask.name);
 
     //Maybe temp.
-    console.log('state: ', newTask.state)
     switch(newTask.state){
         case 'normal':
             normalTasks.push(newTask);
-            console.log('normal')
             break;
         case 'andamento':
             inProgressTasks.push(newTask);
-            console.log('andamento')
             break;
         case 'completada':
             finishedTasks.push(newTask);
-            console.log('completada')
             break;
     }
 
@@ -265,29 +258,6 @@ function createNewTask(event){
     document.getElementById("newTaskName").value = "";
     document.getElementById("newTaskDate").value = "";
     document.getElementById("newTaskResponsible").value = "";
-}
-
-//Move a tarefa selecionda para o fim da lista destino escolhida.
-//Muda a cor do elemento para a cor que representa o estado da lista.  
-//So muda o estado da tarefa.
-function moveTaskToNewState(event){
-    let newState = event.target.value;
-    let taskId = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
-
-    switch(newState){
-        case "normal":
-            document.getElementById("normal").appendChild(document.getElementById(taskId));
-            document.getElementById(taskId).style.backgroundColor = "#f6f8ff";
-            break;
-        case "andamento":
-            document.getElementById("andamento").appendChild(document.getElementById(taskId));
-            document.getElementById(taskId).style.backgroundColor = "#218380";
-            break;
-        case "completada":
-            document.getElementById("completada").appendChild(document.getElementById(taskId));
-            document.getElementById(taskId).style.backgroundColor = "#266dd3";
-            break;
-    }
 }
 
 function removeTask(event){
@@ -364,9 +334,9 @@ function updateTask(event){
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
     loadTasks();
-    document.getElementById("normal").addEventListener('dragover', checkDropPosition);
-    document.getElementById("andamento").addEventListener('dragover', checkDropPosition);
-    document.getElementById("completada").addEventListener('dragover', checkDropPosition);
+    document.getElementById("normal").addEventListener('dragover', previewDropPosition);
+    document.getElementById("andamento").addEventListener('dragover', previewDropPosition);
+    document.getElementById("completada").addEventListener('dragover', previewDropPosition);
 }
 
 async function loadTasks(){

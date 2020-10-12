@@ -71,7 +71,14 @@ Content-Type: application/json
 {
     "listName": "lista5",
     "control": {"oldName": "tarefa3", "oldState": "normal"},
-    "task": {"name": "tarefa3", "responsible": "fulano", "finalDate": "05/01/21", "state": "completada", "pos": 2}
+    "tasks": [
+        {
+            "name": "tarefa3", 
+            "responsible": "fulano", 
+            "finalDate": "05/01/21", 
+            "state": "completada", 
+            "pos": 2
+        }]
 }
 
 ###
