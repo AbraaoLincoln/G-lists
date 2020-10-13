@@ -264,51 +264,8 @@ function removeTask(event){
     let taskToRemove = document.getElementById(event.target.parentNode.parentNode.id);
     let taskList = document.getElementById(taskToRemove.parentNode.id);
     taskList.removeChild(taskToRemove);
-    removeTaskObjectFromArray(taskToRemove.id, taskList.id);
-}
-
-function removeTaskObjectFromArray(taskNameToRemove, taskState){
-    let removeTaskOnDB = async () => {
-        let response = await fetch('http://localhost:3000/api/task', {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                listName: localStorage.getItem('currentListName'),
-                taskName: taskNameToRemove,
-                state: taskState
-            })
-        })
-
-        let data = await response.json();
-        console.log(data);
-    }
-    removeTaskOnDB();
-    switch(taskState){
-        case 'normal':
-            normalTasks = normalTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        case 'andamento':
-            inProgressTasks = inProgressTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        case 'completada':
-            finishedTasks = finishedTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        default:
-            console.log("estado não valido!");
-
-    }
+    removeTaskFromLocalArray(taskToRemove.id, taskList.id);
+    removeTaskOnDB(taskToRemove.id, taskList.id);
 }
 
 //Muda as informações da tarefa como também o estado.

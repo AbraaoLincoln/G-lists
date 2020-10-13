@@ -30,7 +30,8 @@ function moveDown(event){
 function moveTaskToNewState(event){
     let newState = event.target.value;
     let taskId = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
-
+    console.log(document.getElementById(taskId).parentNode.id)
+    updateTaskState(taskId, document.getElementById(taskId).parentNode.id, newState);
     switch(newState){
         case "normal":
             document.getElementById("normal").appendChild(document.getElementById(taskId));
@@ -47,8 +48,112 @@ function moveTaskToNewState(event){
     }
 }
 
-function updateTaskStateOnDB(task, oldState, newState){
-    
+function updateTaskState(taskName, oldState, newState){
+    switch(oldState){
+        case 'normal':
+            normalTasks.forEach((task) => {
+                if(task.name == taskName){
+                    updateTaskPositionAfterDelete(task.pos, task.state);
+                    if(newState == 'andamento'){
+                        task.pos = inProgressTasks.length;
+                        task.state = 'andamento';
+                        inProgressTasks.push(task);
+                    }else{
+                        task.pos = finishedTasks.length;
+                        task.state = 'completada';
+                        finishedTasks.push(task);
+                    }
+                    updateTaskStateOnDB([task], oldState);
+                }
+            })
+            break;
+        case 'andamento':
+            inProgressTasks.forEach((task) => {
+                if(task.name == taskName){
+                    updateTaskPositionAfterDelete(task.pos, task.state);
+                    if(newState == 'normal'){
+                        task.pos = normalTasks.length;
+                        task.state = 'normal';
+                        normalTasks.push(task);
+                    }else{
+                        task.pos = finishedTasks.length;
+                        task.state = 'completada';
+                        finishedTasks.push(task);
+                    }
+                    updateTaskStateOnDB([task], oldState);
+                }
+            })
+            break;
+        case 'completada':
+            finishedTasks.forEach((task) => {
+                if(task.name == taskName){
+                    updateTaskPositionAfterDelete(task.pos, task.state);
+                    if(newState == 'normal'){
+                        task.pos = normalTasks.length;
+                        task.state = 'normal';
+                        normalTasks.push(task);
+                    }else{
+                        task.pos = inProgressTasks.length;
+                        task.state = 'andamento';
+                        inProgressTasks.push(task);
+                    }
+                    updateTaskStateOnDB([task], oldState);
+                }
+            })
+            break;
+    }
+    removeTaskFromLocalArray(taskName, oldState);
+}
+
+async function updateTaskStateOnDB(tasks, oldState){
+    let response = await fetch('http://localhost:3000/api/task', {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            listName: localStorage.getItem('currentListName'),
+            control: {oldName: null, oldState: oldState},
+            tasks: tasks
+        })
+    })
+    let data = await response.json();
+    console.log(data);
+}
+
+function updateTaskPositionAfterDelete(posOfDeleteTask, oldTaskState){
+    let taskToUpdatePos = [];
+
+    switch(oldTaskState){
+        case 'normal':
+            for(task of normalTasks){
+                if(task.pos > posOfDeleteTask){
+                    task.pos -= 1;
+                    taskToUpdatePos.push(task);
+                }
+            }
+            break;
+        case 'andamento':
+            for(task of inProgressTasks){
+                if(task.pos > posOfDeleteTask){
+                    task.pos -= 1;
+                    taskToUpdatePos.push(task);
+                }
+            }
+            break;
+        case 'completada':
+            for(task of finishedTasks){
+                if(task.pos > posOfDeleteTask){
+                    task.pos -= 1;
+                    taskToUpdatePos.push(task);
+                }
+            }
+            break;
+    }
+    console.log(taskToUpdatePos)
+    console.log(normalTasks)
+    updateTaskPosOnDB(taskToUpdatePos);
 }
 
 function updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState){
@@ -103,6 +208,50 @@ async function updateTaskPosOnDB(tasksToUpdate){
 
     let data = await response.json();
     console.log(data);
+}
+
+async function removeTaskOnDB(taskNameToRemove, taskState){
+    let response = await fetch('http://localhost:3000/api/task', {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+            listName: localStorage.getItem('currentListName'),
+            taskName: taskNameToRemove,
+            state: taskState
+        })
+    })
+
+    let data = await response.json();
+    console.log(data);
+}
+
+function removeTaskFromLocalArray(taskNameToRemove, taskState){
+    switch(taskState){
+        case 'normal':
+            normalTasks = normalTasks.filter((task) => {
+                if(task.name !== taskNameToRemove) return true;
+                return false;
+            })
+            break;
+        case 'andamento':
+            inProgressTasks = inProgressTasks.filter((task) => {
+                if(task.name !== taskNameToRemove) return true;
+                return false;
+            })
+            break;
+        case 'completada':
+            finishedTasks = finishedTasks.filter((task) => {
+                if(task.name !== taskNameToRemove) return true;
+                return false;
+            })
+            break;
+        default:
+            console.log("estado não valido!");
+
+    }
 }
 
 //Move atraves de drag and drop

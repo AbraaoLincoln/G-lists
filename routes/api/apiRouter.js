@@ -100,6 +100,7 @@ router.post('/task', verifyToken, (req, res) => {
 
 router.put('/task', verifyToken, async (req, res) => {
     let error = false;
+    console.log(req.body.listName)
     console.log(req.body.tasks)
     for(task of req.body.tasks){
         let newTask = objectCreator.createTask(req.user.name, task);
@@ -145,6 +146,8 @@ router.put('/task', verifyToken, async (req, res) => {
                 console.log(result[0].lists[1]);
             }) */
         }else{
+            console.log('opc2');
+            console.log(task);
             let newState = task.state;
             if(oldState == 'normal'){
                 try {
@@ -201,7 +204,7 @@ router.put('/task', verifyToken, async (req, res) => {
     }
 
     if(!error) res.json({state: 'ok'});
-    res.json({status: 'error', mgs: 'error ao salvar nova tarefa'});
+    /* res.json({status: 'error', mgs: 'error ao salvar nova tarefa'}); */
 });
 
 router.delete('/task', verifyToken, (req, res) => {
