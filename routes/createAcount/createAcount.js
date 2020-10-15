@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const jwt = require('jsonwebtoken');
+// const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 
 //Require userSchema
@@ -16,40 +16,40 @@ router.post('/', (req, res) => {
     //Todo
     if(userNamePasswordIsValid){
         let registerUser = async () => {
-            let userIsRegistred = await User.find({name: userName});
-            if(userIsRegistred.length == 0){
-                //Hashign password
-                bcrypt.genSalt(10, (err, salt) => {
-                    if (err) consolo.log('Error na geração do salt', err);
-                    bcrypt.hash(userPassword, salt, (err, hash) => {
-                        if (err) console.log('Error no hashing do salt');
-                        console.log(userName)
-                        const newUser = new User({name: userName, password: hash, email: userEmail})
-                        newUser.save((err, newUser) => { 
-                            if(err){
-                                /* console.log(err) */
-                                console.log('error ao salvar no banco de dados -- user')
-                                res.json({ "status": "error", "mgs": "campo invalido!"});
-                            }else{
-                                const newUserList = new UserList({owner: userName, listsNames: [], lists: []});
-                                newUserList.save((err, newUL) => {
-                                    if(err){
-                                        /* console.log(err) */
-                                        console.log('error ao salvar no banco de dados -- userLists')
-                                        res.json({ "status": "error", "mgs": "campo invalido!"});
-                                    }
-                                })
-                                res.json({ "status": "ok", "mgs": "usuario criado com sucesso!"});
-                            } 
-                        });
-                        
-                    })
+        let userIsRegistred = await User.find({name: userName});
+        if(userIsRegistred.length == 0){
+            //Hashign password
+            bcrypt.genSalt(10, (err, salt) => {
+                if (err) consolo.log('Error na geração do salt', err);
+                bcrypt.hash(userPassword, salt, (err, hash) => {
+                    if (err) console.log('Error no hashing do salt');
+                    console.log(userName)
+                    const newUser = new User({name: userName, password: hash, email: userEmail})
+                    newUser.save((err, newUser) => { 
+                        if(err){
+                            /* console.log(err) */
+                            console.log('error ao salvar no banco de dados -- user')
+                            res.json({ "status": "error", "mgs": "campo invalido!"});
+                        }else{
+                            const newUserList = new UserList({owner: userName, listsNames: [], lists: []});
+                            newUserList.save((err, newUL) => {
+                                if(err){
+                                    /* console.log(err) */
+                                    console.log('error ao salvar no banco de dados -- userLists')
+                                    res.json({ "status": "error", "mgs": "campo invalido!"});
+                                }
+                            })
+                            res.json({ "status": "ok", "mgs": "usuario criado com sucesso!"});
+                        } 
+                    });
+                    
                 })
-            }else{
-                res.json({ "status": "erro", "mgs": "o nome escolhido não esta disponivel"});
-            }
+            })
+        }else{
+            res.json({ "status": "erro", "mgs": "o nome escolhido não esta disponivel"});
         }
-        registerUser();
+    }
+    registerUser();
     }
 })
 

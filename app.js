@@ -24,15 +24,13 @@ var createAcountRouter = require('./routes/createAcount/createAcount');
 var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 var apiRouter = require('./routes/api/apiRouter');
 
-//Tester Routers
-var testeRouter = require('./routes/api/testeRouter');
-
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+//Middleawares
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,7 +39,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Temporario.
 app.use(express.static(path.join(__dirname, 'views/static/')));
 
-
+//Route handles made by me.
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/authenticateUser', authRouter);
@@ -49,7 +47,7 @@ app.use('/dashboard', users);
 app.use('/taskManager', taskManagerRouter);
 app.use('/createAcount', createAcountRouter);
 app.use('/api', apiRouter);
-app.use('/api/teste', testeRouter);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

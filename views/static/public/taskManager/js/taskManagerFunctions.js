@@ -1,28 +1,56 @@
 var globalTaskId = "";
+var normalTasks = []
+var inProgressTasks = []
+var finishedTasks = []
 
-//Move atraves dos butoes
+//Fecth as tarefas do servidor e as coloca nas suas respctivas listas.
+function start(){
+    document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
+    loadTasks();
+    document.getElementById("normal").addEventListener('dragover', previewDropPosition);
+    document.getElementById("andamento").addEventListener('dragover', previewDropPosition);
+    document.getElementById("completada").addEventListener('dragover', previewDropPosition);
+}
 
-function moveUp(event){
-    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+async function loadTasks(){
+    let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`, {
+        method: "GET"
+    })
+    let lists = await response.json()
+    normalTasks = lists.normal;
+    inProgressTasks = lists.inProgress;
+    finishedTasks = lists.finished;
 
-    if(selectTask.previousElementSibling){
-        let list = document.getElementById(selectTask.parentElement.id);
-        let taskGoDown = document.getElementById(selectTask.previousElementSibling.id);
-        list.insertBefore(selectTask, taskGoDown);
-        updateTaskPositionOnTheSameList(selectTask.id, taskGoDown.id, list.id);
+    normalTasks.sort(compareTaskPos);
+    for(t of normalTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+    inProgressTasks.sort(compareTaskPos);
+    for(t of inProgressTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
+    }
+    finishedTasks.sort(compareTaskPos);
+    for(t of finishedTasks){
+        let task = createTask(t);
+        addTaskToList(t.state, task, t.name);
     }
 }
 
-function moveDown(event){
-    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
-
-    if(selectTask.nextElementSibling){
-        let list = document.getElementById(selectTask.parentElement.id);
-        let taskGoUp = document.getElementById(selectTask.nextElementSibling.id);
-        list.insertBefore(taskGoUp, selectTask);
-        updateTaskPositionOnTheSameList(taskGoUp.id, selectTask.id, list.id);
+function compareTaskPos(task1, task2){
+    if(task1.pos < task2.pos){
+        return -1;
+    }else if(task1.pos > task2.pos){
+        return 1;
+    }else{
+        return 0;
     }
 }
+
+window.onload = start;
+
+//Funções que muda o estado da tarefa.
 
 //Move a tarefa selecionda para o fim da lista destino escolhida.
 //Muda a cor do elemento para a cor que representa o estado da lista.  
@@ -105,21 +133,29 @@ function updateTaskState(taskName, oldState, newState){
     removeTaskFromLocalArray(taskName, oldState);
 }
 
-async function updateTaskStateOnDB(tasks, oldState){
-    let response = await fetch('http://localhost:3000/api/task', {
-        method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            listName: localStorage.getItem('currentListName'),
-            control: {oldName: null, oldState: oldState},
-            tasks: tasks
-        })
-    })
-    let data = await response.json();
-    console.log(data);
+
+//Funções que mudam a posição das tarefas.
+
+function moveUp(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+    if(selectTask.previousElementSibling){
+        let list = document.getElementById(selectTask.parentElement.id);
+        let taskGoDown = document.getElementById(selectTask.previousElementSibling.id);
+        list.insertBefore(selectTask, taskGoDown);
+        updateTaskPositionOnTheSameList(selectTask.id, taskGoDown.id, list.id);
+    }
+}
+
+function moveDown(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+
+    if(selectTask.nextElementSibling){
+        let list = document.getElementById(selectTask.parentElement.id);
+        let taskGoUp = document.getElementById(selectTask.nextElementSibling.id);
+        list.insertBefore(taskGoUp, selectTask);
+        updateTaskPositionOnTheSameList(taskGoUp.id, selectTask.id, list.id);
+    }
 }
 
 function updateTaskPositionAfterDelete(posOfDeleteTask, oldTaskState){
@@ -192,40 +228,116 @@ function updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState
     updateTaskPosOnDB(taskToUpdatePos);
 }
 
-async function updateTaskPosOnDB(tasksToUpdate){
-    let response = await fetch('http://localhost:3000/api/task', {
-        method: 'PUT',
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            listName: localStorage.getItem('currentListName'),
-            tasks: tasksToUpdate,
-            control: {oldName: null, oldState: null}
-        })
-    })
+//Função que adicionam tarefas as listas.
 
-    let data = await response.json();
-    console.log(data);
+//state = estado da tarefa.
+//newTask = novo elemento(node) com as informações da nova terefa.
+//taskId = id do elemento. 
+function addTaskToList(state, newTask, taskId){
+    switch(state){
+        case "normal":
+            document.getElementById("normal").appendChild(newTask);
+            document.getElementById(taskId).style.backgroundColor = "#f6f8ff";
+            break;
+        case "andamento":
+            document.getElementById("andamento").appendChild(newTask);
+            document.getElementById(taskId).style.backgroundColor = "#218380";
+            break;
+        case "completada":
+            document.getElementById("completada").appendChild(newTask);
+            document.getElementById(taskId).style.backgroundColor = "#266dd3";
+            break;
+    }
 }
 
-async function removeTaskOnDB(taskNameToRemove, taskState){
-    let response = await fetch('http://localhost:3000/api/task', {
-        method: 'DELETE',
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-            listName: localStorage.getItem('currentListName'),
-            taskName: taskNameToRemove,
-            state: taskState
-        })
-    })
+//Cria um elemento com as informações da nova tarefa e o adiciona a lista.
+function createNewTask(event){
+    event.preventDefault();
+    let newTask = {
+        name: document.getElementById("newTaskName").value,
+        due: document.getElementById("newTaskDate").value,
+        responsible: document.getElementById("newTaskResponsible").value,
+        state: document.getElementById("stateNewTask").value,
+        pos: getPos(document.getElementById("stateNewTask").value)
+    }
+    let newTaskElement = createTask(newTask);
+    addTaskToList(newTask.state, newTaskElement, newTask.name);
 
-    let data = await response.json();
-    console.log(data);
+    //Maybe temp.
+    switch(newTask.state){
+        case 'normal':
+            normalTasks.push(newTask);
+            break;
+        case 'andamento':
+            inProgressTasks.push(newTask);
+            break;
+        case 'completada':
+            finishedTasks.push(newTask);
+            break;
+    }
+    
+    addNewTaskOnDB(newTask);
+
+    //Cleanig
+    document.getElementById("newTaskName").value = "";
+    document.getElementById("newTaskDate").value = "";
+    document.getElementById("newTaskResponsible").value = "";
+}
+
+//state = estado da lista no qual a nova tarefa vai ser incluida.
+function getPos(state){
+    if(state == 'normal'){
+        return normalTasks.length;
+    }else if(state == 'andamento'){
+        return inProgressTasks.length;
+    }else{
+        return finishedTasks.length;
+    }
+}
+
+//Funções que atualizam as tarefas.
+
+//Muda as informações da tarefa como também o estado.
+function updateTask(event){
+    event.preventDefault();
+    let taskNameBefore = document.getElementById('OGTaskName').value;
+    for(task of tasks){
+        if(task.name == taskNameBefore){
+            task.name = document.getElementById('changedTaskName').value;
+            task.due = document.getElementById('changedTaskDate').value;
+            task.responsible = document.getElementById('changedTaskResponsible').value;
+            task.state = document.getElementById('changedStateTask').value;
+            updateTaskNode(taskNameBefore, task);
+            document.getElementById(taskNameBefore).id = task.name;
+            break;
+        }
+    }
+    document.getElementById('divChangeTask').style.display = "none";
+}
+
+//Atualiza o elemento da tela.
+function updateTaskNode(taskId, task){
+    let taskNode = document.getElementById(taskId);
+    let divTaskHead = taskNode.children[0];
+    let divTaskBody = taskNode.children[1];
+    let taskHeadH3 = divTaskHead.children[1];
+    let taskBodyTable = divTaskBody.children[0];
+    let taskBodyTableRow2 = taskBodyTable.children[1];
+    //Updating
+    taskHeadH3.innerText = task.name;
+    taskBodyTableRow2.children[0].innerText = task.responsible;
+    taskBodyTableRow2.children[1].innerText = task.due;
+}
+
+
+//Remove tarefas da lista
+
+function removeTask(event){
+    let taskToRemove = document.getElementById(event.target.parentNode.parentNode.id);
+    let taskList = document.getElementById(taskToRemove.parentNode.id);
+    taskList.removeChild(taskToRemove);
+    removeTaskFromLocalArray(taskToRemove.id, taskList.id);
+    removeTaskOnDB(taskToRemove.id, taskList.id);
 }
 
 function removeTaskFromLocalArray(taskNameToRemove, taskState){
@@ -254,63 +366,32 @@ function removeTaskFromLocalArray(taskNameToRemove, taskState){
     }
 }
 
-//Move atraves de drag and drop
-function allowDrop(event){
-    event.preventDefault();
+
+//Funções que manipulam os formularios da pagina.
+
+function showAddTask(){
+    document.getElementById('divNewTask').style.display = 'flex';
 }
 
-function drag(event){
-    /* event.preventDefault(); */
-    event.dataTransfer.setData('taskId', event.target.id);
-    document.getElementById(event.target.id).classList.add("draging");
-    globalTaskId = event.target.id;
+function hideAddTask(){
+    document.querySelector('.divNewTask').style.display = 'none';
 }
 
-function drop(event){
-    event.preventDefault();
-    let taskId = event.dataTransfer.getData("taskId");
-    let divName = event.target.id;
-    if(divName == 'normal' || divName == 'andamento' || divName == 'completada'){
-        event.target.appendChild(document.getElementById(taskId));
-        paintTask(divName, taskId);
-    }
-    document.getElementById(taskId).classList.remove("draging");
-}
-
-//Verifica qual tarefa esta em baixo da tarefa que esta sendo draged.
-//Caso 1: se a tarefa esta sendo movida de uma lista para outra.
-//Caso 2: se a tarefa esta sendo movida dentro da propria lista, para cima ou para baixo.
-function previewDropPosition(event){
-    for(element of event.path){
-        if(element.id && element.parentNode.id){
-            let list = document.getElementById(element.parentNode.id);
-            let taskUnderDragTask = document.getElementById(element.id);
-            let dragTask = document.getElementById(globalTaskId);
-            
-            if(dragTask.previousElementSibling && dragTask.previousElementSibling.id == taskUnderDragTask.id){
-                list.insertBefore(dragTask, taskUnderDragTask);
-            }else if(dragTask.nextElementSibling && dragTask.nextElementSibling.id == taskUnderDragTask.id){
-                list.insertBefore(taskUnderDragTask, dragTask);
-            }else{
-                list.insertBefore(dragTask, taskUnderDragTask);
-            }
-            
-            paintTask(element.parentNode.id, globalTaskId);
+function showUpdateForm(event){
+    let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+    document.getElementById('divChangeTask').style.display = 'flex';
+    for(task of tasks){
+        if(task.name == selectTask.id){
+            document.getElementById('changedTaskName').value = task.name;
+            document.getElementById('changedTaskDate').value = task.due;
+            document.getElementById('changedTaskResponsible').value = task.responsible;
+            document.getElementById('changedStateTask').value = task.state;
+            document.getElementById('OGTaskName').value = task.name;
             break;
         }
-    }
+    } 
 }
 
-function paintTask(state, taskId){
-    switch(state){
-        case "normal":
-            document.getElementById(taskId).style.backgroundColor = "#f6f8ff";
-            break;
-        case "andamento":
-            document.getElementById(taskId).style.backgroundColor = "#218380";
-            break;
-        case "completada":
-            document.getElementById(taskId).style.backgroundColor = "#266dd3";
-            break;
-    }
+function hideForm(event){
+    document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
 }
