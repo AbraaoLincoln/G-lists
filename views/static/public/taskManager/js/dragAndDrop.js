@@ -33,9 +33,13 @@ function previewDropPosition(event){
             
             if(dragTask.previousElementSibling && dragTask.previousElementSibling.id == taskUnderDragTask.id){
                 list.insertBefore(dragTask, taskUnderDragTask);
+                updateTaskPositionOnTheSameList(dragTask.id, taskUnderDragTask.id, list.id);
             }else if(dragTask.nextElementSibling && dragTask.nextElementSibling.id == taskUnderDragTask.id){
                 list.insertBefore(taskUnderDragTask, dragTask);
-            }else{
+                updateTaskPositionOnTheSameList(taskUnderDragTask.id, dragTask.id, list.id);
+            }else if(dragTask.parentNode.id !== list.id){
+                console.log("3case")
+                uptadeTaskPosOnDrop(dragTask.id, taskUnderDragTask.id, dragTask.parentNode.id, list.id);
                 list.insertBefore(dragTask, taskUnderDragTask);
             }
             
@@ -43,6 +47,91 @@ function previewDropPosition(event){
             break;
         }
     }
+}
+
+function uptadeTaskPosOnDrop(dragTaskName, taskNameOfUnderDragTask, oldState, newState){
+    let taskToUpdate = [];
+    let taskToUpdateState = {};
+
+    switch(oldState){
+        case 'normal':
+            for(t of normalTasks){
+                if(t.name == dragTaskName){
+                    taskToUpdateState = t;
+                    break;
+                }
+            }
+            break;
+        case 'andamento':
+            for(t of inProgressTasks){
+                if(t.name == dragTaskName){
+                    taskToUpdateState = t;
+                    break;
+                }
+            }
+            break;
+        case 'completada':
+            for(t of finishedTasks){
+                if(t.name == dragTaskName){
+                    taskToUpdateState = t;
+                    break;
+                }
+            }
+            break;
+    }
+
+    switch(newState){
+        case 'normal':
+            for(t of normalTasks){
+                if(t.name == taskNameOfUnderDragTask){
+                    taskToUpdateState.pos = t.pos;
+                    break;
+                }
+            }
+
+            for(t of normalTasks){
+                if(t.pos >= taskToUpdateState.pos){
+                    t.pos++;
+                    taskToUpdate.push(t);
+                }
+            }
+            break;
+        case 'andamento':
+            for(t of inProgressTasks){
+                if(t.name == taskNameOfUnderDragTask){
+                    taskToUpdateState.pos = t.pos;
+                    break;
+                }
+            }
+
+            for(t of inProgressTasks){
+                if(t.pos >= taskToUpdateState.pos){
+                    t.pos++;
+                    taskToUpdate.push(t);
+                }
+            }
+            break;
+        case 'completada':
+            for(t of finishedTasks){
+                if(t.name == taskNameOfUnderDragTask){
+                    taskToUpdateState.pos = t.pos;
+                    break;
+                }
+            }
+
+            for(t of finishedTasks){
+                if(t.pos >= taskToUpdateState.pos){
+                    t.pos++;
+                    taskToUpdate.push(t);
+                }
+            }
+            break;
+    }
+
+    removeTaskOnDB(taskToUpdateState.name, taskToUpdateState.state);
+    taskToUpdateState.state = newState;
+    addNewTaskOnDB(taskToUpdateState);
+    updateTaskPosOnDB(taskToUpdate);
 }
 
 function paintTask(state, taskId){

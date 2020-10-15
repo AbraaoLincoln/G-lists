@@ -298,6 +298,7 @@ function getPos(state){
 //Funções que atualizam as tarefas.
 
 //Muda as informações da tarefa como também o estado.
+// Not working needed to be update.
 function updateTask(event){
     event.preventDefault();
     let taskNameBefore = document.getElementById('OGTaskName').value;
