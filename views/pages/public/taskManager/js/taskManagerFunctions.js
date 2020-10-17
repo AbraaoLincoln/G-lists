@@ -60,7 +60,7 @@ window.onload = start;
 function moveTaskToNewState(event){
     let newState = event.target.value;
     let taskId = event.target.parentNode.parentNode.parentNode.parentNode.parentNode.parentNode.id;
-    console.log(document.getElementById(taskId).parentNode.id)
+
     updateTaskState(taskId, document.getElementById(taskId).parentNode.id, newState);
     switch(newState){
         case "normal":
@@ -125,8 +125,7 @@ function updateTaskPositionAfterDelete(posOfDeleteTask, oldTaskState){
             taskToUpdatePos.push(task);
         }
     }
-    console.log(taskToUpdatePos)
-    // console.log(lista.normal)
+
     if (taskToUpdatePos) updateTaskPosOnDB(taskToUpdatePos);
 }
 

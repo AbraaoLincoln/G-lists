@@ -25,12 +25,9 @@ function drop(event){
         event.target.appendChild(task);
         paintTask(divName, task.id);
     }else{
-        console.log(dragTaskN)
-        console.log(taskUnderDragTaskN)
         if(dragTaskN != taskUnderDragTaskN){
             switch(move){
                 case 1:
-                    console.log(taskUnderDragTaskN)
                     updatePosOnDragTaskUp(dragTaskN, taskUnderDragTaskN, listN);
                     break;
                 case 2:
@@ -69,7 +66,6 @@ function previewDropPosition(event){
                 list.insertBefore(taskUnderDragTask, dragTask);
                 move = 2;
             }else if(dragTask.parentNode.id !== list.id){
-                console.log("case3")
                 taskUnderDragTaskN = taskUnderDragTask.id
                 dragTaskN = dragTask.id
                 listN = list.id
@@ -120,9 +116,9 @@ function updatePosOnDragTaskUp(taskNameGoUp, taskNameGoDown, listState){
 function updatePosOnDragTaskDown(taskNameGoUp, taskNameGoDown,listState){
     let taskToUpdatePos = [];
 
-    for(t of lista[listState]){
-        if(t.name == taskNameGoUp || t.name == taskNameGoDown){
-            taskToUpdatePos.push(t);
+    lista[listState].forEach( task => {
+        if(task.name == taskNameGoUp || task.name == taskNameGoDown){
+            taskToUpdatePos.push(task);
             if(taskToUpdatePos.length == 2)
             {
                 if(taskToUpdatePos[0].pos > taskToUpdatePos[1].pos){
@@ -130,22 +126,20 @@ function updatePosOnDragTaskDown(taskNameGoUp, taskNameGoDown,listState){
                     taskToUpdatePos[1] = taskToUpdatePos[0];
                     taskToUpdatePos[0] = aux;
                 }
-                break;
             }
-        }
-    }
+        } 
+    });
 
     //0 = pos of task to go down.
     //1 = pos of task to go up.
-    console.log(taskToUpdatePos)
     if(taskToUpdatePos[1].pos - taskToUpdatePos[0].pos > 1){
-        for(task of lista[listState]){
+        lista[listState].forEach(task => {
             if(task.pos < taskToUpdatePos[1].pos && task.pos > taskToUpdatePos[0].pos){
                 task.pos--;
                 taskToUpdatePos.push(task);
             }
-        }
-        taskToUpdatePos[1].pos = taskToUpdatePos[0].pos;
+        });
+        taskToUpdatePos[0].pos = taskToUpdatePos[1].pos;
         taskToUpdatePos[1].pos--;
         updateTaskPosOnDB(taskToUpdatePos);
     }else{

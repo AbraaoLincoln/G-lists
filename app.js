@@ -11,7 +11,7 @@ require("dotenv").config();
 const mongoose = require('mongoose');
 
 //Connecting to the database
-mongoose.connect(process.env.DATABASE, {useNewUrlParser: true});
+mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopology: true });
 
 //========
 
@@ -28,7 +28,6 @@ var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
 
 //Middleawares
 app.use(logger('dev'));
