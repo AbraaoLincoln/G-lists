@@ -10,6 +10,12 @@ function drag(event){
     globalTaskId = event.target.id;
 }
 
+var listN = 0;
+var taskUnderDragTaskN = 0;
+var dragTaskN = 0;
+var oldList = 0;
+var move = 0; //1 up, 2 down and 3 another list.
+
 function drop(event){
     event.preventDefault();
     let task = document.getElementById(event.dataTransfer.getData("taskId"));
@@ -18,6 +24,24 @@ function drop(event){
         updateTaskState(task.id, task.parentNode.id, divName);
         event.target.appendChild(task);
         paintTask(divName, task.id);
+    }else{
+        console.log(dragTaskN)
+        console.log(taskUnderDragTaskN)
+        if(dragTaskN != taskUnderDragTaskN){
+            switch(move){
+                case 1:
+                    console.log(taskUnderDragTaskN)
+                    updatePosOnDragTaskUp(dragTaskN, taskUnderDragTaskN, listN);
+                    break;
+                case 2:
+                    updatePosOnDragTaskDown(taskUnderDragTaskN, dragTaskN, listN);
+                    break;
+                case 3:
+                    uptadeTaskPosOnDropTaskFromAnotherList(dragTaskN, taskUnderDragTaskN, oldList, listN);
+                    break;
+            }
+        }
+        move = 0;
     }
     task.classList.remove("draging");
 }
@@ -33,15 +57,25 @@ function previewDropPosition(event){
             let dragTask = document.getElementById(globalTaskId);
             
             if(dragTask.previousElementSibling && dragTask.previousElementSibling.id == taskUnderDragTask.id){
+                taskUnderDragTaskN = taskUnderDragTask.id
+                dragTaskN = dragTask.id
+                listN = list.id
                 list.insertBefore(dragTask, taskUnderDragTask);
-                updateTaskPositionOnTheSameList(dragTask.id, taskUnderDragTask.id, list.id);
+                move = 1;
             }else if(dragTask.nextElementSibling && dragTask.nextElementSibling.id == taskUnderDragTask.id){
+                taskUnderDragTaskN = taskUnderDragTask.id
+                dragTaskN = dragTask.id
+                listN = list.id
                 list.insertBefore(taskUnderDragTask, dragTask);
-                updateTaskPositionOnTheSameList(taskUnderDragTask.id, dragTask.id, list.id);
+                move = 2;
             }else if(dragTask.parentNode.id !== list.id){
                 console.log("case3")
-                uptadeTaskPosOnDrop(dragTask.id, taskUnderDragTask.id, dragTask.parentNode.id, list.id);
+                taskUnderDragTaskN = taskUnderDragTask.id
+                dragTaskN = dragTask.id
+                listN = list.id
+                oldList = dragTask.parentNode.id;
                 list.insertBefore(dragTask, taskUnderDragTask);
+                move = 3;
             }
             
             paintTask(element.parentNode.id, globalTaskId);
@@ -50,7 +84,77 @@ function previewDropPosition(event){
     }
 }
 
-function uptadeTaskPosOnDrop(dragTaskName, taskNameOfUnderDragTask, oldState, newState){
+function updatePosOnDragTaskUp(taskNameGoUp, taskNameGoDown, listState){
+    let taskToUpdatePos = [];
+    lista[listState].forEach( task => {
+        if(task.name == taskNameGoUp || task.name == taskNameGoDown){
+            taskToUpdatePos.push(task);
+            if(taskToUpdatePos.length == 2)
+            {
+                if(taskToUpdatePos[0].pos > taskToUpdatePos[1].pos){
+                    let aux = taskToUpdatePos[1]; 
+                    taskToUpdatePos[1] = taskToUpdatePos[0];
+                    taskToUpdatePos[0] = aux;
+                }
+            }
+        } 
+    });
+
+    //0 = pos of task to go down.
+    //1 = pos of task to go up.
+    if(taskToUpdatePos[1].pos - taskToUpdatePos[0].pos > 1){
+        taskToUpdatePos[1].pos = taskToUpdatePos[0].pos;
+        lista[listState].forEach(task => {
+            if(task.pos > taskToUpdatePos[1].pos){
+                task.pos++;
+                taskToUpdatePos.push(task);
+            }
+        });
+        taskToUpdatePos[0].pos++;
+        updateTaskPosOnDB(taskToUpdatePos);
+    }else{
+        updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState);
+    }
+}
+
+function updatePosOnDragTaskDown(taskNameGoUp, taskNameGoDown,listState){
+    let taskToUpdatePos = [];
+
+    for(t of lista[listState]){
+        if(t.name == taskNameGoUp || t.name == taskNameGoDown){
+            taskToUpdatePos.push(t);
+            if(taskToUpdatePos.length == 2)
+            {
+                if(taskToUpdatePos[0].pos > taskToUpdatePos[1].pos){
+                    let aux = taskToUpdatePos[1]; 
+                    taskToUpdatePos[1] = taskToUpdatePos[0];
+                    taskToUpdatePos[0] = aux;
+                }
+                break;
+            }
+        }
+    }
+
+    //0 = pos of task to go down.
+    //1 = pos of task to go up.
+    console.log(taskToUpdatePos)
+    if(taskToUpdatePos[1].pos - taskToUpdatePos[0].pos > 1){
+        for(task of lista[listState]){
+            if(task.pos < taskToUpdatePos[1].pos && task.pos > taskToUpdatePos[0].pos){
+                task.pos--;
+                taskToUpdatePos.push(task);
+            }
+        }
+        taskToUpdatePos[1].pos = taskToUpdatePos[0].pos;
+        taskToUpdatePos[1].pos--;
+        updateTaskPosOnDB(taskToUpdatePos);
+    }else{
+        updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState);
+    }
+}
+
+
+function uptadeTaskPosOnDropTaskFromAnotherList(dragTaskName, taskNameOfUnderDragTask, oldState, newState){
     let taskToUpdate = [];
     let taskToUpdateState = {};
     

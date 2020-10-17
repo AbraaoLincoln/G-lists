@@ -1,7 +1,4 @@
 var globalTaskId = "";
-// var normal = []
-// var andamento = []
-// var completada = []
 var lista = {
     normal: [],
     andamento: [],
