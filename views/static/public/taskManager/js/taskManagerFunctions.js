@@ -1,9 +1,14 @@
 var globalTaskId = "";
-var normalTasks = []
-var inProgressTasks = []
-var finishedTasks = []
+// var normal = []
+// var andamento = []
+// var completada = []
+var lista = {
+    normal: [],
+    andamento: [],
+    completada: []
+}
 
-//Fecth as tarefas do servidor e as coloca nas suas respctivas listas.
+//Fecth as tarefas do servidor e as coloca nas suas respctivas lista.
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
     loadTasks();
@@ -16,23 +21,23 @@ async function loadTasks(){
     let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`, {
         method: "GET"
     })
-    let lists = await response.json()
-    normalTasks = lists.normal;
-    inProgressTasks = lists.inProgress;
-    finishedTasks = lists.finished;
+    let listsFromDB = await response.json()
+    lista.normal = listsFromDB.normal;
+    lista.andamento = listsFromDB.inProgress;
+    lista.completada = listsFromDB.finished;
 
-    normalTasks.sort(compareTaskPos);
-    for(t of normalTasks){
+    lista.normal.sort(compareTaskPos);
+    for(t of lista.normal){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
-    inProgressTasks.sort(compareTaskPos);
-    for(t of inProgressTasks){
+    lista.andamento.sort(compareTaskPos);
+    for(t of lista.andamento){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
-    finishedTasks.sort(compareTaskPos);
-    for(t of finishedTasks){
+    lista.completada.sort(compareTaskPos);
+    for(t of lista.completada){
         let task = createTask(t);
         addTaskToList(t.state, task, t.name);
     }
@@ -77,59 +82,16 @@ function moveTaskToNewState(event){
 }
 
 function updateTaskState(taskName, oldState, newState){
-    switch(oldState){
-        case 'normal':
-            normalTasks.forEach((task) => {
-                if(task.name == taskName){
-                    updateTaskPositionAfterDelete(task.pos, task.state);
-                    if(newState == 'andamento'){
-                        task.pos = inProgressTasks.length;
-                        task.state = 'andamento';
-                        inProgressTasks.push(task);
-                    }else{
-                        task.pos = finishedTasks.length;
-                        task.state = 'completada';
-                        finishedTasks.push(task);
-                    }
-                    updateTaskStateOnDB([task], oldState);
-                }
-            })
-            break;
-        case 'andamento':
-            inProgressTasks.forEach((task) => {
-                if(task.name == taskName){
-                    updateTaskPositionAfterDelete(task.pos, task.state);
-                    if(newState == 'normal'){
-                        task.pos = normalTasks.length;
-                        task.state = 'normal';
-                        normalTasks.push(task);
-                    }else{
-                        task.pos = finishedTasks.length;
-                        task.state = 'completada';
-                        finishedTasks.push(task);
-                    }
-                    updateTaskStateOnDB([task], oldState);
-                }
-            })
-            break;
-        case 'completada':
-            finishedTasks.forEach((task) => {
-                if(task.name == taskName){
-                    updateTaskPositionAfterDelete(task.pos, task.state);
-                    if(newState == 'normal'){
-                        task.pos = normalTasks.length;
-                        task.state = 'normal';
-                        normalTasks.push(task);
-                    }else{
-                        task.pos = inProgressTasks.length;
-                        task.state = 'andamento';
-                        inProgressTasks.push(task);
-                    }
-                    updateTaskStateOnDB([task], oldState);
-                }
-            })
-            break;
-    }
+
+    lista[oldState].forEach((task) => {
+        if(task.name == taskName){
+            updateTaskPositionAfterDelete(task.pos, task.state);
+            task.pos = lista[newState].length;
+            task.state = newState;
+            lista[newState].push(task);
+            updateTaskStateOnDB([task], oldState);
+        }
+    })
     removeTaskFromLocalArray(taskName, oldState);
 }
 
@@ -160,75 +122,36 @@ function moveDown(event){
 
 function updateTaskPositionAfterDelete(posOfDeleteTask, oldTaskState){
     let taskToUpdatePos = [];
-
-    switch(oldTaskState){
-        case 'normal':
-            for(task of normalTasks){
-                if(task.pos > posOfDeleteTask){
-                    task.pos -= 1;
-                    taskToUpdatePos.push(task);
-                }
-            }
-            break;
-        case 'andamento':
-            for(task of inProgressTasks){
-                if(task.pos > posOfDeleteTask){
-                    task.pos -= 1;
-                    taskToUpdatePos.push(task);
-                }
-            }
-            break;
-        case 'completada':
-            for(task of finishedTasks){
-                if(task.pos > posOfDeleteTask){
-                    task.pos -= 1;
-                    taskToUpdatePos.push(task);
-                }
-            }
-            break;
+    for(task of lista[oldTaskState]){
+        if(task.pos > posOfDeleteTask){
+            task.pos -= 1;
+            taskToUpdatePos.push(task);
+        }
     }
     console.log(taskToUpdatePos)
-    console.log(normalTasks)
-    updateTaskPosOnDB(taskToUpdatePos);
+    // console.log(lista.normal)
+    if (taskToUpdatePos) updateTaskPosOnDB(taskToUpdatePos);
 }
 
-function updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, listState){
+function updateTaskPositionOnTheSameList(taskNameGoUp, taskNameGoDown, State){
     let taskToUpdatePos = [];
 
-    switch(listState){
-        case 'normal':
-            for(task of normalTasks){
-                if(task.name == taskNameGoUp || task.name == taskNameGoDown){
-                    taskToUpdatePos.push(task);
-                }
-                if(taskToUpdatePos.length == 2) break;
-            }
-            break;
-        case 'andamento':
-            for(task of inProgressTasks){
-                if(task.name == taskNameGoUp || task.name == taskNameGoDown){
-                    taskToUpdatePos.push(task);
-                }
-                if(taskToUpdatePos.length == 2) break;
-            }
-            break;
-        case 'completada':
-            for(task of finishedTasks){
-                if(task.name == taskNameGoUp || task.name == taskNameGoDown){
-                    taskToUpdatePos.push(task);
-                }
-                if(taskToUpdatePos.length == 2) break;
-            }
-            break;
+    for(task of lista[State]){
+        if(task.name == taskNameGoUp || task.name == taskNameGoDown){
+            taskToUpdatePos.push(task);
+        }
+        if(taskToUpdatePos.length == 2) break;
     }
 
-    let auxPos = taskToUpdatePos[0].pos;
-    taskToUpdatePos[0].pos = taskToUpdatePos[1].pos;
-    taskToUpdatePos[1].pos = auxPos;
-    updateTaskPosOnDB(taskToUpdatePos);
+    if(taskToUpdatePos.length == 2){
+        let auxPos = taskToUpdatePos[0].pos;
+        taskToUpdatePos[0].pos = taskToUpdatePos[1].pos;
+        taskToUpdatePos[1].pos = auxPos;
+        updateTaskPosOnDB(taskToUpdatePos);
+    }
 }
 
-//Função que adicionam tarefas as listas.
+//Função que adicionam tarefas as lista.
 
 //state = estado da tarefa.
 //newTask = novo elemento(node) com as informações da nova terefa.
@@ -263,18 +186,7 @@ function createNewTask(event){
     let newTaskElement = createTask(newTask);
     addTaskToList(newTask.state, newTaskElement, newTask.name);
 
-    //Maybe temp.
-    switch(newTask.state){
-        case 'normal':
-            normalTasks.push(newTask);
-            break;
-        case 'andamento':
-            inProgressTasks.push(newTask);
-            break;
-        case 'completada':
-            finishedTasks.push(newTask);
-            break;
-    }
+    lista[newTask.state].push(newTask);
     
     addNewTaskOnDB(newTask);
 
@@ -286,13 +198,7 @@ function createNewTask(event){
 
 //state = estado da lista no qual a nova tarefa vai ser incluida.
 function getPos(state){
-    if(state == 'normal'){
-        return normalTasks.length;
-    }else if(state == 'andamento'){
-        return inProgressTasks.length;
-    }else{
-        return finishedTasks.length;
-    }
+    return lista[state].length;
 }
 
 //Funções que atualizam as tarefas.
@@ -342,29 +248,10 @@ function removeTask(event){
 }
 
 function removeTaskFromLocalArray(taskNameToRemove, taskState){
-    switch(taskState){
-        case 'normal':
-            normalTasks = normalTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        case 'andamento':
-            inProgressTasks = inProgressTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        case 'completada':
-            finishedTasks = finishedTasks.filter((task) => {
-                if(task.name !== taskNameToRemove) return true;
-                return false;
-            })
-            break;
-        default:
-            console.log("estado não valido!");
-
-    }
+    lista[taskState] = lista[taskState].filter((task) => {
+        if(task.name !== taskNameToRemove) return true;
+        return false;
+    })
 }
 
 

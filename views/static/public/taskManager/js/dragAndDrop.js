@@ -12,13 +12,14 @@ function drag(event){
 
 function drop(event){
     event.preventDefault();
-    let taskId = event.dataTransfer.getData("taskId");
+    let task = document.getElementById(event.dataTransfer.getData("taskId"));
     let divName = event.target.id;
     if(divName == 'normal' || divName == 'andamento' || divName == 'completada'){
-        event.target.appendChild(document.getElementById(taskId));
-        paintTask(divName, taskId);
+        updateTaskState(task.id, task.parentNode.id, divName);
+        event.target.appendChild(task);
+        paintTask(divName, task.id);
     }
-    document.getElementById(taskId).classList.remove("draging");
+    task.classList.remove("draging");
 }
 
 //Verifica qual tarefa esta em baixo da tarefa que esta sendo draged.
@@ -38,7 +39,7 @@ function previewDropPosition(event){
                 list.insertBefore(taskUnderDragTask, dragTask);
                 updateTaskPositionOnTheSameList(taskUnderDragTask.id, dragTask.id, list.id);
             }else if(dragTask.parentNode.id !== list.id){
-                console.log("3case")
+                console.log("case3")
                 uptadeTaskPosOnDrop(dragTask.id, taskUnderDragTask.id, dragTask.parentNode.id, list.id);
                 list.insertBefore(dragTask, taskUnderDragTask);
             }
@@ -52,83 +53,30 @@ function previewDropPosition(event){
 function uptadeTaskPosOnDrop(dragTaskName, taskNameOfUnderDragTask, oldState, newState){
     let taskToUpdate = [];
     let taskToUpdateState = {};
-
-    switch(oldState){
-        case 'normal':
-            for(t of normalTasks){
-                if(t.name == dragTaskName){
-                    taskToUpdateState = t;
-                    break;
-                }
-            }
+    
+    for(t of lista[oldState]){
+        if(t.name == dragTaskName){
+            taskToUpdateState = t;
             break;
-        case 'andamento':
-            for(t of inProgressTasks){
-                if(t.name == dragTaskName){
-                    taskToUpdateState = t;
-                    break;
-                }
-            }
-            break;
-        case 'completada':
-            for(t of finishedTasks){
-                if(t.name == dragTaskName){
-                    taskToUpdateState = t;
-                    break;
-                }
-            }
-            break;
+        }
     }
-
-    switch(newState){
-        case 'normal':
-            for(t of normalTasks){
-                if(t.name == taskNameOfUnderDragTask){
-                    taskToUpdateState.pos = t.pos;
-                    break;
-                }
-            }
-
-            for(t of normalTasks){
-                if(t.pos >= taskToUpdateState.pos){
-                    t.pos++;
-                    taskToUpdate.push(t);
-                }
-            }
-            break;
-        case 'andamento':
-            for(t of inProgressTasks){
-                if(t.name == taskNameOfUnderDragTask){
-                    taskToUpdateState.pos = t.pos;
-                    break;
-                }
-            }
-
-            for(t of inProgressTasks){
-                if(t.pos >= taskToUpdateState.pos){
-                    t.pos++;
-                    taskToUpdate.push(t);
-                }
-            }
-            break;
-        case 'completada':
-            for(t of finishedTasks){
-                if(t.name == taskNameOfUnderDragTask){
-                    taskToUpdateState.pos = t.pos;
-                    break;
-                }
-            }
-
-            for(t of finishedTasks){
-                if(t.pos >= taskToUpdateState.pos){
-                    t.pos++;
-                    taskToUpdate.push(t);
-                }
-            }
-            break;
-    }
-
+    updateTaskPositionAfterDelete(taskToUpdateState.pos, taskToUpdateState.state);
     removeTaskOnDB(taskToUpdateState.name, taskToUpdateState.state);
+
+    for(t of lista[newState]){
+        if(t.name == taskNameOfUnderDragTask){
+            taskToUpdateState.pos = t.pos;
+            break;
+        }
+    }
+
+    for(t of lista[newState]){
+        if(t.pos >= taskToUpdateState.pos){
+            t.pos++;
+            taskToUpdate.push(t);
+        }
+    }
+
     taskToUpdateState.state = newState;
     addNewTaskOnDB(taskToUpdateState);
     updateTaskPosOnDB(taskToUpdate);

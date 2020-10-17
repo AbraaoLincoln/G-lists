@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const verifyToken = require('../../myModules/security/verifyToken');
 const objectCreator = require('../../myModules/createObjects/lists');
+const validator = require('../../myModules/validation/validateTask');
 
 const UserList = require('../../schemas/userLists');
 
@@ -66,7 +67,7 @@ router.get('/task/:listName', verifyToken, (req, res) => {
     }
 });
 
-router.post('/task', verifyToken, (req, res) => {
+router.post('/task', verifyToken, validator.validateTask, (req, res) => {
     let saveNewTask = async () => {
         if(!req.user.name || !req.body.listName || !req.body.task) console.log("error--savaNewTask: faltando algum campo")
         let newTask = objectCreator.createTask(req.user.name, req.body.task);
@@ -78,10 +79,15 @@ router.post('/task', verifyToken, (req, res) => {
                 })
                 break;
             case 'andamento':
-                UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, { $push: {"lists.$.inProgressTasks": newTask}}, (err, result) => {
-                    if(err) res.json({status: 'error', mgs: 'error ao salvar nova tarefa'});
-                    res.json({status: 'ok'})
-                })
+                try {
+                    await UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, 
+                    { $push: {"lists.$.inProgressTasks": newTask}});   
+                } catch (err) {
+                    console.log(err)
+                    res.json({status: 'error', mgs: 'error ao salvar nova tarefa'});
+                }
+
+                res.json({status: 'ok'})
                 break;
             case 'completada':
                 UserList.updateOne({owner: req.user.name, "lists.name": req.body.listName}, { $push: {"lists.$.finishedTasks": newTask}}, (err, result) => {
@@ -98,17 +104,17 @@ router.post('/task', verifyToken, (req, res) => {
     saveNewTask();
 });
 
-router.put('/task', verifyToken, async (req, res) => {
+router.put('/task', verifyToken, validator.validateTasks, async (req, res) => {
     let error = false;
-    console.log(req.body.listName)
-    console.log(req.body.tasks)
+    // console.log(req.body.listName)
+    // console.log(req.body.tasks)
     for(task of req.body.tasks){
         let newTask = objectCreator.createTask(req.user.name, task);
         let oldTaskName = req.body.control.oldName ? req.body.control.oldName : task.name;
         let oldState = req.body.control.oldState ? req.body.control.oldState : task.state;
-        console.log(newTask)
-        console.log(oldTaskName)
-        console.log(oldState)
+        // console.log(newTask)
+        // console.log(oldTaskName)
+        // console.log(oldState)
         if(task.state == oldState){
             switch(task.state){
                 case 'normal':
@@ -146,8 +152,8 @@ router.put('/task', verifyToken, async (req, res) => {
                 console.log(result[0].lists[1]);
             }) */
         }else{
-            console.log('opc2');
-            console.log(task);
+            // console.log('opc2');
+            // console.log(task);
             let newState = task.state;
             if(oldState == 'normal'){
                 try {
