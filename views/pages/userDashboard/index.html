@@ -5,18 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
     <link rel="stylesheet" href="../public/userDashboard/css/userDashboardStyle.css">
+    <link rel="stylesheet" href="../public/css/all.css">
     <script src="../public/userDashboard/js/function.js"></script>
 </head>
 <body>
     <header>
-        <div class="menuBar">
-            <span class="spanBar"> | </span>
-            <span class="spanBar"> | </span>
-            <span class="spanBar"> | </span>
+        <div class="menu">
+            <i class="fas fa-bars"></i>
+            <div class="menuOption">
+                <button>Perfil</button>
+                <div class="divDarkMode">
+                    <label for="darkMode"> DarkMode</label>
+                    <input type="checkbox" checked="true">
+                </div>
+                <button> Sair </button>
+            </div>
         </div>
         <div class="divBackOptions">
-            <i class="fas fa-plus" onclick="showAddTask()"></i>
-            <i class="fas fa-share-alt"></i>
+            <!-- <i class="fas fa-plus" onclick="showAddTask()"></i>
+            <i class="fas fa-share-alt"></i> -->
             <span class="spanAction"> Nome do Usuário </span>
         </div>
     </header>

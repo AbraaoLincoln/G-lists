@@ -71,9 +71,9 @@ header .menuBar:hover{
     cursor: pointer;
 } */
 
-.spanBar{
+/* .spanBar{
     transform: rotate(-90deg);
-}
+} */
 
 .divMainContent{
     width: 100vw;
@@ -162,24 +162,29 @@ header .menuBar:hover{
 }
 
 .btn-cancel{
-    background-color: #a62639;
+    background-color: #f6f8ff;
     /* background-color: #ea2b1f; */
-    color: #f6f8ff;
+    color: #090b0b;
 }
 
 .btn-cancel:hover{
     cursor: pointer;
-    background-color: #962233;
+    color: #f6f8ff;
+    background-color: #a62639;
+    /* background-color: #962233; */
 }
 
 .btn-create{
-    background-color: #218380;
-    color: #f6f8ff;
+    background-color: #f6f8ff;
+    /* background-color: #218380; */
+    color: #090b0b;
 }
 
 .btn-create:hover{
     cursor: pointer;
-    background-color: #1d726f;
+    color: #f6f8ff;
+    background-color: #218380;
+    /* background-color: #1d726f; */
 }
 
 /* Task */
@@ -256,16 +261,15 @@ header .menuBar:hover{
     position: relative;
 }
 
-.dropdown:hover{
+/* .dropdown:hover{
     background-color: #ebefff;
-}
+} */
 
 .dropdown:hover .dropdown-content{
     display: block;
 }
 
 .dropdown-content{
-    background-color: blue;
     display: none;
     position: absolute;
     width: 300%;
@@ -273,6 +277,10 @@ header .menuBar:hover{
     border: 1px solid #272d2d;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+}
+
+.dropdown-content:hover{
+    cursor: pointer;
 }
 
 .btnDropdown1{
@@ -290,6 +298,7 @@ header .menuBar:hover{
 
 .btnDropdown1:hover{
     background-color: #ebefff;
+    cursor: pointer;
 }
 
 .dropdown2{
@@ -328,8 +337,13 @@ header .menuBar:hover{
     padding-left: 5%;
 }
 
+.btnDropdown1-2:hover{
+    cursor: pointer;
+}
+
 .btnDropdown2:hover{
     background-color: #ebefff;
+    cursor: pointer;
 }
 
 .draging{

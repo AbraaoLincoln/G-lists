@@ -4,6 +4,10 @@ var lista = {
     andamento: [],
     completada: []
 }
+var taskInfoUpdate = {
+    oldName: '',
+    oldState: ''
+}
 
 //Fecth as tarefas do servidor e as coloca nas suas respctivas lista.
 function start(){
@@ -52,7 +56,7 @@ function compareTaskPos(task1, task2){
 
 window.onload = start;
 
-//Funções que muda o estado da tarefa.
+//Funções que mudam o estado da tarefa.
 
 //Move a tarefa selecionda para o fim da lista destino escolhida.
 //Muda a cor do elemento para a cor que representa o estado da lista.  
@@ -86,7 +90,7 @@ function updateTaskState(taskName, oldState, newState){
             task.pos = lista[newState].length;
             task.state = newState;
             lista[newState].push(task);
-            updateTaskStateOnDB([task], oldState);
+            updateTaskStateOnDB([task], null, oldState);
         }
     })
     removeTaskFromLocalArray(taskName, oldState);
@@ -203,15 +207,16 @@ function getPos(state){
 // Not working needed to be update.
 function updateTask(event){
     event.preventDefault();
-    let taskNameBefore = document.getElementById('OGTaskName').value;
-    for(task of tasks){
-        if(task.name == taskNameBefore){
+    // let taskNameBefore = document.getElementById('OGTaskName').value;
+    for(task of lista[taskInfoUpdate.oldState]){
+        if(task.name == taskInfoUpdate.oldName){
             task.name = document.getElementById('changedTaskName').value;
             task.due = document.getElementById('changedTaskDate').value;
             task.responsible = document.getElementById('changedTaskResponsible').value;
             task.state = document.getElementById('changedStateTask').value;
-            updateTaskNode(taskNameBefore, task);
-            document.getElementById(taskNameBefore).id = task.name;
+            updateTaskStateOnDB([task], taskInfoUpdate.oldName, taskInfoUpdate.oldState);
+            updateTaskNode(taskInfoUpdate.oldName, task);
+            document.getElementById(taskInfoUpdate.oldName).id = task.name;
             break;
         }
     }
@@ -263,14 +268,16 @@ function hideAddTask(){
 
 function showUpdateForm(event){
     let selectTask = document.getElementById(event.target.parentNode.parentNode.parentNode.parentNode.id);
+    taskInfoUpdate.oldState = selectTask.parentNode.id;
     document.getElementById('divChangeTask').style.display = 'flex';
-    for(task of tasks){
+    for(task of lista[taskInfoUpdate.oldState]){
         if(task.name == selectTask.id){
             document.getElementById('changedTaskName').value = task.name;
             document.getElementById('changedTaskDate').value = task.due;
             document.getElementById('changedTaskResponsible').value = task.responsible;
             document.getElementById('changedStateTask').value = task.state;
-            document.getElementById('OGTaskName').value = task.name;
+            // document.getElementById('OGTaskName').value = task.name;
+            taskInfoUpdate.oldName = task.name;
             break;
         }
     } 
@@ -278,4 +285,8 @@ function showUpdateForm(event){
 
 function hideForm(event){
     document.getElementById(event.target.parentNode.parentNode.parentNode.id).style.display = "none";
+}
+
+function backDashboard(){
+    window.location.href ='/dashboard';
 }

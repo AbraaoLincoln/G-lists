@@ -14,7 +14,10 @@
 <body>
     <header>
         <div class="menuBar">
-            <i class="fas fa-arrow-left" onclick="backDashboard()"></i>
+            <span class="spanBar"> | </span>
+            <span class="spanBar"> | </span>
+            <span class="spanBar"> | </span>
+            <i class="fas fa-bars"></i>
         </div>
         <div class="divBackOptions">
             <i class="fas fa-plus" onclick="showAddTask()"></i>
@@ -27,6 +30,40 @@
             <div class="taskList">
                 <h2>Tarefas</h2>
                 <div class="taskListIn" id="normal" ondragover="allowDrop(event)" ondrop="drop(event)">
+                    <!-- <div class="task" id="taskName" draggable="true" ondragstart="drag(event)" ondblclick="showUpdateForm(event)">
+                        <div class="taskHead">
+                            <div class="dropdown">
+                                <i class="fas fa-ellipsis-v"></i>
+                                <div class="dropdown-content">
+                                    <button type="button" class="btnDropdown1 litleadJutment" onclick="moveUp(event)"> Mover para cima </button>
+                                    <button type="button" class="btnDropdown1 litleadJutment" onclick="moveDown(event)"> Mover para baixo </button>
+                                    <div class="btnDropdown1 dropdown2">
+                                        <button type="button" class="btnDropdown1-2"> Mover para: </button>
+                                        <div class="dropdown2-content">
+                                            <input type="button" class="btnDropdown2" onclick="moveTaskToNewState(event)" value="normal" placeholder="Normal">
+                                            <input type="button" class="btnDropdown2" onclick="moveTaskToNewState(event)" value="andamento" placeholder="Em Andamento">
+                                            <input type="button" class="btnDropdown2" onclick="moveTaskToNewState(event)" value="completada" placeholder="completada">
+                                        </div>
+                                    </div>
+                                    <button type="button" class="btnDropdown1 litleadJutment" onclick="showUpdateForm(event)"> Editar </button>
+                                </div>
+                            </div>
+                            <h3>Nome da Tarefa</h3>
+                            <span class="spanDelete" onclick="removeTask(event)"> X </span>
+                        </div>
+                        <div class="taskBody">
+                            <table>
+                                <tr>
+                                    <th>Responsavel</th>
+                                    <th>Prazo</th>
+                                </tr>
+                                <tr>
+                                    <td>Fulano</td>
+                                    <td>01/01/2021</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div> -->
                 </div>
             </div>
             <div class="taskList">

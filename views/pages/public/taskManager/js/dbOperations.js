@@ -15,7 +15,7 @@ async function addNewTaskOnDB(newTask){
     console.log(resObject);
 }
 
-async function updateTaskStateOnDB(tasks, oldState){
+async function updateTaskStateOnDB(tasks, oldName, oldState){
     let response = await fetch('http://localhost:3000/api/task', {
         method: 'PUT',
         headers: {
@@ -24,7 +24,7 @@ async function updateTaskStateOnDB(tasks, oldState){
         },
         body: JSON.stringify({
             listName: localStorage.getItem('currentListName'),
-            control: {oldName: null, oldState: oldState},
+            control: {oldName: oldName, oldState: oldState},
             tasks: tasks
         })
     })

@@ -106,20 +106,20 @@ router.post('/task', verifyToken, validator.validateTask, (req, res) => {
 
 router.put('/task', verifyToken, validator.validateTasks, async (req, res) => {
     let error = false;
-    // console.log(req.body.listName)
-    // console.log(req.body.tasks)
+    console.log(req.body.listName)
+    console.log(req.body.tasks)
     for(task of req.body.tasks){
         let newTask = objectCreator.createTask(req.user.name, task);
         let oldTaskName = req.body.control.oldName ? req.body.control.oldName : task.name;
         let oldState = req.body.control.oldState ? req.body.control.oldState : task.state;
-        // console.log(newTask)
-        // console.log(oldTaskName)
-        // console.log(oldState)
+        console.log(newTask)
+        console.log(oldTaskName)
+        console.log(oldState)
         if(task.state == oldState){
             switch(task.state){
                 case 'normal':
                     try{
-                        const res = await UserList.updateOne({owner: req.user.name}, 
+                        await UserList.updateOne({owner: req.user.name}, 
                             {$set: {"lists.$[ln].normalTasks.$[tn]": newTask}}, 
                             {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
                     }catch(err){
@@ -129,7 +129,7 @@ router.put('/task', verifyToken, validator.validateTasks, async (req, res) => {
                     break;
                 case 'andamento':
                     try{
-                        const res = await UserList.updateOne({owner: req.user.name}, 
+                        await UserList.updateOne({owner: req.user.name}, 
                             {$set: {"lists.$[ln].inProgressTasks.$[tn]": newTask}}, 
                             {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
                     }catch(err){
@@ -139,7 +139,7 @@ router.put('/task', verifyToken, validator.validateTasks, async (req, res) => {
                     break;
                 case 'completada':
                     try{
-                        const res = await UserList.updateOne({owner: req.user.name}, 
+                        await UserList.updateOne({owner: req.user.name}, 
                             {$set: {"lists.$[ln].finishedTasks.$[tn]": newTask}}, 
                             {arrayFilters: [{"ln.name": req.body.listName}, {"tn.name": oldTaskName}]});
                     }catch(err){

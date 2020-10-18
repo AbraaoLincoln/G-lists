@@ -17,7 +17,7 @@ mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopolog
 
 //Requering routes
 var indexRouter = require('./routes/index');
-var users = require('./routes/users');
+var usersDashboard = require('./routes/userDashboard/users');
 var loginRouter = require('./routes/login/login');
 var authRouter = require('./routes/authetication/authUser');
 var createAcountRouter = require('./routes/createAcount/createAcount');
@@ -27,7 +27,7 @@ var apiRouter = require('./routes/api/apiRouter');
 var app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+// app.set('views', path.join(__dirname, 'views'));
 
 //Middleawares
 app.use(logger('dev'));
@@ -36,13 +36,13 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 //Temporario.
-app.use(express.static(path.join(__dirname, 'views/static/')));
+app.use(express.static(path.join(__dirname, 'views/pages/')));
 
 //Route handles made by me.
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/authenticateUser', authRouter);
-app.use('/dashboard', users);
+app.use('/dashboard', usersDashboard);
 app.use('/taskManager', taskManagerRouter);
 app.use('/createAcount', createAcountRouter);
 app.use('/api', apiRouter);
@@ -60,7 +60,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  // res.render('error');
+  res.end()
 });
 
 module.exports = app;
