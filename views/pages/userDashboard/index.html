@@ -11,14 +11,14 @@
 <body>
     <header>
         <div class="menu">
-            <i class="fas fa-bars"></i>
-            <div class="menuOption">
-                <button>Perfil</button>
+            <i class="fas fa-bars" onclick="showHideMenu()"></i>
+            <div class="menuOption" id="mOpt">
+                <button type="button">Perfil</button>
                 <div class="divDarkMode">
                     <label for="darkMode"> DarkMode</label>
-                    <input type="checkbox" checked="true">
+                    <input type="checkbox" checked="true" onclick="pageColors(event)">
                 </div>
-                <button> Sair </button>
+                <button type="button" onclick="logout()"> Sair </button>
             </div>
         </div>
         <div class="divBackOptions">

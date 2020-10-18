@@ -77,4 +77,35 @@ async function deleteList(listName){
     console.log(data);
 }
 
+function showHideMenu(){
+    let display = document.getElementById('mOpt').style.display;
+
+    if(display ==  'none'){
+        document.getElementById('mOpt').style.display = 'block';
+    }else{
+        document.getElementById('mOpt').style.display = 'none';
+    }
+}
+
+function pageColors(event){
+    let body = document.getElementsByTagName('body')[0];
+
+    if(event.target.checked){
+        body.style.backgroundColor = "#272d2d"
+    }else{
+        body.style.backgroundColor = "#ebefff"
+    }
+}
+
+async function logout(){
+    let res = await fetch('http://localhost:3000/logout', {
+        method: 'DELETE'
+    })
+    let data = await res.json();
+    console.log(data);
+    if(data.status){
+        window.location.href = '/login';
+    }
+}
+
 window.onload = loadList;

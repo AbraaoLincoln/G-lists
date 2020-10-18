@@ -15,7 +15,7 @@ header{
     align-items: center;
     color: #f6f8ff;
     background-color: #131616;
-    box-shadow: 3px 3px 7px #090b0b;
+    box-shadow: 20px 3px 7px #090b0b;
 }
 
 header div{
@@ -36,7 +36,7 @@ header span{
 }
 
 .menuOption{
-    display: block;
+    display: none;
     position: absolute;
     left: 2%;
     height: 15%;

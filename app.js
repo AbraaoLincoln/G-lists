@@ -16,16 +16,15 @@ mongoose.connect(process.env.DATABASE, {useNewUrlParser: true, useUnifiedTopolog
 //========
 
 //Requering routes
-var indexRouter = require('./routes/index');
 var usersDashboard = require('./routes/userDashboard/users');
 var loginRouter = require('./routes/login/login');
+var logoutRouter = require('./routes/logout/logout');
 var authRouter = require('./routes/authetication/authUser');
 var createAcountRouter = require('./routes/createAcount/createAcount');
 var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 var apiRouter = require('./routes/api/apiRouter');
 
 var app = express();
-
 // view engine setup
 // app.set('views', path.join(__dirname, 'views'));
 
@@ -39,8 +38,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'views/pages/')));
 
 //Route handles made by me.
-app.use('/', indexRouter);
 app.use('/login', loginRouter);
+app.use('/logout', logoutRouter);
 app.use('/authenticateUser', authRouter);
 app.use('/dashboard', usersDashboard);
 app.use('/taskManager', taskManagerRouter);
