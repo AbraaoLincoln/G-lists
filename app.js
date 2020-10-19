@@ -23,6 +23,7 @@ var authRouter = require('./routes/authetication/authUser');
 var createAcountRouter = require('./routes/createAcount/createAcount');
 var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 var apiRouter = require('./routes/api/apiRouter');
+var userRouter = require('./routes/user/user');
 
 var app = express();
 // view engine setup
@@ -39,11 +40,12 @@ app.use(express.static(path.join(__dirname, 'views/pages/')));
 
 //Route handles made by me.
 app.use('/login', loginRouter);
-app.use('/logout', logoutRouter);
 app.use('/authenticateUser', authRouter);
 app.use('/dashboard', usersDashboard);
 app.use('/taskManager', taskManagerRouter);
 app.use('/createAcount', createAcountRouter);
+app.use('/logout', logoutRouter);
+app.use('/user', userRouter);
 app.use('/api', apiRouter);
 
 // catch 404 and forward to error handler

@@ -1,46 +1,3 @@
-function showHideMenu(){
-    let display = document.getElementById('mOpt').style.display;
-
-    if(display ==  'none'){
-        document.getElementById('mOpt').style.display = 'block';
-    }else{
-        document.getElementById('mOpt').style.display = 'none';
-    }
-}
-
-function hideForm(){
-    document.getElementById('divCreateNewTask').style.display = 'none';
-}
-
-function showForm(){
-    document.getElementById('divCreateNewTask').style.display = 'flex';
-}
-
-function loadTaskManager(event){
-    localStorage.setItem('currentListName', event.target.innerText);
-    window.location.href = "/taskManager"
-}
-
-function createNewList(){
-    let li = document.createElement("LI");
-    li.innerText = document.getElementById('nameNewList').value;
-    li.onclick = loadTaskManager;
-    document.getElementById('listsNames').appendChild(li);
-    saveNewList(document.getElementById('nameNewList').value);
-    hideForm()
-}
-
-function pageColors(event){
-    let body = document.getElementsByTagName('body')[0];
-
-    if(event.target.checked){
-        body.style.backgroundColor = "#272d2d"
-    }else{
-        body.style.backgroundColor = "#ebefff"
-    }
-}
-
-//DB Opeations
 async function loadUserInfo(){
     try {
         let response = await fetch('http://localhost:3000/user', { method: "GET" });
@@ -50,6 +7,7 @@ async function loadUserInfo(){
         console.log(err);   
     }
 }
+
 
 async function loadList(){
     let response = await fetch('http://localhost:3000/api/list', {
@@ -134,14 +92,3 @@ async function logout(){
         console.log(err);
     }
 }
-
-function loadProfile(){
-    alert("pagina ainda esta sendo desenvolvida");
-}
-
-function start(){
-    loadUserInfo();
-    loadList();
-}
-
-window.onload = start;
