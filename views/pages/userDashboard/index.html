@@ -11,20 +11,22 @@
 <body>
     <header>
         <div class="menu">
-            <i class="fas fa-bars" onclick="showHideMenu()"></i>
-            <div class="menuOption" id="mOpt">
-                <button type="button">Perfil</button>
-                <div class="divDarkMode">
-                    <label for="darkMode"> DarkMode</label>
-                    <input type="checkbox" checked="true" onclick="pageColors(event)">
-                </div>
-                <button type="button" onclick="logout()"> Sair </button>
-            </div>
+            <!-- <i class="fas fa-bars" onclick="showHideMenu()"></i> -->
+            G-LISTS
         </div>
         <div class="divBackOptions">
-            <!-- <i class="fas fa-plus" onclick="showAddTask()"></i>
-            <i class="fas fa-share-alt"></i> -->
-            <span class="spanAction"> Nome do Usuário </span>
+            <i class="fas fa-plus" onclick="showForm()"></i>
+            <div class="userMenu">
+                <span class="spanAction" > Nome do Usuário </span>
+                <div class="menuOptions" id="mOpt">
+                    <button type="button" onclick="loadProfile()"><i class="far fa-id-badge"></i> Perfil</button>
+                    <div>
+                        <label for="darkmode">Dark Mode</label>
+                        <input type="checkbox" checked="true" name="darkmode" onclick="pageColors(event)">
+                    </div>
+                    <button type="button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                </div>
+            </div>
         </div>
     </header>
     <div class="divMainContent">
@@ -42,7 +44,7 @@
             <ul class="ulListsNames" id="listsNames">
             </ul>
         </div>
-        <span class="divCreateNewListBack" onclick="showForm()"> + </span>
+        <!-- <span class="divCreateNewListBack" onclick="showForm()"> + </span> -->
     </div>
 </body>
 </html>

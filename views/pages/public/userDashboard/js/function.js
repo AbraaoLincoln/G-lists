@@ -108,4 +108,8 @@ async function logout(){
     }
 }
 
+function loadProfile(){
+    alert("pagina ainda esta sendo desenvolvida");
+}
+
 window.onload = loadList;
