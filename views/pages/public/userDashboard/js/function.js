@@ -43,7 +43,7 @@ function pageColors(event){
 //DB Opeations
 async function loadUserInfo(){
     try {
-        let response = await fetch('http://localhost:3000/user', { method: "GET" });
+        let response = await fetch('http://localhost:3000/user');
         let dbRes = await response.json();
         document.getElementById('spanUserName').innerText = dbRes.userInfo.name;
     }catch(err) {

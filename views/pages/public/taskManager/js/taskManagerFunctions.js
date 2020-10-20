@@ -19,28 +19,30 @@ function start(){
 }
 
 async function loadTasks(){
-    let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`, {
-        method: "GET"
-    })
-    let listsFromDB = await response.json()
-    lista.normal = listsFromDB.normal;
-    lista.andamento = listsFromDB.inProgress;
-    lista.completada = listsFromDB.finished;
-
-    lista.normal.sort(compareTaskPos);
-    for(t of lista.normal){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    }
-    lista.andamento.sort(compareTaskPos);
-    for(t of lista.andamento){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
-    }
-    lista.completada.sort(compareTaskPos);
-    for(t of lista.completada){
-        let task = createTask(t);
-        addTaskToList(t.state, task, t.name);
+    try {
+        let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`);
+        let listsFromDB = await response.json()
+        lista.normal = listsFromDB.normal;
+        lista.andamento = listsFromDB.inProgress;
+        lista.completada = listsFromDB.finished;
+    
+        lista.normal.sort(compareTaskPos);
+        for(t of lista.normal){
+            let task = createTask(t);
+            addTaskToList(t.state, task, t.name);
+        }
+        lista.andamento.sort(compareTaskPos);
+        for(t of lista.andamento){
+            let task = createTask(t);
+            addTaskToList(t.state, task, t.name);
+        }
+        lista.completada.sort(compareTaskPos);
+        for(t of lista.completada){
+            let task = createTask(t);
+            addTaskToList(t.state, task, t.name);
+        }   
+    }catch(err){
+        console.log(err)
     }
 }
 

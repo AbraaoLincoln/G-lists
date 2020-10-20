@@ -4,8 +4,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-//Code add
-
 //Object needed to do the authetication.
 require("dotenv").config();
 const mongoose = require('mongoose');
