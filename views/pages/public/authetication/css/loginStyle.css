@@ -171,3 +171,23 @@ button{
     animation-duration: 1s;
     animation-fill-mode: forwards;
 } */
+
+@media only screen and (max-width: 600px) {
+    .left-side{
+        display: none;
+    }
+
+    .right-side{
+        width: 100vw;
+    }
+
+    .divLeftText {
+        font-size: 1rem;
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .divLeftText {
+        font-size: .5rem;
+    }
+}

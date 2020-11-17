@@ -40,7 +40,8 @@ async function loadTasks(){
         for(t of lista.completada){
             let task = createTask(t);
             addTaskToList(t.state, task, t.name);
-        }   
+        }
+        updateHeightWithTasks();   
     }catch(err){
         console.log(err)
     }
@@ -291,4 +292,17 @@ function hideForm(event){
 
 function backDashboard(){
     window.location.href ='/dashboard';
+}
+
+
+//Atualiza a altura da div "divMainContent" para caber todas as terefas.
+function updateHeightWithTasks(){
+    let divMC = document.getElementById('mainContent');
+    let newHeight = (lista.normal.length + lista.andamento.length + lista.completada.length) * 20;
+    console.log(window.screen.width)
+    if(window.screen.width <= 600){
+        if(newHeight > 100){
+            divMC.style.height = newHeight + 100 + 'vw';
+        }
+    }
 }

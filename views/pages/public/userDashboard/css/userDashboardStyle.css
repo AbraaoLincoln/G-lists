@@ -242,3 +242,36 @@ header span{
     color: #f6f8ff;
     font-size: 50px;
 }
+
+@media only screen and (max-width: 1200px) {
+    .divBackOptions{
+        width: 35%;
+    }
+
+    .divNewList{
+        width: 200%;
+        height: 150%;
+    }
+
+    .divNewList h2{
+        font-size: 1.2rem;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .divBackOptions{
+        width: 60%;
+    }
+
+    .divMainContent{
+    }
+
+    .divNewList{
+        width: 300%;
+        height: 100%;
+    }
+
+    .divNewList h2{
+        font-size: 1.2rem;
+    }
+}
