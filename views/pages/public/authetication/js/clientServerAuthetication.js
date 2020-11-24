@@ -17,11 +17,14 @@ function login(event){
 
         let data = await response.json();
         console.log("status-", data.status)
-        if(data.status == 'ok') window.location.href = 'http://localhost:3000/dashboard';
+        if(data.status == 'ok'){ 
+            window.location.href = 'http://localhost:3000/dashboard';
+        }else{
+            alert('Senha ou usuário invalidos');
+        }
     }
     //Validation
     if(regexAllowed.test(usrName)) authUser();
-    console.log("hum")
 }
 
 function join(event){
@@ -47,6 +50,12 @@ function join(event){
 
         let data = await response.json();
         console.log(data)
+        if(data.status == "ok"){
+            alert(data.mgs);
+            window.location.href = 'http://localhost:3000/login';
+        }else{
+            alert(data.mgs);
+        }
     }
 
     if(regexAllowed.test(usrName) && (usrPassword == confPass) && (regexEmail.test(usrEmail) || regexEmailBr.test(usrEmail))) createAcc();
