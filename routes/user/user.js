@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../../myModules/security/verifyToken');
+const verifyToken = require('../../util/security/verifyToken');
 const userSchema = require('../../schemas/userSchema');
 
 router.get('/', verifyToken, (req, res) => {

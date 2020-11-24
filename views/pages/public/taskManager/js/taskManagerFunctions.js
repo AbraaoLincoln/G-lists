@@ -20,7 +20,7 @@ function start(){
 
 async function loadTasks(){
     try {
-        let response = await fetch(`http://localhost:3000/api/task/${localStorage.getItem('currentListName')}`);
+        let response = await fetch(`http://localhost:3000/task/${localStorage.getItem('currentListName')}`);
         let listsFromDB = await response.json()
         lista.normal = listsFromDB.normal;
         lista.andamento = listsFromDB.inProgress;

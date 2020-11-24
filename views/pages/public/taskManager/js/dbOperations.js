@@ -1,6 +1,6 @@
 async function addNewTaskOnDB(newTask){
     try {
-        let response = await fetch('http://localhost:3000/api/task', {
+        let response = await fetch('http://localhost:3000/task', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -21,7 +21,7 @@ async function addNewTaskOnDB(newTask){
 
 async function updateTaskStateOnDB(tasks, oldName, oldState){
     try {
-        let response = await fetch('http://localhost:3000/api/task', {
+        let response = await fetch('http://localhost:3000/task', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -42,7 +42,7 @@ async function updateTaskStateOnDB(tasks, oldName, oldState){
 
 async function updateTaskPosOnDB(tasksToUpdate){
     try {
-        let response = await fetch('http://localhost:3000/api/task', {
+        let response = await fetch('http://localhost:3000/task', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -64,7 +64,7 @@ async function updateTaskPosOnDB(tasksToUpdate){
 
 async function removeTaskOnDB(taskNameToRemove, taskState){
     try {
-        let response = await fetch('http://localhost:3000/api/task', {
+        let response = await fetch('http://localhost:3000/task', {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

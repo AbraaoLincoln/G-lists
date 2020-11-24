@@ -52,7 +52,7 @@ async function loadUserInfo(){
 }
 
 async function loadList(){
-    let response = await fetch('http://localhost:3000/api/list', {
+    let response = await fetch('http://localhost:3000/list', {
         method: "GET",
         headers: {
             'Accept': 'application/json',
@@ -71,7 +71,7 @@ async function loadList(){
 
 async function saveNewList(newListName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -88,7 +88,7 @@ async function saveNewList(newListName){
 
 async function updateListName(listName, newName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
         method: "PUT",
         headers: {
             'Accept': 'application/json',

@@ -20,8 +20,10 @@ var logoutRouter = require('./routes/logout/logout');
 var authRouter = require('./routes/authetication/authUser');
 var createAcountRouter = require('./routes/createAcount/createAcount');
 var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
-var apiRouter = require('./routes/api/apiRouter');
+// var apiRouter = require('./routes/api/apiRouter');
 var userRouter = require('./routes/user/user');
+var listRouter = require('./routes/list/list');
+var taskRouter = require('./routes/task/task');
 
 var app = express();
 // view engine setup
@@ -44,7 +46,9 @@ app.use('/taskManager', taskManagerRouter);
 app.use('/createAcount', createAcountRouter);
 app.use('/logout', logoutRouter);
 app.use('/user', userRouter);
-app.use('/api', apiRouter);
+// app.use('/api', apiRouter);
+app.use('/list', listRouter);
+app.use('/task', taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
