@@ -1,3 +1,6 @@
+var oldListName = '';
+var columnToAdd = 1;
+
 function showHideMenu(){
     let display = document.getElementById('mOpt').style.display;
 
@@ -8,8 +11,8 @@ function showHideMenu(){
     }
 }
 
-function hideForm(){
-    document.getElementById('divCreateNewTask').style.display = 'none';
+function hideForm(event){
+    event.target.parentNode.parentNode.parentNode.style.display = 'none';
 }
 
 function showForm(){
@@ -23,11 +26,8 @@ function loadTaskManager(event){
 }
 
 function createNewList(){
-    let li = document.createElement("LI");
-    li.innerText = document.getElementById('nameNewList').value;
-    li.onclick = loadTaskManager;
-    document.getElementById('listsNames').appendChild(li);
-    saveNewList(document.getElementById('nameNewList').value);
+    saveNewListOnBD(document.getElementById('nameNewList').value);
+    addListToColumn([document.getElementById('nameNewList').value]);
     hideForm()
 }
 
@@ -55,16 +55,24 @@ async function loadUserInfo(){
 async function loadList(){
     let response = await fetch('http://localhost:3000/list');
     let data = await response.json();
+    addListToColumn(data.listsNames);
+}
 
-    for(listaName of data.listsNames){
-        let li = document.createElement("LI");
-        li.innerText = listaName;
-        li.onclick = loadTaskManager;
-        document.getElementById('listsNames').appendChild(li);
+//Adicona uma ou mais lista a columa a qual cada uma pertence.
+//listsNames = array com os nomes das listas
+function addListToColumn(listsNames){
+    for(listName of listsNames){
+        let column = 'col'+ columnToAdd;
+        document.getElementById(column).appendChild(createListNameElement(listName));
+        if(columnToAdd == 5){
+            columnToAdd = 1;
+        }else{
+            columnToAdd++;
+        }
     };
 }
 
-async function saveNewList(newListName){
+async function saveNewListOnBD(newListName){
     try {
         let response = await fetch('http://localhost:3000/list', {
         method: "POST",
@@ -81,7 +89,7 @@ async function saveNewList(newListName){
     }
 }
 
-async function updateListName(listName, newName){
+async function updateListNameOnBD(listName, newName){
     try {
         let response = await fetch('http://localhost:3000/list', {
         method: "PUT",
@@ -98,7 +106,7 @@ async function updateListName(listName, newName){
     }
 }
 
-async function deleteList(listName){
+async function deleteListOnBD(listName){
     try {
         let response = await fetch('http://localhost:3000/list', {
             method: "DELETE",
@@ -140,3 +148,48 @@ function start(){
 }
 
 window.onload = start;
+
+//novas funcionalidades
+function showFormNewListName(event){
+    document.getElementById('updateNameList').style.display = 'flex';
+    document.getElementById('newListName').value = event.target.parentNode.children[0].innerText;
+    oldListName = document.getElementById('newListName').value;
+}
+
+function updateListName(event){
+    if(oldListName !== document.getElementById('newListName').value){
+        console.log(oldListName)
+        console.log(document.getElementById('newListName').value)
+        updateListNameOnBD(oldListName, document.getElementById('newListName').value);
+        document.getElementById(oldListName).innerText = document.getElementById('newListName').value;
+        document.getElementById(oldListName).id = document.getElementById('newListName').value;
+    }
+    hideForm(event);
+}
+
+function dltList(event){
+    deleteListOnBD(event.target.parentNode.children[0].innerText);
+    document.getElementById('lists').removeChild(event.target.parentNode);
+}
+
+function createListNameElement(listName){
+    let divCont = document.createElement("DIV");
+    divCont.classList.add("divListName");
+    let spanP = document.createElement('SPAN');
+    spanP.classList.add("likeP");
+    spanP.id = listName;
+    spanP.innerText = listName;
+    spanP.addEventListener('click', loadTaskManager);
+    let pen = document.createElement('I');
+    pen.className = 'fas fa-pen editListName';
+    pen.addEventListener('click', showFormNewListName);
+    let spanX = document.createElement('SPAN');
+    spanX.classList.add("spanDltBton");
+    spanX.innerText = 'X';
+    spanX.addEventListener('click', dltList);
+    //Add elements to div
+    divCont.appendChild(spanP);
+    divCont.appendChild(pen);
+    divCont.appendChild(spanX);
+    return divCont;
+}
