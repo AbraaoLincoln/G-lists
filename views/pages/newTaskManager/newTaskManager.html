@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="../public/newTaskManager/css/taskManagerStyle.css">
+    <link rel="stylesheet" href="../public/css/all.css">
+    <script src="../public/newTaskManager/js/taskManagerFunctions.js"></script>
+    <script src="../public/newTaskManager/js/elementCreator.js"></script>
+    <script src="../public/newTaskManager/js/dragAndDrop.js"></script>
+    <script src="../public/newTaskManager/js/dbOperations.js"></script>
+</head>
+<body>
+    <header>
+        <div class="divBackOptions">
+            <div class="userMenu">
+                <!-- <i class="fas fa-arrow-left" onclick="backDashboard()"></i> -->
+                <span class="spanAction" > <i class="fas fa-bars"></i> </span>
+                <div class="menuOptions" id="mOpt">
+                    <button type="button" onclick="loadProfile()"><i class="far fa-id-badge"></i> Perfil</button>
+                    <div>
+                        <label for="darkmode">Dark Mode</label>
+                        <input type="checkbox" checked="true" name="darkmode" onclick="pageColors(event)">
+                    </div>
+                    <button type="button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
+                </div>
+            </div>
+        </div>
+        <div class="divBackOptions2">
+            <i class="fas fa-plus" onclick="showAddTask()"></i>
+            <i class="fas fa-share-alt"></i>
+            <span class="spanAction2" id="spanListNameTem"> Nome da Lista </span>
+        </div>
+    </header>
+    <div class="divMainContent" id="mainContent">
+        <div class="divBackTask">
+            <div class="divMainContentMenu">
+                <h2>Listas</h2>
+                <div class="divSearchListName">
+                    <input type="text" placeholder="nome da lista">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="divListsNames">
+                    <div class="divListName">
+                        <span class="likeP">Lista1</span>
+                        <i class="fas fa-pen editListName"></i>
+                        <span class="spanDltBton"> X </span>
+                        <!-- <i class="fas fa-trash-alt"></i> -->
+                    </div>
+                    <div class="divListName">
+                        <span class="likeP">Lista1</span>
+                        <i class="fas fa-pen editListName"></i>
+                        <span class="spanDltBton"> X </span>
+                    </div>
+                    <div class="divListName">
+                        <span class="likeP">Lista1</span>
+                        <i class="fas fa-pen editListName"></i>
+                        <span class="spanDltBton"> X </span>
+                    </div>
+                    <div class="divListName">
+                        <span class="likeP">Lista1</span>
+                        <i class="fas fa-pen editListName"></i>
+                        <span class="spanDltBton"> X </span>
+                    </div>
+                    <div class="divAddList">
+                        <input type="text" value="Nova Lista">
+                        <span class="spanAddBtn"> + </span>
+                    </div>
+                </div>
+                <div class="divSharesListsNames">
+                </div>
+            </div>
+            <div class="taskList">
+                <h2>Tarefas</h2>
+                <div class="taskListIn" id="normal" ondragover="allowDrop(event)" ondrop="drop(event)">
+                </div>
+            </div>
+            <div class="taskList">
+                <h2>Em Andamento</h2>
+                <div class="taskListIn" id="andamento" ondragover="allowDrop(event)" ondrop="drop(event)">
+
+                </div>
+            </div>
+            <div class="taskList">
+                <h2>Completadas</h2>
+                <div class="taskListIn" id="completada" ondragover="allowDrop(event)" ondrop="drop(event)">
+
+                </div>
+            </div>
+        </div>
+        <div class="divNewTask" id="divNewTask">
+            <form action="">
+                <h2>Adicionar Nova Tarefa</h2>
+                <input type="text" id="newTaskName" placeholder="Nome da Tarefa">
+                <input type="text" id="newTaskDate" placeholder="Prazo">
+                <input type="text" id="newTaskResponsible" placeholder="Responsavel">
+                <select name="stateNewTask" id="stateNewTask">
+                    <option value="normal">Normal</option>
+                    <option value="andamento">Em andamento</option>
+                    <option value="completada">Completada</option>
+                </select>
+                <div class="divBtnNewTask">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="createNewTask(event)">Criar</button>
+                </div>
+            </form>
+        </div>
+        <div class="divNewTask" id="divChangeTask">
+            <form action="">
+                <h2>Editar Tarefa</h2>
+                <!-- <input type="text" id="OGTaskName" style="display: none;"> -->
+                <input type="text" id="changedTaskName" placeholder="Nome da Tarefa">
+                <input type="text" id="changedTaskDate" placeholder="Prazo">
+                <input type="text" id="changedTaskResponsible" placeholder="Responsavel">
+                <select name="stateNewTask" id="changedStateTask">
+                    <option value="normal">Normal</option>
+                    <option value="andamento">Em andamento</option>
+                    <option value="completada">Completada</option>
+                </select>
+                <div class="divBtnNewTask">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="updateTask(event)">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

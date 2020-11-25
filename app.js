@@ -24,6 +24,7 @@ var taskManagerRouter = require('./routes/taskManager/taskManagerRouter');
 var userRouter = require('./routes/user/user');
 var listRouter = require('./routes/list/list');
 var taskRouter = require('./routes/task/task');
+var newTaskManagerRouter = require('./routes/newTaskManager/newTaskManager');
 
 var app = express();
 // view engine setup
@@ -49,6 +50,7 @@ app.use('/user', userRouter);
 // app.use('/api', apiRouter);
 app.use('/list', listRouter);
 app.use('/task', taskRouter);
+app.use('/newTaskManager', newTaskManagerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

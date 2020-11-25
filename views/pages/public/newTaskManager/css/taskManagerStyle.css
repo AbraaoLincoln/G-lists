@@ -1,0 +1,613 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    background-color: #272d2d;
+}
+
+header{
+    width: 100vw;
+    height: 7vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #f6f8ff;
+    background-color: #131616;
+    box-shadow: 3px 3px 7px #090b0b;
+}
+
+header div{
+    margin-left: 2%;
+}
+
+header span{
+    margin-right: 5%;
+}
+
+/*  */
+
+.divBackOptions{
+    width: 20%;
+    height: 100%;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
+}
+
+.divBackOptions i{
+    color: #ebefff;
+}
+
+.divBackOptions i:hover{
+    cursor: pointer;
+    color: #ebefff;
+    transform: scale(1.1);
+}
+
+.userMenu{
+    position: relative;
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: space-around;
+}
+
+.userMenu:hover{
+    background-color:  rgba(19, 22, 22, 0.9);
+}
+
+.spanAction{
+    width: 100%;
+    position: relative;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    height: 100% !important;
+    white-space: nowrap;
+}
+
+.spanAction:hover{
+    cursor: pointer;
+    color: #ebefff;
+}
+
+.userMenu:hover .menuOptions{
+    display: block;
+}
+
+.menuOptions{
+    position: absolute;
+    display: none;
+    /* position: absolute; */
+    width: 100%;
+    height: 300%;
+    background-color: #131616;
+    margin-top: 7vh;
+    z-index: 1;
+    margin-left: 0;
+}
+
+.menuOptions:hover, .menuOptions div:hover, .menuOptions button:hover{
+    cursor: pointer;
+    background-color: rgba(19, 22, 22, 0.9);
+}
+
+.menuOptions button{
+    width: 92%;
+    height: 33%;
+    background-color: rgba(19, 22, 22, 0.9);
+    border: none;
+    color: #f6f8ff;
+    text-align: left;
+    font-size: 100%;
+    margin-left: 8%;
+    outline: none;
+}
+
+.menuOptions div{
+    height: 34%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/*  */
+
+.menuBar{
+    display: flex;
+    flex-direction: column;
+    line-height: 50%;
+    font-weight: bold;
+}
+
+header .menuBar:hover{
+    cursor: pointer;
+}
+
+.divBackOptions2{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 20%;
+}
+
+/* .divBackOptions button{
+    background-color: #131616;
+    color: #ebefff;
+    border: none;
+    font-size: 30px;
+    width: 20%;
+} */
+
+.divBackOptions2 i{
+    color: #ebefff;
+}
+
+.divBackOptions2 i:hover{
+    cursor: pointer;
+    color: #ebefff;
+    transform: scale(1.1);
+}
+
+.spanAction:hover{
+    cursor: pointer;
+    color: #ebefff;
+}
+
+/* #userName:hover{
+    cursor: pointer;
+} */
+
+/* .spanBar{
+    transform: rotate(-90deg);
+} */
+
+.divMainContent{
+    width: 100vw;
+    height: 93vh;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divMainContentMenu{
+    width: 20%;
+    /* display: none; */
+    /* visibility: hidden; */
+    color: #f6f8ff;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #131616;
+}
+
+.divMainContentMenu h2{
+    text-align: center;
+    color: #f6f8ff;
+    margin-top: 2%;
+    /* border-bottom: 1px solid rebeccapurple; */
+}
+
+.divListsNames{
+    width: 100%;
+}
+
+.divListsNames ul{
+    /* text-align: left; */
+    margin-top: 5%;
+    width: 100%;
+}
+
+.divListsNames ul li{
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    /* border-bottom: .1px solid #131616; */
+}
+
+.divListsNames ul li:hover{
+    background-color: #131616;
+    cursor: pointer;
+}
+
+.divSearchListName{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.divListName, .divAddList{
+    margin-top: 5%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.divAddList input{
+    color: #f6f8ff;
+    height: 5vh;
+    width: 80%;
+    background-color: #272d2d;
+    border: none;
+    outline: none;
+}
+
+.divAddList:hover, .divAddList input:hover, .spanAddBtn:hover{
+    background-color: #090b0b;
+    cursor: pointer;
+}
+
+.spanAddBtn:hover .divAddList{
+    background-color: #a62639;
+    cursor: pointer;
+}
+
+.spanAddBtn{
+    font-size: 30px;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.likeP{
+    color: #f6f8ff;
+    height: 5vh;
+    width: 80%;
+    outline: none;
+    display: flex;
+    align-items: center;
+}
+
+.spanDltBton, .editListName{
+    width: 10%;
+}
+
+.spanDltBton:hover{
+    transform: scale(1.1);
+    color: #a62639;
+}
+
+.editListName:hover{
+    transform: scale(1.1);
+}
+
+.divListName:hover{
+    background-color: #131616;
+    cursor: pointer;
+}
+
+/* Div task */
+.divBackTask{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+}
+
+.taskList{
+    width: 26.6%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #131616;
+}
+
+.taskList h2{
+    text-align: center;
+    color: #f6f8ff;
+    margin-top: 2%;
+    /* border-bottom: 1px solid rebeccapurple; */
+}
+
+.taskListIn{
+    display: flex;
+    flex-direction: column;
+}
+
+/* Div new task */
+
+.divNewTask{
+    height: 100%;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.divNewTask form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 50%;
+    width: 30%;
+    background-color: #f6f8ff;
+    border-radius: 10px;
+    box-shadow: 7px 7px 10px #090b0b;
+}
+
+.divNewTask h2{
+    text-align: center;
+}
+
+.divNewTask form input, select{
+    width: 90%;
+    margin-left: 5%;
+    height: 10%;
+    padding-left: 1%;
+    border: none;
+    background-color: #f6f8ff;
+    box-shadow: 1px 1px 3px #272d2d;
+    border-radius: 3px;
+}
+
+.divBtnNewTask{
+    width: 90%;
+    height: 10%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.divBtnNewTask button{
+    width: 30%;
+    height: 100%;
+    border: none;
+    box-shadow: 1px 1px 3px #272d2d;
+}
+
+.btn-cancel{
+    background-color: #f6f8ff;
+    /* background-color: #ea2b1f; */
+    color: #090b0b;
+}
+
+.btn-cancel:hover{
+    cursor: pointer;
+    color: #f6f8ff;
+    background-color: #a62639;
+    /* background-color: #962233; */
+}
+
+.btn-create{
+    background-color: #f6f8ff;
+    /* background-color: #218380; */
+    color: #090b0b;
+}
+
+.btn-create:hover{
+    cursor: pointer;
+    color: #f6f8ff;
+    background-color: #218380;
+    /* background-color: #1d726f; */
+}
+
+/* Task */
+
+.task{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    background-color: #f6f8ff;
+    color: #272d2d;
+    margin-left: 5%;
+    box-shadow: 3px 3px 5px #090b0b;
+    border-radius: 5px;
+    margin-top: 2%;
+}
+
+.taskHead{
+    width: 100%;
+    display: flex;
+    border-bottom: 1px solid #272d2d;
+}
+
+.task .taskHead h3{
+    width: 80%;
+    text-align: center;
+}
+
+.task .taskHead .dropdown i{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 7%;
+}
+
+.spanDelete{
+    width: 10%;
+    color: #272d2d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.spanDelete:hover{
+    cursor: pointer;
+    background-color: #a62639;
+    color: #f6f8ff;
+    /* transform: scale(1.1); */
+}
+
+.taskBody{
+    padding: 2%;
+}
+
+.taskBody table{
+    width: 90%;
+    background-color: #f6f8ff;
+    border: none;
+    box-shadow: 2px 2px 5px #090b0b;
+    margin-left: 5%;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.taskListIn{
+    width: 100%;
+    height: 100%;
+}
+
+/* Dropdown menu */
+
+.dropdown{
+    width: 10%;
+    position: relative;
+}
+
+/* .dropdown:hover{
+    background-color: #ebefff;
+} */
+
+.dropdown:hover .dropdown-content{
+    display: block;
+}
+
+.dropdown-content{
+    display: none;
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    border: 1px solid #272d2d;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content:hover{
+    cursor: pointer;
+}
+
+.btnDropdown1{
+    width: 100%;
+    height: 50%;
+    text-align: left;
+    border: none;
+    background-color: #f6f8ff;
+    /* padding-left: 5%; */
+}
+
+.litleadJutment{
+    padding-left: 5%;
+}
+
+.btnDropdown1:hover{
+    background-color: #ebefff;
+    cursor: pointer;
+}
+
+.dropdown2{
+    position: relative;
+    width: 100%;
+}
+
+.dropdown2:hover .dropdown2-content{
+    display: inline;
+    
+}
+
+.dropdown2-content{
+    display: none;
+    position: absolute;
+    height: 100%;
+    left: 100%;
+}
+
+.btnDropdown2{
+    width: 150%;
+    height: 100%;
+    text-align: left;
+    border: none;
+    background-color: #f6f8ff;
+    margin-left: 5%;
+    padding-left: 5%;
+}
+
+.btnDropdown1-2{
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    border: none;
+    background-color: #f6f8ff;
+    padding-left: 5%;
+}
+
+.btnDropdown1-2:hover{
+    cursor: pointer;
+}
+
+.btnDropdown2:hover{
+    background-color: #ebefff;
+    cursor: pointer;
+}
+
+.draging{
+    opacity: .5;
+}
+
+/* Some good stuf */
+
+@media only screen and (max-width: 1200px) {
+    .divBackOptions{
+        width: 35%;
+    }
+
+    .divNewList{
+        width: 200%;
+        height: 150%;
+    }
+
+    .divNewList h2{
+        font-size: 1.2rem;
+    }
+
+    .divMainContent{
+        font-size: .8rem;
+    }
+
+    /* .taskBody table{
+        font-size: .8rem;
+    } */
+
+    .divNewTask{
+        width: 150%;
+        height: 150%;
+    }
+
+    .dropdown-content{
+        height: 400%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+
+    header{
+        width: 100vw;
+    }
+
+    .divBackTask{
+        flex-direction: column;
+        /* width: 100vh; */
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .taskList{
+        width: 90%;
+        justify-content: center;
+        border: none;
+    }   
+
+    .divMainContent{
+        align-items: flex-start;
+    }
+
+    .divNewTask{
+        width: 200%;
+        height: 50%;
+    }
+}
