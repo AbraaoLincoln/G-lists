@@ -168,8 +168,8 @@ function updateListName(event){
 }
 
 function dltList(event){
-    deleteListOnBD(event.target.parentNode.children[0].innerText);
-    document.getElementById('lists').removeChild(event.target.parentNode);
+    // deleteListOnBD(event.target.parentNode.children[0].innerText);
+    // document.getElementById('lists').removeChild(event.target.parentNode);
 }
 
 function createListNameElement(listName){

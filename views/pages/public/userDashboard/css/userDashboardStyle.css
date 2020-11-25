@@ -26,6 +26,50 @@ header span{
     margin-right: 5%;
 }
 
+.menu{
+    display: flex;
+    justify-content: space-between;
+    width: 30%;
+    height: 100%;
+}
+
+.menu span{
+    width: 20%;
+    display: flex;
+    align-items: center;
+}
+
+.divMenuActions{
+    width: 100%;
+    display: flex;
+    height: 100%;
+}
+
+.divSearch{
+    width: 100%;
+    display: flex;
+    /* justify-content: space-around; */
+    align-items: center;
+}
+
+.divSearch input{
+    width: 90%;
+    /* background-color: #1c2121; */
+    background-color: rgba(28, 33, 33, 0.4);
+    border: none;
+    height: 50%;
+    color: #f6f8ff;
+}
+
+.divSearch i{
+    width: 10%;
+    margin-left: 2%;
+}
+
+.divSearch i:hover{
+    cursor: pointer;
+}
+
 .divBackOptions{
     display: flex;
     justify-content: space-around;
