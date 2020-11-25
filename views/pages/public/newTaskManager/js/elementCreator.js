@@ -133,3 +133,25 @@ function createTask(task){
     newTask.appendChild(body);
     return newTask;
 }
+
+function createListNameElement(listName){
+    let divCont = document.createElement("DIV");
+    divCont.classList.add("divListName");
+    let spanP = document.createElement('SPAN');
+    spanP.classList.add("likeP");
+    spanP.id = listName;
+    spanP.innerText = listName;
+    spanP.addEventListener('click', changeList);
+    let pen = document.createElement('I');
+    pen.className = 'fas fa-pen editListName';
+    pen.addEventListener('click', showFormNewListName);
+    let spanX = document.createElement('SPAN');
+    spanX.classList.add("spanDltBton");
+    spanX.innerText = 'X';
+    spanX.addEventListener('click', dltList);
+    //Add elements to div
+    divCont.appendChild(spanP);
+    divCont.appendChild(pen);
+    divCont.appendChild(spanX);
+    document.getElementById('lists').appendChild(divCont);
+}

@@ -83,3 +83,54 @@ async function removeTaskOnDB(taskNameToRemove, taskState){
         console.log(err);
     }
 }
+
+async function saveNewList(newListName){
+    try {
+        let response = await fetch('http://localhost:3000/list', {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ list: {name: newListName}})
+        })
+        let data = await response.json();
+        console.log(data);
+    }catch(err) {
+        console.log(err);   
+    }
+}
+
+async function updateListNameOnBD(listName, newName){
+    try {
+        let response = await fetch('http://localhost:3000/list', {
+        method: "PUT",
+        headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ listName: listName, newListName: newName })
+        })
+        let data = await response.json();
+        console.log(data);   
+    }catch(err) {
+        console.log(err);
+    }
+}
+
+async function deleteListOnBD(listName){
+    try {
+        let response = await fetch('http://localhost:3000/list', {
+            method: "DELETE",
+            headers: {
+                'Accept': 'application/json',
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify({ listName: listName })
+        })
+        let data = await response.json();
+        console.log(data);   
+    }catch(err){
+        console.log(err);
+    }
+}

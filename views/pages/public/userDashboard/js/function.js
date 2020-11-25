@@ -18,7 +18,8 @@ function showForm(){
 
 function loadTaskManager(event){
     localStorage.setItem('currentListName', event.target.innerText);
-    window.location.href = "/taskManager"
+    // window.location.href = "/taskManager"
+    window.location.href = "/newTaskManager"
 }
 
 function createNewList(){
@@ -52,13 +53,7 @@ async function loadUserInfo(){
 }
 
 async function loadList(){
-    let response = await fetch('http://localhost:3000/list', {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-    })
+    let response = await fetch('http://localhost:3000/list');
     let data = await response.json();
 
     for(listaName of data.listsNames){
@@ -66,7 +61,7 @@ async function loadList(){
         li.innerText = listaName;
         li.onclick = loadTaskManager;
         document.getElementById('listsNames').appendChild(li);
-    }
+    };
 }
 
 async function saveNewList(newListName){
@@ -105,7 +100,7 @@ async function updateListName(listName, newName){
 
 async function deleteList(listName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',

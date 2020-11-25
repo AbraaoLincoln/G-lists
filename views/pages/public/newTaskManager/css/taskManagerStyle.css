@@ -678,3 +678,7 @@ header .menuBar:hover{
         height: 50%;
     }
 }
+
+.updateNameList{
+    display: none;
+}

@@ -9,13 +9,25 @@ var taskInfoUpdate = {
     oldState: ''
 }
 
+var oldListName = '';
+
 //Fecth as tarefas do servidor e as coloca nas suas respctivas lista.
 function start(){
     document.getElementById('spanListNameTem').innerText = localStorage.getItem('currentListName');
+    loadList();
     loadTasks();
     document.getElementById("normal").addEventListener('dragover', previewDropPosition);
     document.getElementById("andamento").addEventListener('dragover', previewDropPosition);
     document.getElementById("completada").addEventListener('dragover', previewDropPosition);
+}
+
+async function loadList(){
+    let response = await fetch('http://localhost:3000/list');
+    let data = await response.json();
+
+    for(listName of data.listsNames){
+        createListNameElement(listName);
+    };
 }
 
 async function loadTasks(){
@@ -58,6 +70,19 @@ function compareTaskPos(task1, task2){
 }
 
 window.onload = start;
+
+function changeList(event){
+    document.getElementById('spanListNameTem').innerText = event.target.innerText; 
+    localStorage.setItem('currentListName', event.target.innerText);
+    cleanTask()
+    loadTasks();
+}
+
+function cleanTask(){
+    document.getElementById('normal').innerHTML = '';
+    document.getElementById('andamento').innerHTML = '';
+    document.getElementById('completada').innerHTML = '';
+}
 
 //Funções que mudam o estado da tarefa.
 
@@ -258,6 +283,29 @@ function removeTaskFromLocalArray(taskNameToRemove, taskState){
     })
 }
 
+//Funções que manipulam as listas
+
+function createNewList(event){
+    // createListNameElement(event.target.parentNode.previousElementSibling.value);
+    createListNameElement(document.getElementById('nameNewList').value);
+    saveNewList(document.getElementById('nameNewList').value);
+}
+
+function dltList(event){
+    deleteListOnBD(event.target.parentNode.children[0].innerText);
+    document.getElementById('lists').removeChild(event.target.parentNode);
+}
+
+function updateListName(event){
+    if(oldListName !== document.getElementById('newListName').value){
+        console.log(oldListName)
+        console.log(document.getElementById('newListName').value)
+        updateListNameOnBD(oldListName, document.getElementById('newListName').value);
+        document.getElementById(oldListName).innerText = document.getElementById('newListName').value;
+        document.getElementById(oldListName).id = document.getElementById('newListName').value;
+    }
+    hideForm(event);
+}
 
 //Funções que manipulam os formularios da pagina.
 
@@ -309,4 +357,10 @@ function updateHeightWithTasks(){
 
 function showFormAddList(){
     document.getElementById('divCreateNewTask').style.display = 'flex';
+}
+
+function showFormNewListName(event){
+    document.getElementById('updateNameList').style.display = 'flex';
+    document.getElementById('newListName').value = event.target.parentNode.children[0].innerText;
+    oldListName = document.getElementById('newListName').value;
 }

@@ -15,8 +15,8 @@
     <header>
         <div class="divBackOptions">
             <div class="userMenu">
-                <!-- <i class="fas fa-arrow-left" onclick="backDashboard()"></i> -->
-                <span class="spanAction" > <i class="fas fa-bars"></i> </span>
+                <span class="spanAction" > <i class="fas fa-arrow-left" onclick="backDashboard()"></i> </span>
+                <!-- <span class="spanAction" > <i class="fas fa-bars"></i> </span>
                 <div class="menuOptions" id="mOpt">
                     <button type="button" onclick="loadProfile()"><i class="far fa-id-badge"></i> Perfil</button>
                     <div>
@@ -24,7 +24,7 @@
                         <input type="checkbox" checked="true" name="darkmode" onclick="pageColors(event)">
                     </div>
                     <button type="button" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Sair</button>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="divBackOptions2">
@@ -42,11 +42,11 @@
                     <i class="fas fa-search"></i>
                 </div>
                 <div class="divListsNames">
-                    <div class="divListName">
+                    <!-- <div class="divListName">
                         <span class="likeP">Lista1</span>
                         <i class="fas fa-pen editListName"></i>
                         <span class="spanDltBton"> X </span>
-                        <!-- <i class="fas fa-trash-alt"></i> -->
+                        <i class="fas fa-trash-alt"></i>
                     </div>
                     <div class="divListName">
                         <span class="likeP">Lista1</span>
@@ -63,10 +63,13 @@
                         <i class="fas fa-pen editListName"></i>
                         <span class="spanDltBton"> X </span>
                     </div>
-                    <!-- <div class="divAddList">
+                    <div class="divAddList">
                         <input type="text" value="Nova Lista">
                         <span class="spanAddBtn"> + </span>
                     </div> -->
+                    <div class="" id="lists">
+
+                    </div>
                     <button type="button" class="btnAddList" onclick="showFormAddList()">Criar Nova Lista</button>
                 </div>
                 <div class="divSharesListsNames">
@@ -132,6 +135,16 @@
                 <div class="divBtnNewList">
                     <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
                     <button type="button" class="btn-create" onclick="createNewList(event)">Criar</button>
+                </div>
+            </form>
+        </div>
+        <div class="divNewList" id="updateNameList">
+            <form action="">
+                <h2>Mudar Nome da Lista</h2>
+                <input type="text" id="newListName" placeholder="Novo Nome da Lista">
+                <div class="divBtnNewList">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="updateListName(event)">Mudar</button>
                 </div>
             </form>
         </div>
