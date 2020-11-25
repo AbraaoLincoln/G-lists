@@ -220,14 +220,14 @@ header .menuBar:hover{
     align-items: center;
 }
 
-.divListName, .divAddList{
+.divListName{
     margin-top: 5%;
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.divAddList input{
+/* .divAddList input{
     color: #f6f8ff;
     height: 5vh;
     width: 80%;
@@ -244,6 +244,21 @@ header .menuBar:hover{
 .spanAddBtn:hover .divAddList{
     background-color: #a62639;
     cursor: pointer;
+} */
+
+.btnAddList{
+    margin-top: 2%;
+    margin-left: 1%;
+    width: 98%;
+    height: 5vh;
+    background-color: #f6f8ff;
+    border: none;
+    outline: none;
+}
+
+.btnAddList:hover{
+    cursor: pointer;
+    background-color: #ebefff;
 }
 
 .spanAddBtn{
@@ -547,6 +562,58 @@ header .menuBar:hover{
 
 .draging{
     opacity: .5;
+}
+
+/* Div new list */
+
+.divNewList{
+    height: 100%;
+    width: 100%;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+}
+
+.divNewList form{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 30%;
+    width: 30%;
+    background-color: #f6f8ff;
+    border-radius: 10px;
+    box-shadow: 2px 2px 5px #090b0b;
+}
+
+.divNewList h2{
+    text-align: center;
+}
+
+.divNewList form input{
+    width: 90%;
+    margin-left: 5%;
+    height: 20%;
+    padding-left: 1%;
+    border: none;
+    background-color: #f6f8ff;
+    box-shadow: 1px 1px 3px #272d2d;
+    border-radius: 3px;
+}
+
+.divBtnNewList{
+    width: 90%;
+    height: 20%;
+    margin-left: 5%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.divBtnNewList button{
+    width: 30%;
+    height: 100%;
+    border: none;
+    box-shadow: 1px 1px 3px #272d2d;
 }
 
 /* Some good stuf */

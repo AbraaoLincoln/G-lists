@@ -306,3 +306,7 @@ function updateHeightWithTasks(){
         }
     }
 }
+
+function showFormAddList(){
+    document.getElementById('divCreateNewTask').style.display = 'flex';
+}

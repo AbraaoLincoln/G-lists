@@ -63,10 +63,11 @@
                         <i class="fas fa-pen editListName"></i>
                         <span class="spanDltBton"> X </span>
                     </div>
-                    <div class="divAddList">
+                    <!-- <div class="divAddList">
                         <input type="text" value="Nova Lista">
                         <span class="spanAddBtn"> + </span>
-                    </div>
+                    </div> -->
+                    <button type="button" class="btnAddList" onclick="showFormAddList()">Criar Nova Lista</button>
                 </div>
                 <div class="divSharesListsNames">
                 </div>
@@ -121,6 +122,16 @@
                 <div class="divBtnNewTask">
                     <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
                     <button type="button" class="btn-create" onclick="updateTask(event)">Confirmar</button>
+                </div>
+            </form>
+        </div>
+        <div class="divNewList" id="divCreateNewTask">
+            <form action="">
+                <h2>Criar Nova Lista de Tarefas</h2>
+                <input type="text" id="nameNewList" placeholder="Nome da Lista">
+                <div class="divBtnNewList">
+                    <button type="button" class="btn-cancel" onclick="hideForm(event)">Cancelar</button>
+                    <button type="button" class="btn-create" onclick="createNewList(event)">Criar</button>
                 </div>
             </form>
         </div>
