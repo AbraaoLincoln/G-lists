@@ -1,3 +1,4 @@
+//DB Opeations
 async function loadUserInfo(){
     try {
         let response = await fetch('http://localhost:3000/user');
@@ -8,28 +9,9 @@ async function loadUserInfo(){
     }
 }
 
-
-async function loadList(){
-    let response = await fetch('http://localhost:3000/api/list', {
-        method: "GET",
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-    })
-    let data = await response.json();
-
-    for(listaName of data.listsNames){
-        let li = document.createElement("LI");
-        li.innerText = listaName;
-        li.onclick = loadTaskManager;
-        document.getElementById('listsNames').appendChild(li);
-    }
-}
-
-async function saveNewList(newListName){
+async function saveNewListOnBD(newListName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -44,9 +26,9 @@ async function saveNewList(newListName){
     }
 }
 
-async function updateListName(listName, newName){
+async function updateListNameOnBD(listName, newName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
@@ -61,9 +43,9 @@ async function updateListName(listName, newName){
     }
 }
 
-async function deleteList(listName){
+async function deleteListOnBD(listName){
     try {
-        let response = await fetch('http://localhost:3000/api/list', {
+        let response = await fetch('http://localhost:3000/list', {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
@@ -92,3 +74,5 @@ async function logout(){
         console.log(err);
     }
 }
+
+   

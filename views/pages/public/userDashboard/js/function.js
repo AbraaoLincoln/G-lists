@@ -1,5 +1,8 @@
 var oldListName = '';
 var columnToAdd = 1;
+var listElements = [];
+var searchMode = false;
+var strToSearch = '';
 
 function showHideMenu(){
     let display = document.getElementById('mOpt').style.display;
@@ -25,10 +28,10 @@ function loadTaskManager(event){
     window.location.href = "/newTaskManager"
 }
 
-function createNewList(){
+function createNewList(event){
     saveNewListOnBD(document.getElementById('nameNewList').value);
     addListToColumn([document.getElementById('nameNewList').value]);
-    hideForm()
+    hideForm(event);
 }
 
 function pageColors(event){
@@ -38,17 +41,6 @@ function pageColors(event){
         body.style.backgroundColor = "#272d2d"
     }else{
         body.style.backgroundColor = "#ebefff"
-    }
-}
-
-//DB Opeations
-async function loadUserInfo(){
-    try {
-        let response = await fetch('http://localhost:3000/user');
-        let dbRes = await response.json();
-        document.getElementById('spanUserName').innerText = dbRes.userInfo.name;
-    }catch(err) {
-        console.log(err);   
     }
 }
 
@@ -62,80 +54,18 @@ async function loadList(){
 //listsNames = array com os nomes das listas
 function addListToColumn(listsNames){
     for(listName of listsNames){
-        let column = 'col'+ columnToAdd;
-        document.getElementById(column).appendChild(createListNameElement(listName));
-        if(columnToAdd == 5){
-            columnToAdd = 1;
-        }else{
-            columnToAdd++;
+        let list = createListNameElement(listName);
+        listElements.push(list);
+        if(!searchMode || listName.includes(strToSearch)){ 
+            let column = 'col'+ columnToAdd;
+            document.getElementById(column).appendChild(list);
+            if(columnToAdd == 5){
+                columnToAdd = 1;
+            }else{
+                columnToAdd++;
+            }
         }
     };
-}
-
-async function saveNewListOnBD(newListName){
-    try {
-        let response = await fetch('http://localhost:3000/list', {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ list: {name: newListName}})
-        })
-        let data = await response.json();
-        console.log(data);
-    }catch(err) {
-        console.log(err);   
-    }
-}
-
-async function updateListNameOnBD(listName, newName){
-    try {
-        let response = await fetch('http://localhost:3000/list', {
-        method: "PUT",
-        headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ listName: listName, newListName: newName })
-        })
-        let data = await response.json();
-        console.log(data);   
-    }catch(err) {
-        console.log(err);
-    }
-}
-
-async function deleteListOnBD(listName){
-    try {
-        let response = await fetch('http://localhost:3000/list', {
-            method: "DELETE",
-            headers: {
-                'Accept': 'application/json',
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify({ listName: listName })
-        })
-        let data = await response.json();
-        console.log(data);   
-    }catch(err){
-        console.log(err);
-    }
-}
-
-async function logout(){
-    try {
-        let res = await fetch('http://localhost:3000/logout', {
-        method: 'DELETE'
-        })
-        let data = await res.json();
-        console.log(data);
-        if(data.status){
-            window.location.href = '/login';
-        }   
-    }catch(err){
-        console.log(err);
-    }
 }
 
 function loadProfile(){
@@ -168,8 +98,36 @@ function updateListName(event){
 }
 
 function dltList(event){
-    // deleteListOnBD(event.target.parentNode.children[0].innerText);
-    // document.getElementById('lists').removeChild(event.target.parentNode);
+    deleteListOnBD(event.target.parentNode.children[0].innerText);
+    let deleteOnBDSuccessful = true;
+    if(deleteOnBDSuccessful){
+        listElements = listElements.filter((list) => {
+            if(list.children[0].innerText !== event.target.parentNode.children[0].innerText){
+                return true;
+            }else{
+                return false;
+            }
+        });
+        updateListOnScreen(listElements);
+    }
+}
+
+function updateListOnScreen(listOfElementsToShow){
+    columnToAdd = 1;
+    document.getElementById('col1').innerHTML = '';
+    document.getElementById('col2').innerHTML = '';
+    document.getElementById('col3').innerHTML = '';
+    document.getElementById('col4').innerHTML = '';
+    document.getElementById('col5').innerHTML = '';
+    for(list of listOfElementsToShow){
+        let column = 'col'+ columnToAdd;
+        document.getElementById(column).appendChild(list);
+        if(columnToAdd == 5){
+            columnToAdd = 1;
+        }else{
+            columnToAdd++;
+        }
+    };
 }
 
 function createListNameElement(listName){
@@ -192,4 +150,19 @@ function createListNameElement(listName){
     divCont.appendChild(pen);
     divCont.appendChild(spanX);
     return divCont;
+}
+
+function search(){
+    strToSearch = document.getElementById('searchString').value;
+    if(strToSearch !== ''){
+        // console.log(listElements[0].children[0].innerText.includes(subStr));
+        searchMode = true;
+        let searchResult = listElements.filter(list => {
+            return list.children[0].innerText.includes(strToSearch);
+        });
+        updateListOnScreen(searchResult);
+    }else{
+        searchMode = false;
+        updateListOnScreen(listElements);
+    }
 }
