@@ -1,3 +1,5 @@
+var link = 'http://localhost:3000';
+
 function login(event){
     event.preventDefault();
     let regexAllowed = /^[A-Za-z_0-9 ]+$/
@@ -6,7 +8,7 @@ function login(event){
 
     //Authenticate on AuthServer
     let authUser = async () => {
-        let response = await fetch('http://localhost:3000/authenticateUser', {
+        let response = await fetch(link + '/authenticateUser', {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -18,7 +20,7 @@ function login(event){
         let data = await response.json();
         console.log("status-", data.status)
         if(data.status == 'ok'){ 
-            window.location.href = 'http://localhost:3000/dashboard';
+            window.location.href = link + '/dashboard';
         }else{
             alert('Senha ou usuário invalidos');
         }
@@ -39,7 +41,7 @@ function join(event){
     let regexEmailBr = /^\w+[\w+[.-]*\w+]*?@[A-Za-z]+\.com.br$/
 
     let createAcc = async () => {
-        let response = await fetch('http://localhost:3000/createAcount', {
+        let response = await fetch(link + '/createAcount', {
             method: "POST",
             headers: {
                 "Accept": "application/json",
@@ -52,7 +54,7 @@ function join(event){
         console.log(data)
         if(data.status == "ok"){
             alert(data.mgs);
-            window.location.href = 'http://localhost:3000/login';
+            window.location.href = link + '/login';
         }else{
             alert(data.mgs);
         }

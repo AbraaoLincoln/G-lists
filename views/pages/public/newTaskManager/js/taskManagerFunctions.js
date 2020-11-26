@@ -347,7 +347,7 @@ function backDashboard(){
 function updateHeightWithTasks(){
     let divMC = document.getElementById('mainContent');
     let newHeight = (lista.normal.length + lista.andamento.length + lista.completada.length) * 20;
-    console.log(window.screen.width)
+    // console.log(window.screen.width)
     if(window.screen.width <= 600){
         if(newHeight > 100){
             divMC.style.height = newHeight + 100 + 'vw';

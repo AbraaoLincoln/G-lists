@@ -1,7 +1,9 @@
+var link = 'http://localhost:3000';
+
 //DB Opeations
 async function loadUserInfo(){
     try {
-        let response = await fetch('http://localhost:3000/user');
+        let response = await fetch(link + '/user');
         let dbRes = await response.json();
         document.getElementById('spanUserName').innerText = dbRes.userInfo.name;
     }catch(err) {
@@ -11,7 +13,7 @@ async function loadUserInfo(){
 
 async function saveNewListOnBD(newListName){
     try {
-        let response = await fetch('http://localhost:3000/list', {
+        let response = await fetch(link + '/list', {
         method: "POST",
         headers: {
             'Accept': 'application/json',
@@ -28,7 +30,7 @@ async function saveNewListOnBD(newListName){
 
 async function updateListNameOnBD(listName, newName){
     try {
-        let response = await fetch('http://localhost:3000/list', {
+        let response = await fetch(link + '/list', {
         method: "PUT",
         headers: {
             'Accept': 'application/json',
@@ -45,7 +47,7 @@ async function updateListNameOnBD(listName, newName){
 
 async function deleteListOnBD(listName){
     try {
-        let response = await fetch('http://localhost:3000/list', {
+        let response = await fetch(link + '/list', {
             method: "DELETE",
             headers: {
                 'Accept': 'application/json',
@@ -62,7 +64,7 @@ async function deleteListOnBD(listName){
 
 async function logout(){
     try {
-        let res = await fetch('http://localhost:3000/logout', {
+        let res = await fetch(link + '/logout', {
         method: 'DELETE'
         })
         let data = await res.json();

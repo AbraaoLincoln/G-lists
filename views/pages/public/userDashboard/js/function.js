@@ -1,4 +1,5 @@
 var oldListName = '';
+var numberOfColumns = 5;
 var columnToAdd = 1;
 var listElements = [];
 var searchMode = false;
@@ -59,7 +60,7 @@ function addListToColumn(listsNames){
         if(!searchMode || listName.includes(strToSearch)){ 
             let column = 'col'+ columnToAdd;
             document.getElementById(column).appendChild(list);
-            if(columnToAdd == 5){
+            if(columnToAdd == numberOfColumns){
                 columnToAdd = 1;
             }else{
                 columnToAdd++;
@@ -73,11 +74,18 @@ function loadProfile(){
 }
 
 function start(){
+    if(window.screen.width <= 600){
+        numberOfColumns = 1;
+    }else if(window.screen.width <= 900){
+        numberOfColumns = 4;
+    }
+    createColunms();
     loadUserInfo();
     loadList();
 }
 
 window.onload = start;
+window.onresize = updateColumns;
 
 //novas funcionalidades
 function showFormNewListName(event){
@@ -114,20 +122,32 @@ function dltList(event){
 
 function updateListOnScreen(listOfElementsToShow){
     columnToAdd = 1;
-    document.getElementById('col1').innerHTML = '';
-    document.getElementById('col2').innerHTML = '';
-    document.getElementById('col3').innerHTML = '';
-    document.getElementById('col4').innerHTML = '';
-    document.getElementById('col5').innerHTML = '';
+    cleanColumns();
     for(list of listOfElementsToShow){
         let column = 'col'+ columnToAdd;
         document.getElementById(column).appendChild(list);
-        if(columnToAdd == 5){
+        if(columnToAdd == numberOfColumns){
             columnToAdd = 1;
         }else{
             columnToAdd++;
         }
     };
+}
+
+function createColunms(){
+    document.getElementById('divMainLists').innerHTML = '';
+    for(let i = 0; i < numberOfColumns; i++){
+        let div = document.createElement('DIV');
+        div.className = 'col-' + (i + 1);
+        div.id = 'col' + (i + 1);
+        document.getElementById('divMainLists').appendChild(div);
+    }
+}
+
+function cleanColumns(){
+    for(let i = 0; i < numberOfColumns; i++){
+        document.getElementById('col' + (i+1)).innerHTML = '';
+    }
 }
 
 function createListNameElement(listName){
@@ -164,5 +184,24 @@ function search(){
     }else{
         searchMode = false;
         updateListOnScreen(listElements);
+    }
+}
+
+function updateColumns(){
+    // console.log(window.screen.width);
+    if(window.screen.width == window.innerWidth){
+        if(window.screen.width <= 600){
+            numberOfColumns = 1;
+            createColunms();
+            updateListOnScreen(listElements);
+        }else if(window.screen.width <= 900){
+            numberOfColumns = 4;
+            createColunms();
+            updateListOnScreen(listElements);
+        }else{
+            numberOfColumns = 5;
+            createColunms();
+            updateListOnScreen(listElements);
+        }
     }
 }
