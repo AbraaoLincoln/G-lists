@@ -186,10 +186,10 @@ function paintTask(state, taskId){
             document.getElementById(taskId).style.backgroundColor = "#f6f8ff";
             break;
         case "andamento":
-            document.getElementById(taskId).style.backgroundColor = "#218380";
+            document.getElementById(taskId).style.backgroundColor = "#266dd3";
             break;
         case "completada":
-            document.getElementById(taskId).style.backgroundColor = "#266dd3";
+            document.getElementById(taskId).style.backgroundColor = "#218380";
             break;
     }
 }

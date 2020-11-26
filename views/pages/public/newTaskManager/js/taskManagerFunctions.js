@@ -101,11 +101,11 @@ function moveTaskToNewState(event){
             break;
         case "andamento":
             document.getElementById("andamento").appendChild(document.getElementById(taskId));
-            document.getElementById(taskId).style.backgroundColor = "#218380";
+            document.getElementById(taskId).style.backgroundColor = "#266dd3";
             break;
         case "completada":
             document.getElementById("completada").appendChild(document.getElementById(taskId));
-            document.getElementById(taskId).style.backgroundColor = "#266dd3";
+            document.getElementById(taskId).style.backgroundColor = "#218380";
             break;
     }
 }
@@ -192,11 +192,11 @@ function addTaskToList(state, newTask, taskId){
             break;
         case "andamento":
             document.getElementById("andamento").appendChild(newTask);
-            document.getElementById(taskId).style.backgroundColor = "#218380";
+            document.getElementById(taskId).style.backgroundColor = "#266dd3";
             break;
         case "completada":
             document.getElementById("completada").appendChild(newTask);
-            document.getElementById(taskId).style.backgroundColor = "#266dd3";
+            document.getElementById(taskId).style.backgroundColor = "#218380";
             break;
     }
 }

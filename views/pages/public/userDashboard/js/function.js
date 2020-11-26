@@ -25,8 +25,8 @@ function showForm(){
 
 function loadTaskManager(event){
     localStorage.setItem('currentListName', event.target.innerText);
-    // window.location.href = "/taskManager"
-    window.location.href = "/newTaskManager"
+    window.location.href = "/taskManager"
+    // window.location.href = "/newTaskManager"
 }
 
 function createNewList(event){
@@ -40,8 +40,17 @@ function pageColors(event){
 
     if(event.target.checked){
         body.style.backgroundColor = "#272d2d"
+        let lists = document.querySelectorAll('.divListNameWhite');
+        for(l of lists){
+            l.className = 'divListName';
+        }
     }else{
-        body.style.backgroundColor = "#ebefff"
+        body.style.backgroundColor = "#f6f8ff"
+        document.querySelector('.divListName').className = 'divListNameWhite';
+        let lists = document.querySelectorAll('.divListName');
+        for(l of lists){
+            l.className = 'divListNameWhite';
+        }
     }
 }
 

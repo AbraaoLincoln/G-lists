@@ -303,6 +303,29 @@ header span{
     box-shadow: 4px 4px rgba(9, 11, 11, .8);
 }
 
+.divListName:hover{
+    cursor: pointer;
+    background-color: #090b0b;
+}
+
+.divListNameWhite{
+    display: flex;
+    align-items: center;
+    width: 90%;
+    height: 10vh;
+    background-color: #f6f8ff;
+    color: #131616;
+    margin-top: 4%;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #131616;
+    /* box-shadow: -4px -4px 5px #131616; */
+}
+
+.divListNameWhite:hover{
+    cursor: pointer;
+    background-color: #ebefff;
+}
+
 .likeP{
     width: 80%;
     margin-left: 2%;
